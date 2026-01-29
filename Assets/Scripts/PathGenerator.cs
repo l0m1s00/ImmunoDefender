@@ -7,8 +7,10 @@ public class PathGenerator
 {
     private int height;
     private int width;
-    private int margin = 1;
+    private int margin = 2;
     private int pathOffset = 2;
+    private int startPosition = 1;
+
     private List<Vector2Int> pathCells;
 
     public PathGenerator(int height, int width)
@@ -21,7 +23,7 @@ public class PathGenerator
     {
         pathCells = new List<Vector2Int>();
         int y = height / 2; //mitad grid
-        int x = 0;
+        int x = startPosition;
         int finalPosY = height / 2;
         int finalPosX = width - margin;
 
@@ -34,7 +36,7 @@ public class PathGenerator
             {
                 int move = Random.Range(0, 3);
 
-                if (move == 0 || x % pathOffset == 0 || x >= finalPosX - 1) //derecha
+                if (x == startPosition || move == 0 || x % pathOffset == 0 || x >= finalPosX - 1) //derecha
                 {
                     x++;
                     validMove = true;
@@ -44,7 +46,7 @@ public class PathGenerator
                     y++;
                     validMove = true;
                 }
-                else if (move == 2 && IsCellFree(x, y - 1) && y > margin) //abajo
+                else if (move == 2 && IsCellFree(x, y - 1) && y > margin-1) //abajo
                 {
                     y--;
                     validMove = true;
@@ -66,12 +68,12 @@ public class PathGenerator
         return pathCells;
     }
 
-    private bool IsCellFree(int x, int y)
+    public bool IsCellFree(int x, int y)
     {
         return !pathCells.Contains(new Vector2Int(x, y));
     }
 
-    private bool IsCellTaken(int x, int y)
+    public bool IsCellTaken(int x, int y)
     {
         return pathCells.Contains(new Vector2Int(x, y));
     }

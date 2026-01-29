@@ -166,9 +166,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
+  levelCellObjects:
+  - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
+  - {fileID: 11400000, guid: e0ccafd015239ad4fa269c6de72dd0e3, type: 2}
+  - {fileID: 11400000, guid: 63b707d213fbd5549890a47a37828047, type: 2}
+  - {fileID: 11400000, guid: 1f82d9035c6578e4f9746a2faa15699c, type: 2}
+  - {fileID: 11400000, guid: 5e4b8c70a43cc1b4d813749ba67d985e, type: 2}
   height: 16
-  width: 33
-  minPathLength: 70
+  width: 36
+  minPathLength: 80
+  groundPercentage: 80
 --- !u!4 &273255286
 Transform:
   m_ObjectHideFlags: 0

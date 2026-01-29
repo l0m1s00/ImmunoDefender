@@ -9,10 +9,13 @@ public class GridManager : MonoBehaviour
     private PathGenerator pathGenerator;
     private List<Vector2Int> pathCells;
     private int pathSize;
+
     [SerializeField] private GridCellObject[] pathCellObjects;
+    [SerializeField] private GridCellObject[] levelCellObjects;
     [SerializeField] private int height;
     [SerializeField] private int width;
     [SerializeField] private int minPathLength;
+    [SerializeField] private int groundPercentage;
 
     private void Start()
     {
@@ -26,25 +29,29 @@ public class GridManager : MonoBehaviour
             pathSize = pathCells.Count;
         }
 
-        StartCoroutine(PlacePathTiles()); //debug
+        StartCoroutine(GenerateMap());
     }
 
     private void Update()
     {
         if (restart) //debug
         {
-            RestartPathGeneration();
+            RestartMapGeneration();
         }
     }
 
-    private void RestartPathGeneration()
+    private void RestartMapGeneration()
     {
         restart = false;
         Transform pathTileContainer = this.transform.GetChild(0);
-
         for (int i = 0; i < pathTileContainer.childCount; i++)
         {
             Destroy(pathTileContainer.GetChild(i).gameObject);
+        }
+        Transform groundTileContainer = this.transform.GetChild(1);
+        for (int i = 0; i < groundTileContainer.childCount; i++)
+        {
+            Destroy(groundTileContainer.GetChild(i).gameObject);
         }
 
         pathGenerator = new PathGenerator(height, width);
@@ -57,8 +64,50 @@ public class GridManager : MonoBehaviour
             pathSize = pathCells.Count;
         }
 
-        StartCoroutine(PlacePathTiles()); //debug
+        StartCoroutine(GenerateMap());
     } //debug
+
+    private IEnumerator GenerateMap()
+    {
+        StartCoroutine(PlaceScenaryTiles());
+        StartCoroutine(PlacePathTiles());
+
+        yield return null;
+    }
+
+    private IEnumerator PlaceScenaryTiles()
+    {
+        Transform groundTileContainer = this.transform.GetChild(1);
+        GameObject groundTile = levelCellObjects[0].cellPrefab;
+
+        for (int y = height - 1; y >= 0; y--)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (pathGenerator.IsCellFree(x, y))
+                {
+                    GameObject tile;
+                    int roll = Random.Range(0, 100);
+
+                    if (roll < groundPercentage)
+                        tile = groundTile;
+                    else
+                    {
+                        int randomIndex = Random.Range(1, levelCellObjects.Length);
+                        tile = levelCellObjects[randomIndex].cellPrefab;
+                    }
+
+                    Vector3 pos = new Vector3(x, y, 0);
+                    tile = Instantiate(tile, pos, Quaternion.identity);
+                    tile.transform.SetParent(groundTileContainer);
+
+                    yield return new WaitForSeconds(0.005f); //espera
+                }
+            }
+        }
+
+        yield return null;
+    }
 
     private IEnumerator PlacePathTiles()
     {
@@ -74,7 +123,7 @@ public class GridManager : MonoBehaviour
             pathTile.transform.Rotate(rotation, Space.Self);
             pathTile.transform.SetParent(pathTileContainer);
 
-            yield return new WaitForSeconds(0.02f); //espera
+            yield return new WaitForSeconds(0.05f); //espera
         }
 
         yield return null;
