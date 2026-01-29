@@ -68,12 +68,61 @@ public class PathGenerator
         return pathCells;
     }
 
+    public bool GenerateCrossroad()
+    {
+        Vector2Int cell;
+
+        for (int i = 0; i < pathCells.Count; i++)
+        {
+            cell = pathCells[i];
+
+            if (cell.x > startPosition && cell.x < width - margin && cell.y > 2 && cell.y < height - margin-1)
+            {
+                if (
+                    IsCellFree(cell.x, cell.y + 1) && IsCellFree(cell.x, cell.y + 2) && IsCellFree(cell.x, cell.y + 3) &&
+                    IsCellFree(cell.x + 1, cell.y) && IsCellFree(cell.x + 1, cell.y + 1) && IsCellFree(cell.x + 1, cell.y + 2) && IsCellFree(cell.x + 1, cell.y + 3) && IsCellFree(cell.x + 1, cell.y - 1) &&
+                    IsCellFree(cell.x + 2, cell.y) && IsCellFree(cell.x + 2, cell.y + 1) && IsCellFree(cell.x + 2, cell.y + 2) && IsCellFree(cell.x + 2, cell.y + 3) && IsCellFree(cell.x + 2, cell.y - 1) &&
+                    IsCellFree(cell.x + 3, cell.y) && IsCellFree(cell.x + 3, cell.y + 1) && IsCellFree(cell.x + 3, cell.y + 2)
+                    )
+                {
+                    pathCells.InsertRange(i + 1, new List<Vector2Int> { 
+                        new Vector2Int(cell.x + 1, cell.y), new Vector2Int(cell.x + 2, cell.y),
+                        new Vector2Int(cell.x + 2, cell.y + 1), new Vector2Int(cell.x + 2, cell.y + 2),
+                        new Vector2Int(cell.x + 1, cell.y + 2), new Vector2Int(cell.x, cell.y + 2),
+                        new Vector2Int(cell.x, cell.y + 1)
+                    });
+
+                    return true;
+                }
+
+                if (
+                    IsCellFree(cell.x, cell.y - 1) && IsCellFree(cell.x, cell.y - 2) && IsCellFree(cell.x, cell.y - 3) &&
+                    IsCellFree(cell.x - 1, cell.y) && IsCellFree(cell.x - 1, cell.y - 1) && IsCellFree(cell.x - 1, cell.y - 2) && IsCellFree(cell.x - 1, cell.y - 3) && IsCellFree(cell.x - 1, cell.y + 1) &&
+                    IsCellFree(cell.x - 2, cell.y) && IsCellFree(cell.x - 2, cell.y - 1) && IsCellFree(cell.x - 2, cell.y - 2) && IsCellFree(cell.x - 2, cell.y - 3) && IsCellFree(cell.x - 2, cell.y + 1) &&
+                    IsCellFree(cell.x - 3, cell.y) && IsCellFree(cell.x - 3, cell.y - 1) && IsCellFree(cell.x - 3, cell.y - 2)
+                    )
+                {
+                    pathCells.InsertRange(i + 1, new List<Vector2Int> {
+                        new Vector2Int(cell.x - 1, cell.y), new Vector2Int(cell.x - 2, cell.y),
+                        new Vector2Int(cell.x - 2, cell.y - 1), new Vector2Int(cell.x - 2, cell.y - 2),
+                        new Vector2Int(cell.x - 1, cell.y - 2), new Vector2Int(cell.x, cell.y - 2),
+                        new Vector2Int(cell.x, cell.y - 1)
+                    });
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public bool IsCellFree(int x, int y)
     {
         return !pathCells.Contains(new Vector2Int(x, y));
     }
 
-    public bool IsCellTaken(int x, int y)
+    private bool IsCellTaken(int x, int y)
     {
         return pathCells.Contains(new Vector2Int(x, y));
     }
@@ -100,5 +149,5 @@ public class PathGenerator
         }
 
         return value;
-    }
+    } //sumatorios para determinar la path tile que hay que usar
 }

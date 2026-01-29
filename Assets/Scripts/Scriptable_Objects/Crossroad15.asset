@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19fe60a52a007d46a4871c0ae8461ed, type: 3}
-  m_Name: Ground
+  m_Name: Crossroad15
   m_EditorClassIdentifier: Assembly-CSharp::GridCellObject
-  cellType: 1
-  cellPrefab: {fileID: 6295846827121485017, guid: 65d9a5b9d19bc78499199e36d52bc102, type: 3}
-  yRotation: 0
+  cellType: 0
+  cellPrefab: {fileID: 3532782004530379914, guid: 0b7acf8a878e1064aabaf6127a716b52, type: 3}
+  zRotation: 0

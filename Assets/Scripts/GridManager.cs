@@ -26,6 +26,7 @@ public class GridManager : MonoBehaviour
         while (pathSize < minPathLength)
         {
             pathCells = pathGenerator.GeneratePath();
+            while (pathGenerator.GenerateCrossroad()) ;
             pathSize = pathCells.Count;
         }
 
@@ -56,6 +57,7 @@ public class GridManager : MonoBehaviour
 
         pathGenerator = new PathGenerator(height, width);
         pathCells = pathGenerator.GeneratePath();
+        while (pathGenerator.GenerateCrossroad()) ;
         pathSize = pathCells.Count;
 
         while (pathSize < minPathLength)
@@ -101,7 +103,7 @@ public class GridManager : MonoBehaviour
                     tile = Instantiate(tile, pos, Quaternion.identity);
                     tile.transform.SetParent(groundTileContainer);
 
-                    yield return new WaitForSeconds(0.005f); //espera
+                    yield return new WaitForSeconds(0.01f); //espera
                 }
             }
         }

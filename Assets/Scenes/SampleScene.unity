@@ -165,7 +165,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f4399bc8d44c9942b12428ee4502a30, type: 2}
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
-  - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
+  - {fileID: 11400000, guid: 4f6cec7c86bf2e14894ac4205c07b61a, type: 2}
   levelCellObjects:
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
   - {fileID: 11400000, guid: e0ccafd015239ad4fa269c6de72dd0e3, type: 2}
