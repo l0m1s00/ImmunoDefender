@@ -8,7 +8,6 @@ public class GridGraph
 
     private Cell[,] gridGraph;
 
-
     public GridGraph(int width, int height)
     {
         this.width = width;
@@ -29,7 +28,7 @@ public class GridGraph
         if (x >= 0 && y >= 0 && x < width && y < height)
             return gridGraph[x, y];
 
-        Debug.LogError("Intentando acceder a una celda fuera de los límites del grafo. Celda: " + (x, y));
+        //Debug.LogError("Intentando acceder a una celda fuera de los límites del grafo. Celda: " + (x, y));
         return null;
     }
 
@@ -46,21 +45,4 @@ public class GridGraph
         else
             Debug.LogError("Intentando conectar una celda ya enlazada.");
     }
-
-    //public void Reset()
-    //{
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        for (int y = 0; y < height; y++)
-    //        {
-    //            if (gridGraph[x, y] != null)
-    //            {
-    //                gridGraph[x, y].nextCells.Clear();
-
-    //                gridGraph[x, y].type = GridCellObject.CellType.Ground;
-    //                //gridGraph[x, y].isOccupied = false;
-    //            }
-    //        }
-    //    }
-    //}
 }

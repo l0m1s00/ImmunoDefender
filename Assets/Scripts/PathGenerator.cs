@@ -1,6 +1,7 @@
 using UnityEngine;
 //using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class PathGenerator
 {
@@ -8,7 +9,7 @@ public class PathGenerator
     private int pathOffset = 2;
     private int startPosition = 1;
 
-    public List<Cell> pathCells;
+    public List<Cell> pathCells; //historial de generacion del camino
 
     public PathGenerator()
     {
@@ -32,6 +33,8 @@ public class PathGenerator
             currentCell.type = GridCellObject.CellType.Path; 
             pathCells.Add(currentCell);
             bool validMove = false;
+
+            if (gridGraph.entryPoint == null) gridGraph.entryPoint = currentCell; //punto de acceso al grafo
 
             while (!validMove)
             {
@@ -89,69 +92,41 @@ public class PathGenerator
         return pathCells;
     }
 
-    //public bool GenerateCrossroads(ref GridGraph gridGraph)
-    //{
-    //    Cell nexusCell;
-    //    int width = gridGraph.width;
-    //    int height = gridGraph.height;
+    public void GenerateCrossroads(ref GridGraph gridGraph)
+    {
+        Cell currentCell;
+        int width = gridGraph.width;
+        int height = gridGraph.height;
 
-    //    for (int i = 0; i < pathCells.Count; i++)
-    //    {
-    //        nexusCell = pathCells[i];
-            
-    //        if (nexusCell.x > startPosition && nexusCell.x < width - margin && nexusCell.y > 2 && nexusCell.y < height - margin-1)
-    //        {
-    //            if (
-    //                IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 3)) &&
-    //                IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y - 1)) &&
-    //                IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y - 1)) &&
-    //                IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 2))
-    //                )
-    //            {
+        for (int i = 0; i < pathCells.Count; i++)
+        {
+            currentCell = pathCells[i];
 
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 1));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 2));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 2));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2));
+            if (CheckAreaClear(ref gridGraph, currentCell))
+            {
+                Debug.Log("Nexo encontrado: " + (currentCell.x, currentCell.y));
 
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 1));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 2));
-    //                pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2));
+            }
+        }
+    }
 
+    private bool CheckAreaClear(ref GridGraph gridGraph, Cell nexusCell)
+    {
+        if (nexusCell.x > startPosition && nexusCell.x < gridGraph.width - margin && nexusCell.y > 2 && nexusCell.y < gridGraph.height - margin - 1)
+        {
+            if (
+                IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 3)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y - 1)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y - 1)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 2))
+                )
+            {
+                return true;
+            }
+        }
 
-    //                return true;
-    //            }
-
-    //            //if (
-    //            //    IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y - 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y - 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y - 3)) &&
-    //            //    IsCellFree(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y - 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y - 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y - 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y + 1)) &&
-    //            //    IsCellFree(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y - 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y - 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y - 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y + 1)) &&
-    //            //    IsCellFree(gridGraph.GetCell(nexusCell.x - 3, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 3, nexusCell.y - 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x - 3, nexusCell.y - 2))
-    //            //    )
-    //            //{
-
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y - 1));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x - 1, nexusCell.y - 2));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y - 1));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x - 2, nexusCell.y - 2));
-    //            //    pathCells.Add(gridGraph.GetCell(nexusCell.x, nexusCell.y - 2));
-
-    //            //    return true;
-    //            //}
-    //        }
-    //    }
-
-    //    return false;
-    //}
+        return false;
+    }
 
     public bool IsCellFree(Cell cell)
     {

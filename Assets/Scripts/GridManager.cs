@@ -27,16 +27,16 @@ public class GridManager : MonoBehaviour
             NewPath();
         }
 
-        ShowPathConnections();
+        //ShowPathConnections();
         StartCoroutine(GenerateMap());
     }
 
     private void Update()
     {
-        //if (restart) //debug
-        //{
-        //    RestartMapGeneration();
-        //}
+        if (restart) //debug
+        {
+            RestartMapGeneration();
+        }
     }
 
     private void NewPath()
@@ -44,36 +44,34 @@ public class GridManager : MonoBehaviour
         gridGraph = new GridGraph(width, height);
         pathGenerator = new PathGenerator();
         pathCells = pathGenerator.GeneratePath(ref gridGraph);
+        pathGenerator.GenerateCrossroads(ref gridGraph);
         pathSize = pathCells.Count;
     }
 
-    //private void RestartMapGeneration()
-    //{
-    //    restart = false;
-    //    Transform pathTileContainer = this.transform.GetChild(0);
-    //    for (int i = 0; i < pathTileContainer.childCount; i++)
-    //    {
-    //        Destroy(pathTileContainer.GetChild(i).gameObject);
-    //    }
-    //    Transform groundTileContainer = this.transform.GetChild(1);
-    //    for (int i = 0; i < groundTileContainer.childCount; i++)
-    //    {
-    //        Destroy(groundTileContainer.GetChild(i).gameObject);
-    //    }
+    private void RestartMapGeneration()
+    {
+        restart = false;
+        Transform pathTileContainer = this.transform.GetChild(0);
+        for (int i = 0; i < pathTileContainer.childCount; i++)
+        {
+            Destroy(pathTileContainer.GetChild(i).gameObject);
+        }
+        Transform groundTileContainer = this.transform.GetChild(1);
+        for (int i = 0; i < groundTileContainer.childCount; i++)
+        {
+            Destroy(groundTileContainer.GetChild(i).gameObject);
+        }
 
-    //    pathGenerator = new PathGenerator(height, width);
-    //    pathCells = pathGenerator.GeneratePath();
-    //    while (pathGenerator.GenerateCrossroad()) ;
-    //    pathSize = pathCells.Count;
+        NewPath();
 
-    //    while (pathSize < minPathLength)
-    //    {
-    //        pathCells = pathGenerator.GeneratePath();
-    //        pathSize = pathCells.Count;
-    //    }
+        while (pathSize < minPathLength)
+        {
+            NewPath() ;
+        }
 
-    //    StartCoroutine(GenerateMap());
-    //} //debug
+        //ShowPathConnections();
+        StartCoroutine(GenerateMap());
+    } //debug
 
     private IEnumerator GenerateMap()
     {
@@ -109,7 +107,7 @@ public class GridManager : MonoBehaviour
                     tile = Instantiate(tile, pos, Quaternion.identity);
                     tile.transform.SetParent(groundTileContainer);
 
-                    yield return new WaitForSeconds(0.01f); //espera
+                    yield return new WaitForSeconds(0.005f); //espera
                 }
             }
         }
@@ -117,22 +115,32 @@ public class GridManager : MonoBehaviour
         yield return null;
     }
 
+    //renderizado DFS para el dibujado de tiles del camino
+    //HashSet<Cell> --> visitedCells.Contains(currentCell) == O(1)
+    private void PlacePathTilesRec(Cell currentCell, Transform pathTileContainer, HashSet<Cell> visitedCells)
+    {
+        if (visitedCells.Contains(currentCell)) return;
+
+        visitedCells.Add(currentCell);
+
+        int neighboursValue = pathGenerator.GetCellNeighbourValue(currentCell.x, currentCell.y, ref gridGraph);
+        GameObject tilePrefab = pathCellObjects[neighboursValue].cellPrefab;
+        GameObject tile = Instantiate(tilePrefab, new Vector3(currentCell.x, currentCell.y, 0f), Quaternion.identity);
+        tile.transform.Rotate(0f, 0f, pathCellObjects[neighboursValue].zRotation);
+        tile.transform.SetParent(pathTileContainer);
+
+        foreach (Cell nextCell in currentCell.nextCells)
+        {
+            PlacePathTilesRec(nextCell, pathTileContainer, visitedCells);
+        }
+    }
+
     private IEnumerator PlacePathTiles()
     {
         Transform pathTileContainer = this.transform.GetChild(0);
+        HashSet<Cell> visitedCells = new HashSet<Cell>();
 
-        foreach (Cell cell in pathCells)
-        {
-            int neighboursValue = pathGenerator.GetCellNeighbourValue(cell.x, cell.y, ref gridGraph);
-            GameObject pathTile = pathCellObjects[neighboursValue].cellPrefab;
-            Vector3 pos = new Vector3(cell.x, cell.y, 0f);
-            pathTile = Instantiate(pathTile, pos, Quaternion.identity);
-            Vector3 rotation = new Vector3(0f, 0f, pathCellObjects[neighboursValue].zRotation);
-            pathTile.transform.Rotate(rotation, Space.Self);
-            pathTile.transform.SetParent(pathTileContainer);
-
-            yield return new WaitForSeconds(0.05f); //espera
-        }
+        PlacePathTilesRec(gridGraph.entryPoint, pathTileContainer, visitedCells);
 
         yield return null;
     }
