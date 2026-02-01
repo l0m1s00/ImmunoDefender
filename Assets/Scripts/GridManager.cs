@@ -6,8 +6,9 @@ public class GridManager : MonoBehaviour
 {
     public bool restart; //debug
 
+    private GridGraph gridGraph;
     private PathGenerator pathGenerator;
-    private List<Vector2Int> pathCells;
+    private List<Cell> pathCells;
     private int pathSize;
 
     [SerializeField] private GridCellObject[] pathCellObjects;
@@ -19,55 +20,60 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        pathGenerator = new PathGenerator(height, width);
-        pathCells = pathGenerator.GeneratePath();
-        pathSize = pathCells.Count;
+        NewPath();
 
         while (pathSize < minPathLength)
         {
-            pathCells = pathGenerator.GeneratePath();
-            while (pathGenerator.GenerateCrossroad()) ;
-            pathSize = pathCells.Count;
+            NewPath();
         }
 
+        ShowPathConnections();
         StartCoroutine(GenerateMap());
     }
 
     private void Update()
     {
-        if (restart) //debug
-        {
-            RestartMapGeneration();
-        }
+        //if (restart) //debug
+        //{
+        //    RestartMapGeneration();
+        //}
     }
 
-    private void RestartMapGeneration()
+    private void NewPath()
     {
-        restart = false;
-        Transform pathTileContainer = this.transform.GetChild(0);
-        for (int i = 0; i < pathTileContainer.childCount; i++)
-        {
-            Destroy(pathTileContainer.GetChild(i).gameObject);
-        }
-        Transform groundTileContainer = this.transform.GetChild(1);
-        for (int i = 0; i < groundTileContainer.childCount; i++)
-        {
-            Destroy(groundTileContainer.GetChild(i).gameObject);
-        }
-
-        pathGenerator = new PathGenerator(height, width);
-        pathCells = pathGenerator.GeneratePath();
-        while (pathGenerator.GenerateCrossroad()) ;
+        gridGraph = new GridGraph(width, height);
+        pathGenerator = new PathGenerator();
+        pathCells = pathGenerator.GeneratePath(ref gridGraph);
         pathSize = pathCells.Count;
+    }
 
-        while (pathSize < minPathLength)
-        {
-            pathCells = pathGenerator.GeneratePath();
-            pathSize = pathCells.Count;
-        }
+    //private void RestartMapGeneration()
+    //{
+    //    restart = false;
+    //    Transform pathTileContainer = this.transform.GetChild(0);
+    //    for (int i = 0; i < pathTileContainer.childCount; i++)
+    //    {
+    //        Destroy(pathTileContainer.GetChild(i).gameObject);
+    //    }
+    //    Transform groundTileContainer = this.transform.GetChild(1);
+    //    for (int i = 0; i < groundTileContainer.childCount; i++)
+    //    {
+    //        Destroy(groundTileContainer.GetChild(i).gameObject);
+    //    }
 
-        StartCoroutine(GenerateMap());
-    } //debug
+    //    pathGenerator = new PathGenerator(height, width);
+    //    pathCells = pathGenerator.GeneratePath();
+    //    while (pathGenerator.GenerateCrossroad()) ;
+    //    pathSize = pathCells.Count;
+
+    //    while (pathSize < minPathLength)
+    //    {
+    //        pathCells = pathGenerator.GeneratePath();
+    //        pathSize = pathCells.Count;
+    //    }
+
+    //    StartCoroutine(GenerateMap());
+    //} //debug
 
     private IEnumerator GenerateMap()
     {
@@ -86,7 +92,7 @@ public class GridManager : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                if (pathGenerator.IsCellFree(x, y))
+                if (pathGenerator.IsCellFree(gridGraph.GetCell(x, y)))
                 {
                     GameObject tile;
                     int roll = Random.Range(0, 100);
@@ -115,9 +121,9 @@ public class GridManager : MonoBehaviour
     {
         Transform pathTileContainer = this.transform.GetChild(0);
 
-        foreach (Vector2Int cell in pathCells)
+        foreach (Cell cell in pathCells)
         {
-            int neighboursValue = pathGenerator.GetCellNeighbourValue(cell.x, cell.y);
+            int neighboursValue = pathGenerator.GetCellNeighbourValue(cell.x, cell.y, ref gridGraph);
             GameObject pathTile = pathCellObjects[neighboursValue].cellPrefab;
             Vector3 pos = new Vector3(cell.x, cell.y, 0f);
             pathTile = Instantiate(pathTile, pos, Quaternion.identity);
@@ -129,5 +135,15 @@ public class GridManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    private void ShowPathConnections() //debug
+    {
+        for (int i = 0; i < pathCells.Count-1; i++)
+        {
+            Debug.Log("Act: " + (pathCells[i].x, pathCells[i].y) + " | " + "Sig: " + (pathCells[i + 1].x, pathCells[i + 1].y));
+        }
+
+        Debug.Log("Ultima celda: " + (pathCells[pathCells.Count - 1].x, pathCells[pathCells.Count - 1].y) + " | Conex: " + pathCells[pathCells.Count - 1].nextCells.Count);
     }
 }

@@ -1,0 +1,24 @@
+using NUnit.Framework;
+using UnityEngine;
+using System.Collections.Generic;
+
+public class Cell
+{
+    public int x;
+    public int y;
+
+    public GridCellObject.CellType type;
+    //public bool isOccupied;
+
+    public List<Cell> nextCells; //arcos de salida
+    //public List<Cell> prevCells; //arcos de entrada
+
+    public Cell(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+        this.type = GridCellObject.CellType.Ground; //por defecto
+        nextCells = new List<Cell>();
+        //prevCells = new List<Cell>();
+    }
+}
