@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
             NewPath();
         }
 
-        //ShowPathConnections();
+        ShowPathConnections();
         StartCoroutine(GenerateMap());
     }
 
@@ -43,8 +43,8 @@ public class GridManager : MonoBehaviour
     {
         gridGraph = new GridGraph(width, height);
         pathGenerator = new PathGenerator();
-        pathCells = pathGenerator.GeneratePath(ref gridGraph);
-        pathGenerator.GenerateCrossroads(ref gridGraph);
+        pathCells = pathGenerator.GeneratePath(gridGraph);
+        pathGenerator.GenerateCrossroads(gridGraph);
         pathSize = pathCells.Count;
     }
 
@@ -69,7 +69,7 @@ public class GridManager : MonoBehaviour
             NewPath() ;
         }
 
-        //ShowPathConnections();
+        ShowPathConnections();
         StartCoroutine(GenerateMap());
     } //debug
 
@@ -107,7 +107,7 @@ public class GridManager : MonoBehaviour
                     tile = Instantiate(tile, pos, Quaternion.identity);
                     tile.transform.SetParent(groundTileContainer);
 
-                    yield return new WaitForSeconds(0.005f); //espera
+                    //yield return new WaitForSeconds(0.005f); //espera
                 }
             }
         }
@@ -123,7 +123,7 @@ public class GridManager : MonoBehaviour
 
         visitedCells.Add(currentCell);
 
-        int neighboursValue = pathGenerator.GetCellNeighbourValue(currentCell.x, currentCell.y, ref gridGraph);
+        int neighboursValue = pathGenerator.GetCellNeighbourValue(currentCell.x, currentCell.y, gridGraph);
         GameObject tilePrefab = pathCellObjects[neighboursValue].cellPrefab;
         GameObject tile = Instantiate(tilePrefab, new Vector3(currentCell.x, currentCell.y, 0f), Quaternion.identity);
         tile.transform.Rotate(0f, 0f, pathCellObjects[neighboursValue].zRotation);
@@ -145,13 +145,25 @@ public class GridManager : MonoBehaviour
         yield return null;
     }
 
-    private void ShowPathConnections() //debug
+    private void ShowPathConnectionsRec(Cell currentCell, HashSet<Cell> visitedCells) //debug
     {
-        for (int i = 0; i < pathCells.Count-1; i++)
-        {
-            Debug.Log("Act: " + (pathCells[i].x, pathCells[i].y) + " | " + "Sig: " + (pathCells[i + 1].x, pathCells[i + 1].y));
-        }
+        if (visitedCells.Contains(currentCell)) return;
 
-        Debug.Log("Ultima celda: " + (pathCells[pathCells.Count - 1].x, pathCells[pathCells.Count - 1].y) + " | Conex: " + pathCells[pathCells.Count - 1].nextCells.Count);
+        visitedCells.Add(currentCell); 
+        
+        string mess = "Act: " + System.Convert.ToString((currentCell.x, currentCell.y)) + " | ";
+
+        foreach (Cell nextCell in currentCell.nextCells)
+        {
+            mess += "Sig: " + System.Convert.ToString((nextCell.x, nextCell.y));
+            Debug.Log(mess);
+            ShowPathConnectionsRec(nextCell, visitedCells);
+        }
+    }
+
+    private void ShowPathConnections()
+    {
+        HashSet<Cell> visitedCells = new HashSet<Cell>();
+        ShowPathConnectionsRec(gridGraph.entryPoint, visitedCells);
     }
 }

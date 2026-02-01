@@ -37,6 +37,7 @@ public class GridGraph
         if (!currentCell.nextCells.Contains(nextCell))
         {
             currentCell.nextCells.Add(nextCell);
+            currentCell.nextCells.Reverse();
             //end.previousCells.Add(ini);
 
             //ini.type = GridCellObject.CellType.Path;
