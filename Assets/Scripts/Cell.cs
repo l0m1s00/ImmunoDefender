@@ -8,7 +8,7 @@ public class Cell
     public int y;
 
     public GridCellObject.CellType type;
-    //public bool isOccupied;
+    public bool isObstacle;
 
     public List<Cell> nextCells; //arcos de salida
     //public List<Cell> prevCells; //arcos de entrada
@@ -18,6 +18,7 @@ public class Cell
         this.x = x;
         this.y = y;
         this.type = GridCellObject.CellType.Ground; //por defecto
+        isObstacle = false;
         nextCells = new List<Cell>();
         //prevCells = new List<Cell>();
     }

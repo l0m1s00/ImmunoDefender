@@ -7,9 +7,12 @@ public class PathGenerator
 {
     private int margin = 2;
     private int pathOffset = 2;
-    private int startPosition = 1;
 
     public List<Cell> pathCells; //historial de generacion del camino
+    public int finalPosX;
+    public int finalPosY;
+    public int startPosX;
+    public int startPosY;
 
     public PathGenerator()
     {
@@ -18,12 +21,15 @@ public class PathGenerator
 
     public List<Cell> GeneratePath(GridGraph gridGraph)
     {
+        startPosX = 1;
+        startPosY = gridGraph.height / 2;
+
         Cell currentCell;
         Cell nextCell;
-        int y = gridGraph.height / 2; //mitad grid
-        int x = startPosition;
-        int finalPosY = gridGraph.height / 2;
-        int finalPosX = gridGraph.width - margin;
+        int y = startPosY; //mitad grid
+        int x = startPosX;
+        finalPosY = gridGraph.height / 2;
+        finalPosX = gridGraph.width - margin;
 
         while (x < finalPosX - 1)
         {
@@ -40,7 +46,7 @@ public class PathGenerator
             {
                 int move = Random.Range(0, 3);
 
-                if (x == startPosition || move == 0 || x % pathOffset == 0 || x >= finalPosX - 1) //derecha
+                if (x == startPosX || move == 0 || x % pathOffset == 0 || x >= finalPosX - 1) //derecha
                 {
                     x++;
                     validMove = true;
@@ -185,7 +191,7 @@ public class PathGenerator
 
     private bool CheckAreaClear(GridGraph gridGraph, Cell nexusCell)
     {
-        if (nexusCell.x > startPosition && nexusCell.x < gridGraph.width - margin && nexusCell.y > 2 && nexusCell.y < gridGraph.height - margin - 1)
+        if (nexusCell.x > startPosX && nexusCell.x < gridGraph.width - margin && nexusCell.y > 2 && nexusCell.y < gridGraph.height - margin - 1)
         {
             if (
                 IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 3)) &&

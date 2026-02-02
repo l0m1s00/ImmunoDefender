@@ -168,13 +168,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4f6cec7c86bf2e14894ac4205c07b61a, type: 2}
   levelCellObjects:
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
+  - {fileID: 11400000, guid: f73d55afcbc82f54d81b8b25bd9e4b60, type: 2}
   - {fileID: 11400000, guid: e0ccafd015239ad4fa269c6de72dd0e3, type: 2}
   - {fileID: 11400000, guid: 63b707d213fbd5549890a47a37828047, type: 2}
   - {fileID: 11400000, guid: 1f82d9035c6578e4f9746a2faa15699c, type: 2}
   - {fileID: 11400000, guid: 5e4b8c70a43cc1b4d813749ba67d985e, type: 2}
   height: 16
   width: 36
-  minPathLength: 1
+  minPathLength: 80
   groundPercentage: 80
 --- !u!4 &273255286
 Transform:
@@ -191,6 +192,7 @@ Transform:
   m_Children:
   - {fileID: 1824136453}
   - {fileID: 1062141406}
+  - {fileID: 1352493302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -437,6 +439,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1062141405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 273255286}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1352493301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1352493302}
+  m_Layer: 0
+  m_Name: TowerHoldersContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1352493302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352493301}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}

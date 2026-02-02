@@ -9,6 +9,7 @@ public class GridManager : MonoBehaviour
     private GridGraph gridGraph;
     private PathGenerator pathGenerator;
     private List<Cell> pathCells;
+    private HashSet<Cell> towerCells;
     private int pathSize;
 
     [SerializeField] private GridCellObject[] pathCellObjects;
@@ -16,7 +17,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int height;
     [SerializeField] private int width;
     [SerializeField] private int minPathLength;
-    [SerializeField] private int groundPercentage;
+    [Range(0, 100)] [SerializeField] private int groundPercentage;
+
+    private void Awake()
+    {
+        towerCells = new HashSet<Cell>();
+    }
 
     private void Start()
     {
@@ -61,6 +67,11 @@ public class GridManager : MonoBehaviour
         {
             Destroy(groundTileContainer.GetChild(i).gameObject);
         }
+        Transform towerHolderTileContainer = this.transform.GetChild(2);
+        for (int i = 0; i < towerHolderTileContainer.childCount; i++)
+        {
+            Destroy(towerHolderTileContainer.GetChild(i).gameObject);
+        }
 
         NewPath();
 
@@ -73,39 +84,106 @@ public class GridManager : MonoBehaviour
         StartCoroutine(GenerateMap());
     } //debug
 
+    private void GetTowerCells()
+    {
+        foreach (Cell pathCell in pathCells)
+        {
+            //no permitir poner torres alrededor del inicio y el final del camino
+            if (pathCell.x == pathGenerator.startPosX && pathCell.y == pathGenerator.startPosY) continue;
+            if (pathCell.x == pathGenerator.finalPosX && pathCell.y == pathGenerator.finalPosY) continue;
+
+            IsTowerHolderCell(pathCell.x + 1, pathCell.y); //derecha
+            IsTowerHolderCell(pathCell.x - 1, pathCell.y); //izquierda
+            IsTowerHolderCell(pathCell.x, pathCell.y + 1); //arriba
+            IsTowerHolderCell(pathCell.x, pathCell.y - 1); //abajo
+        }
+    }
+
+    private void IsTowerHolderCell(int x, int y)
+    {
+        Cell cell = gridGraph.GetCell(x, y);
+        if (cell == null) return; //no existe
+        if (pathCells.Contains(cell)) return; //es camino
+        if (cell.isObstacle) return; //es obstaculo
+        //HashSet no permite duplicados
+        towerCells.Add(cell);
+    }
+
     private IEnumerator GenerateMap()
     {
+        GenerateObstacles();
+        GetTowerCells();
         StartCoroutine(PlaceScenaryTiles());
         StartCoroutine(PlacePathTiles());
 
+        foreach (Cell cell in towerCells)
+        {
+            Debug.Log((cell.x, cell.y));
+        }
+
         yield return null;
+    }
+
+    private void GenerateObstacles()
+    {
+        Cell cell;
+        int roll;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                cell = gridGraph.GetCell(x, y);
+
+                if (pathGenerator.IsCellFree(cell))
+                {
+                    roll = Random.Range(0, 100);
+
+                    if (roll >= groundPercentage)
+                        cell.isObstacle = true;
+                    else
+                        cell.isObstacle = false;
+                }
+            }
+        }
     }
 
     private IEnumerator PlaceScenaryTiles()
     {
         Transform groundTileContainer = this.transform.GetChild(1);
+        Transform towerHolderTileContainer = this.transform.GetChild(2);
         GameObject groundTile = levelCellObjects[0].cellPrefab;
+        GameObject tile;
+        Cell currentCell;
+        Vector3 pos;
+        int randomIndex;
 
         for (int y = height - 1; y >= 0; y--)
         {
             for (int x = 0; x < width; x++)
             {
+                currentCell = gridGraph.GetCell(x, y);
+
                 if (pathGenerator.IsCellFree(gridGraph.GetCell(x, y)))
                 {
-                    GameObject tile;
-                    int roll = Random.Range(0, 100);
-
-                    if (roll < groundPercentage)
-                        tile = groundTile;
-                    else
+                    if (currentCell.isObstacle)
                     {
-                        int randomIndex = Random.Range(1, levelCellObjects.Length);
+                        randomIndex = Random.Range(2, levelCellObjects.Length);
                         tile = levelCellObjects[randomIndex].cellPrefab;
                     }
+                    else if (towerCells.Contains(currentCell))
+                    {
+                        tile = levelCellObjects[1].cellPrefab;
+                    }
+                    else
+                        tile = groundTile;
 
-                    Vector3 pos = new Vector3(x, y, 0);
+                    pos = new Vector3(x, y, 0);
                     tile = Instantiate(tile, pos, Quaternion.identity);
-                    tile.transform.SetParent(groundTileContainer);
+
+                    if (currentCell.isObstacle) tile.transform.SetParent(groundTileContainer);
+                    else if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainer);
+                    else tile.transform.SetParent(groundTileContainer);
 
                     //yield return new WaitForSeconds(0.005f); //espera
                 }
