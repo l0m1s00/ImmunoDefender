@@ -175,8 +175,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e4b8c70a43cc1b4d813749ba67d985e, type: 2}
   height: 16
   width: 36
-  minPathLength: 80
-  groundPercentage: 80
+  minPathLength: 75
+  groundPercentage: 75
 --- !u!4 &273255286
 Transform:
   m_ObjectHideFlags: 0

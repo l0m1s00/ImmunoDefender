@@ -51,6 +51,7 @@ public class GridManager : MonoBehaviour
         pathGenerator = new PathGenerator();
         pathCells = pathGenerator.GeneratePath(gridGraph);
         pathGenerator.GenerateCrossroads(gridGraph);
+        pathGenerator.GenerateBranches(gridGraph);
         pathSize = pathCells.Count;
     }
 

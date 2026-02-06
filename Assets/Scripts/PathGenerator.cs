@@ -19,6 +19,79 @@ public class PathGenerator
         pathCells = new List<Cell>();
     }
 
+    public void GenerateBranches(GridGraph gridGraph)
+    {
+        Cell currentCell;
+        int generateBranchRoll;
+
+        for (int i = 0; i < pathCells.Count; i++)
+        {
+            currentCell = pathCells[i];
+
+            if (currentCell.x == startPosX && currentCell.y == startPosY) continue;
+            if (currentCell.x == finalPosX && currentCell.y == finalPosY) continue;
+
+            generateBranchRoll = Random.Range(0, 4); //25%
+            if (generateBranchRoll == 1)
+            {
+                TryGenerateBranch(gridGraph, currentCell);
+            }
+        }
+    }
+
+    private bool TryGenerateBranch(GridGraph gridGraph, Cell startCell)
+    {
+        List<Cell> freeNeighbours = GetPossibleInitialBranchPoints(startCell, gridGraph);
+
+        if (freeNeighbours.Count == 0) return false; //no hay espacio
+
+        int roll = Random.Range(0, freeNeighbours.Count);
+        Cell next = freeNeighbours[roll];
+
+        gridGraph.ConnectCells(startCell, next);
+        pathCells.Add(next);
+
+        return ExpandBranch(next, gridGraph);
+    }
+
+    private bool ExpandBranch(Cell currentCell, GridGraph gridGraph)
+    {
+        return true;
+    }
+
+    private List<Cell> GetPossibleInitialBranchPoints(Cell cell, GridGraph gridGraph)
+    {
+        List<Cell> possibleInitialBranchCells = new List<Cell>();
+        int neighBoursValue = GetCellNeighbourValue(cell.x, cell.y, gridGraph);
+
+        if (neighBoursValue == 6) //horizontal
+        {
+
+        }
+        else if (neighBoursValue == 9) //vertical
+        {
+
+        }
+        else if (neighBoursValue == 10) //esquina abajo derecha
+        {
+
+        }
+        else if (neighBoursValue == 5) //esquina arriba izquierda
+        {
+
+        }
+        else if (neighBoursValue == 3) //esquina arriba derecha
+        {
+
+        }
+        else if (neighBoursValue == 12) //esquina abajo izquierda
+        {
+
+        }
+
+        return possibleInitialBranchCells;
+    }
+
     public List<Cell> GeneratePath(GridGraph gridGraph)
     {
         startPosX = 1;
@@ -34,8 +107,6 @@ public class PathGenerator
         while (x < finalPosX - 1)
         {
             currentCell = gridGraph.GetCell(x, y); //celda actual
-            currentCell.x = x;
-            currentCell.y = y;
             currentCell.type = GridCellObject.CellType.Path; 
             pathCells.Add(currentCell);
             bool validMove = false;
@@ -70,8 +141,6 @@ public class PathGenerator
         while (y != finalPosY)
         {
             currentCell = gridGraph.GetCell(x, y);
-            currentCell.x = x;
-            currentCell.y = y;
             currentCell.type = GridCellObject.CellType.Path;
             pathCells.Add(currentCell);
 
@@ -83,15 +152,11 @@ public class PathGenerator
         }
 
         currentCell = gridGraph.GetCell(x, y);
-        currentCell.x = x;
-        currentCell.y = y;
         currentCell.type = GridCellObject.CellType.Path;
         pathCells.Add(currentCell);
         nextCell = gridGraph.GetCell(finalPosX, finalPosY);
         gridGraph.ConnectCells(currentCell, nextCell);
         currentCell = gridGraph.GetCell(finalPosX, finalPosY);
-        currentCell.x = finalPosX;
-        currentCell.y = finalPosY;
         currentCell.type = GridCellObject.CellType.Path;
         pathCells.Add(currentCell);
 
@@ -104,84 +169,87 @@ public class PathGenerator
         int width = gridGraph.width;
         int height = gridGraph.height;
 
+        //int roll = Random.Range(0, 2); //no siempre se hace una rotonda, 50%
+
         for (int i = 0; i < pathCells.Count; i++)
         {
             currentCell = pathCells[i];
 
-            if (CheckAreaClear(gridGraph, currentCell))
+            if (CheckAreaClearLoop(gridGraph, currentCell, 1, 1) && Random.Range(0, 2) == 1) //x == 1, y == 1 --> rotonda arriba derecha
             {
-                Debug.Log("Nexo encontrado: " + (currentCell.x, currentCell.y));
-                CreateLoop(gridGraph, currentCell); //loop (rotonda) con currentCell como nexo de union
+                Debug.Log("Nexo arriba derecha encontrado: " + (currentCell.x, currentCell.y));
+                CreateLoop(gridGraph, currentCell, 1, 1);
+            }
+            if (CheckAreaClearLoop(gridGraph, currentCell, -1, -1) && Random.Range(0, 2) == 1) //x == -1, y == -1 --> rotonda abajo izquierda
+            {
+                Debug.Log("Nexo abajo izquierda encontrado: " + (currentCell.x, currentCell.y));
+                CreateLoop(gridGraph, currentCell, -1, -1);
+            }
+            if (CheckAreaClearLoop(gridGraph, currentCell, 1, -1) && Random.Range(0, 2) == 1) //x == 1, y == -1 --> rotonda abajo derecha
+            {
+                Debug.Log("Nexo abajo derecha encontrado: " + (currentCell.x, currentCell.y));
+                CreateLoop(gridGraph, currentCell, 1, -1);
+            }
+            if (CheckAreaClearLoop(gridGraph, currentCell, -1, 1) && Random.Range(0, 2) == 1) //x == -1, y == 1 --> rotonda arriba izquierda
+            {
+                Debug.Log("Nexo arriba izquierda encontrado: " + (currentCell.x, currentCell.y));
+                CreateLoop(gridGraph, currentCell, -1, 1);
             }
         }
     }
 
-    private void CreateLoop(GridGraph gridGraph, Cell nexusCell)
+    private void CreateLoop(GridGraph gridGraph, Cell nexusCell, int directionX, int directionY)
     {
         Cell currentCell = nexusCell;
         Cell nextCell;
         int newX;
         int newY;
 
-        newX = nexusCell.x + 1;
+        newX = nexusCell.x + 1 * directionX;
         newY = nexusCell.y;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
-        newX = nexusCell.x + 2;
+        newX = nexusCell.x + 2 * directionX;
         newY = nexusCell.y;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
-        newX = nexusCell.x + 2;
-        newY = nexusCell.y + 1;
+        newX = nexusCell.x + 2 * directionX;
+        newY = nexusCell.y + 1 * directionY;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
-        newX = nexusCell.x + 2;
-        newY = nexusCell.y + 2;
+        newX = nexusCell.x + 2 * directionX;
+        newY = nexusCell.y + 2 * directionY;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
-        newX = nexusCell.x + 1;
-        newY = nexusCell.y + 2;
+        newX = nexusCell.x + 1 * directionX;
+        newY = nexusCell.y + 2 * directionY;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
         newX = nexusCell.x;
-        newY = nexusCell.y + 2;
+        newY = nexusCell.y + 2 * directionY;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
 
         newX = nexusCell.x;
-        newY = nexusCell.y + 1;
+        newY = nexusCell.y + 1 * directionY;
         nextCell = gridGraph.GetCell(newX, newY);
-        nextCell.x = newX;
-        nextCell.y = newY;
         gridGraph.ConnectCells(currentCell, nextCell);
         pathCells.Add(nextCell);
         currentCell = nextCell;
@@ -189,15 +257,15 @@ public class PathGenerator
         gridGraph.ConnectCells(currentCell, nexusCell);
     }
 
-    private bool CheckAreaClear(GridGraph gridGraph, Cell nexusCell)
+    private bool CheckAreaClearLoop(GridGraph gridGraph, Cell nexusCell, int directionX, int directionY)
     {
         if (nexusCell.x > startPosX && nexusCell.x < gridGraph.width - margin && nexusCell.y > 2 && nexusCell.y < gridGraph.height - margin - 1)
         {
             if (
-                IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 3)) &&
-                IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1, nexusCell.y - 1)) &&
-                IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 2)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y + 3)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2, nexusCell.y - 1)) &&
-                IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 1)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3, nexusCell.y + 2))
+                IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 1 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 2 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x, nexusCell.y + 3 * directionY)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 1 * directionX, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1 * directionX, nexusCell.y + 1 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1 * directionX, nexusCell.y + 2 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1 * directionX, nexusCell.y + 3 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 1 * directionX, nexusCell.y - 1 * directionY)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 2 * directionX, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2 * directionX, nexusCell.y + 1 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2 * directionX, nexusCell.y + 2 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2 * directionX, nexusCell.y + 3 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 2 * directionX, nexusCell.y - 1 * directionY)) &&
+                IsCellFree(gridGraph.GetCell(nexusCell.x + 3 * directionX, nexusCell.y)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3 * directionX, nexusCell.y + 1 * directionY)) && IsCellFree(gridGraph.GetCell(nexusCell.x + 3 * directionX, nexusCell.y + 2 * directionY))
                 )
             {
                 return true;
