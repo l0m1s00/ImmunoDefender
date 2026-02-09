@@ -12,8 +12,8 @@ public class GridManager : MonoBehaviour
     private HashSet<Cell> towerCells;
     private int pathSize;
 
-    [SerializeField] private GridCellObject[] pathCellObjects;
-    [SerializeField] private GridCellObject[] levelCellObjects;
+    [SerializeField] private GridCellDataSO[] pathCellObjects;
+    [SerializeField] private GridCellDataSO[] levelCellObjects;
     [SerializeField] private int height;
     [SerializeField] private int width;
     [SerializeField] private int minPathLength;
@@ -51,7 +51,7 @@ public class GridManager : MonoBehaviour
         pathGenerator = new PathGenerator();
         pathCells = pathGenerator.GeneratePath(gridGraph);
         pathGenerator.GenerateCrossroads(gridGraph);
-        pathGenerator.GenerateBranches(gridGraph);
+        //pathGenerator.GenerateBranches(gridGraph);
         pathSize = pathCells.Count;
     }
 

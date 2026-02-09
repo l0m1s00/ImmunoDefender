@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GridCellObject", menuName = "Immuno Defence/Grid Cell")]
-public class GridCellObject : ScriptableObject
+[CreateAssetMenu(fileName = "GridCellObject", menuName = "Immuno Defender/Grid Cell")]
+public class GridCellDataSO : ScriptableObject
 {
     public enum CellType { 
         Path,

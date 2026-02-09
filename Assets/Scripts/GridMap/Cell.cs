@@ -7,7 +7,7 @@ public class Cell
     public int x;
     public int y;
 
-    public GridCellObject.CellType type;
+    public GridCellDataSO.CellType type;
     public bool isObstacle;
 
     public List<Cell> nextCells; //arcos de salida
@@ -17,7 +17,7 @@ public class Cell
     {
         this.x = x;
         this.y = y;
-        this.type = GridCellObject.CellType.Ground; //por defecto
+        this.type = GridCellDataSO.CellType.Ground; //por defecto
         isObstacle = false;
         nextCells = new List<Cell>();
         //prevCells = new List<Cell>();

@@ -7,6 +7,7 @@ public class PathGenerator
 {
     private int margin = 2;
     private int pathOffset = 2;
+    private int roll = 1; //1 == 100% probadilidad de rotonda
 
     public List<Cell> pathCells; //historial de generacion del camino
     public int finalPosX;
@@ -19,78 +20,78 @@ public class PathGenerator
         pathCells = new List<Cell>();
     }
 
-    public void GenerateBranches(GridGraph gridGraph)
-    {
-        Cell currentCell;
-        int generateBranchRoll;
+    //public void GenerateBranches(GridGraph gridGraph)
+    //{
+    //    Cell currentCell;
+    //    int generateBranchRoll;
 
-        for (int i = 0; i < pathCells.Count; i++)
-        {
-            currentCell = pathCells[i];
+    //    for (int i = 0; i < pathCells.Count; i++)
+    //    {
+    //        currentCell = pathCells[i];
 
-            if (currentCell.x == startPosX && currentCell.y == startPosY) continue;
-            if (currentCell.x == finalPosX && currentCell.y == finalPosY) continue;
+    //        if (currentCell.x == startPosX && currentCell.y == startPosY) continue;
+    //        if (currentCell.x == finalPosX && currentCell.y == finalPosY) continue;
 
-            generateBranchRoll = Random.Range(0, 4); //25%
-            if (generateBranchRoll == 1)
-            {
-                TryGenerateBranch(gridGraph, currentCell);
-            }
-        }
-    }
+    //        generateBranchRoll = Random.Range(0, 4); //25%
+    //        if (generateBranchRoll == 1)
+    //        {
+    //            TryGenerateBranch(gridGraph, currentCell);
+    //        }
+    //    }
+    //}
 
-    private bool TryGenerateBranch(GridGraph gridGraph, Cell startCell)
-    {
-        List<Cell> freeNeighbours = GetPossibleInitialBranchPoints(startCell, gridGraph);
+    //private bool TryGenerateBranch(GridGraph gridGraph, Cell startCell)
+    //{
+    //    List<Cell> freeNeighbours = GetPossibleInitialBranchPoints(startCell, gridGraph);
 
-        if (freeNeighbours.Count == 0) return false; //no hay espacio
+    //    if (freeNeighbours.Count == 0) return false; //no hay espacio
 
-        int roll = Random.Range(0, freeNeighbours.Count);
-        Cell next = freeNeighbours[roll];
+    //    int roll = Random.Range(0, freeNeighbours.Count);
+    //    Cell next = freeNeighbours[roll];
 
-        gridGraph.ConnectCells(startCell, next);
-        pathCells.Add(next);
+    //    gridGraph.ConnectCells(startCell, next);
+    //    pathCells.Add(next);
 
-        return ExpandBranch(next, gridGraph);
-    }
+    //    return ExpandBranch(next, gridGraph);
+    //}
 
-    private bool ExpandBranch(Cell currentCell, GridGraph gridGraph)
-    {
-        return true;
-    }
+    //private bool ExpandBranch(Cell currentCell, GridGraph gridGraph)
+    //{
+    //    return true;
+    //}
 
-    private List<Cell> GetPossibleInitialBranchPoints(Cell cell, GridGraph gridGraph)
-    {
-        List<Cell> possibleInitialBranchCells = new List<Cell>();
-        int neighBoursValue = GetCellNeighbourValue(cell.x, cell.y, gridGraph);
+    //private List<Cell> GetPossibleInitialBranchPoints(Cell cell, GridGraph gridGraph)
+    //{
+    //    List<Cell> possibleInitialBranchCells = new List<Cell>();
+    //    int neighBoursValue = GetCellNeighbourValue(cell.x, cell.y, gridGraph);
 
-        if (neighBoursValue == 6) //horizontal
-        {
+    //    if (neighBoursValue == 6) //horizontal
+    //    {
 
-        }
-        else if (neighBoursValue == 9) //vertical
-        {
+    //    }
+    //    else if (neighBoursValue == 9) //vertical
+    //    {
 
-        }
-        else if (neighBoursValue == 10) //esquina abajo derecha
-        {
+    //    }
+    //    else if (neighBoursValue == 10) //esquina abajo derecha
+    //    {
 
-        }
-        else if (neighBoursValue == 5) //esquina arriba izquierda
-        {
+    //    }
+    //    else if (neighBoursValue == 5) //esquina arriba izquierda
+    //    {
 
-        }
-        else if (neighBoursValue == 3) //esquina arriba derecha
-        {
+    //    }
+    //    else if (neighBoursValue == 3) //esquina arriba derecha
+    //    {
 
-        }
-        else if (neighBoursValue == 12) //esquina abajo izquierda
-        {
+    //    }
+    //    else if (neighBoursValue == 12) //esquina abajo izquierda
+    //    {
 
-        }
+    //    }
 
-        return possibleInitialBranchCells;
-    }
+    //    return possibleInitialBranchCells;
+    //}
 
     public List<Cell> GeneratePath(GridGraph gridGraph)
     {
@@ -107,7 +108,7 @@ public class PathGenerator
         while (x < finalPosX - 1)
         {
             currentCell = gridGraph.GetCell(x, y); //celda actual
-            currentCell.type = GridCellObject.CellType.Path; 
+            currentCell.type = GridCellDataSO.CellType.Path; 
             pathCells.Add(currentCell);
             bool validMove = false;
 
@@ -141,7 +142,7 @@ public class PathGenerator
         while (y != finalPosY)
         {
             currentCell = gridGraph.GetCell(x, y);
-            currentCell.type = GridCellObject.CellType.Path;
+            currentCell.type = GridCellDataSO.CellType.Path;
             pathCells.Add(currentCell);
 
             if (y < finalPosY) y++;
@@ -152,12 +153,12 @@ public class PathGenerator
         }
 
         currentCell = gridGraph.GetCell(x, y);
-        currentCell.type = GridCellObject.CellType.Path;
+        currentCell.type = GridCellDataSO.CellType.Path;
         pathCells.Add(currentCell);
         nextCell = gridGraph.GetCell(finalPosX, finalPosY);
         gridGraph.ConnectCells(currentCell, nextCell);
         currentCell = gridGraph.GetCell(finalPosX, finalPosY);
-        currentCell.type = GridCellObject.CellType.Path;
+        currentCell.type = GridCellDataSO.CellType.Path;
         pathCells.Add(currentCell);
 
         return pathCells;
@@ -175,22 +176,22 @@ public class PathGenerator
         {
             currentCell = pathCells[i];
 
-            if (CheckAreaClearLoop(gridGraph, currentCell, 1, 1) && Random.Range(0, 2) == 1) //x == 1, y == 1 --> rotonda arriba derecha
+            if (CheckAreaClearLoop(gridGraph, currentCell, 1, 1) && Random.Range(0, roll) == 0) //x == 1, y == 1 --> rotonda arriba derecha
             {
                 Debug.Log("Nexo arriba derecha encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, 1, 1);
             }
-            if (CheckAreaClearLoop(gridGraph, currentCell, -1, -1) && Random.Range(0, 2) == 1) //x == -1, y == -1 --> rotonda abajo izquierda
+            if (CheckAreaClearLoop(gridGraph, currentCell, -1, -1) && Random.Range(0, roll) == 0) //x == -1, y == -1 --> rotonda abajo izquierda
             {
                 Debug.Log("Nexo abajo izquierda encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, -1, -1);
             }
-            if (CheckAreaClearLoop(gridGraph, currentCell, 1, -1) && Random.Range(0, 2) == 1) //x == 1, y == -1 --> rotonda abajo derecha
+            if (CheckAreaClearLoop(gridGraph, currentCell, 1, -1) && Random.Range(0, roll) == 0) //x == 1, y == -1 --> rotonda abajo derecha
             {
                 Debug.Log("Nexo abajo derecha encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, 1, -1);
             }
-            if (CheckAreaClearLoop(gridGraph, currentCell, -1, 1) && Random.Range(0, 2) == 1) //x == -1, y == 1 --> rotonda arriba izquierda
+            if (CheckAreaClearLoop(gridGraph, currentCell, -1, 1) && Random.Range(0, roll) == 0) //x == -1, y == 1 --> rotonda arriba izquierda
             {
                 Debug.Log("Nexo arriba izquierda encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, -1, 1);
