@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerDataSO
   towerName: Neutrophil
   towerIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerCellIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cost: 1
+  description: "C\xE9lula de ataque b\xE1sica de r\xE1pida respuesta y corta esperanza
+    de vida"

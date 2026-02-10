@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerDataSO
   towerName: Natural Killer
   towerIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerCellIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cost: 50
+  description: Elimina celulas madre infectadas

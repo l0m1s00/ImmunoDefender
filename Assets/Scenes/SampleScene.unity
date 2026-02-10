@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19bb2ea8bf6ad3f4bb28754d93e48df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerSelectionManager
-  towersObjects:
+  towerObjects:
   - {fileID: 11400000, guid: d711859b9f4c005479e9f96fa84d691a, type: 2}
   - {fileID: 11400000, guid: 84b5255adcda7ac4f8700209745d6cb8, type: 2}
   - {fileID: 11400000, guid: f3a35b7a64f316d46b17d32a361498ea, type: 2}
@@ -268,7 +268,7 @@ MonoBehaviour:
   - {fileID: 1223734590}
   - {fileID: 2101941692}
   - {fileID: 601291349}
-  towerCardPrefab: {fileID: 3856580956196321103, guid: 9db8d4021d11f08458243119799e0038, type: 3}
+  towerCardPrefab: {fileID: 7153561893577513602, guid: 9db8d4021d11f08458243119799e0038, type: 3}
 --- !u!4 &415935253
 Transform:
   m_ObjectHideFlags: 0
@@ -708,8 +708,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 393170504}
   - {fileID: 1451795743}
+  - {fileID: 393170504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -766,8 +766,8 @@ Canvas:
   m_GameObject: {fileID: 1547099552}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -778,7 +778,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!1 &1666813955
 GameObject:
@@ -1001,7 +1001,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 273255286}
   - {fileID: 1547099553}
-  - {fileID: 2121932790}
+  - {fileID: 273255286}
   - {fileID: 415935253}
+  - {fileID: 2121932790}
