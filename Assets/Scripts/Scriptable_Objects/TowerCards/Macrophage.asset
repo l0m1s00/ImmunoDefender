@@ -17,3 +17,4 @@ MonoBehaviour:
   towerCellIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cost: 2
   description: "C\xE9lula de ataque avanzada que prioriza la eliminaci\xF3n de residuos"
+  towerPrefab: {fileID: 1019132104359009757, guid: bcc180bc07afadd4cb31c09e989ba7ea, type: 3}

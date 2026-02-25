@@ -6,14 +6,22 @@ public class GridManager : MonoBehaviour
 {
     public bool restart; //debug
 
+    public static GridManager Instance;
+
     private GridGraph gridGraph;
     private PathGenerator pathGenerator;
-    private List<Cell> pathCells;
+    private List<Cell> pathCells; //CAMBIAR A HASHSET
     private HashSet<Cell> towerCells;
     private int pathSize;
 
+    [Header("Cell Containers")]
+    [SerializeField] private GameObject towerHolderTileContainer;
+    [SerializeField] private GameObject pathTileContainer;
+    [SerializeField] private GameObject groundTileContainer;
+    [Header("Cell Objects")]
     [SerializeField] private GridCellDataSO[] pathCellObjects;
     [SerializeField] private GridCellDataSO[] levelCellObjects;
+    [Header("Map Settings")]
     [SerializeField] private int height;
     [SerializeField] private int width;
     [SerializeField] private int minPathLength;
@@ -21,6 +29,9 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
         towerCells = new HashSet<Cell>();
     }
 
@@ -33,7 +44,7 @@ public class GridManager : MonoBehaviour
             NewPath();
         }
 
-        ShowPathConnections();
+        //ShowPathConnections();
         StartCoroutine(GenerateMap());
     }
 
@@ -58,30 +69,30 @@ public class GridManager : MonoBehaviour
     private void RestartMapGeneration()
     {
         restart = false;
-        Transform pathTileContainer = this.transform.GetChild(0);
-        for (int i = 0; i < pathTileContainer.childCount; i++)
+        Transform pathTileContainerTransform = pathTileContainer.transform;
+        for (int i = 0; i < pathTileContainerTransform.childCount; i++)
         {
-            Destroy(pathTileContainer.GetChild(i).gameObject);
+            Destroy(pathTileContainerTransform.GetChild(i).gameObject);
         }
-        Transform groundTileContainer = this.transform.GetChild(1);
-        for (int i = 0; i < groundTileContainer.childCount; i++)
+        Transform groundTileContainerTransform = groundTileContainer.transform;
+        for (int i = 0; i < groundTileContainerTransform.childCount; i++)
         {
-            Destroy(groundTileContainer.GetChild(i).gameObject);
+            Destroy(groundTileContainerTransform.GetChild(i).gameObject);
         }
-        Transform towerHolderTileContainer = this.transform.GetChild(2);
-        for (int i = 0; i < towerHolderTileContainer.childCount; i++)
+        Transform towerHolderTileContainerTransform = towerHolderTileContainer.transform;
+        for (int i = 0; i < towerHolderTileContainerTransform.childCount; i++)
         {
-            Destroy(towerHolderTileContainer.GetChild(i).gameObject);
+            Destroy(towerHolderTileContainerTransform.GetChild(i).gameObject);
         }
 
         NewPath();
 
         while (pathSize < minPathLength)
         {
-            NewPath() ;
+            NewPath();
         }
 
-        ShowPathConnections();
+        //ShowPathConnections();
         StartCoroutine(GenerateMap());
     } //debug
 
@@ -117,10 +128,10 @@ public class GridManager : MonoBehaviour
         StartCoroutine(PlaceScenaryTiles());
         StartCoroutine(PlacePathTiles());
 
-        foreach (Cell cell in towerCells)
-        {
-            Debug.Log((cell.x, cell.y));
-        }
+        //foreach (Cell cell in towerCells)
+        //{
+        //    Debug.Log((cell.x, cell.y));
+        //}
 
         yield return null;
     }
@@ -151,8 +162,8 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator PlaceScenaryTiles()
     {
-        Transform groundTileContainer = this.transform.GetChild(1);
-        Transform towerHolderTileContainer = this.transform.GetChild(2);
+        Transform groundTileContainerTransform = groundTileContainer.transform;
+        Transform towerHolderTileContainerTransform = towerHolderTileContainer.transform;
         GameObject groundTile = levelCellObjects[0].cellPrefab;
         GameObject tile;
         Cell currentCell;
@@ -182,9 +193,8 @@ public class GridManager : MonoBehaviour
                     pos = new Vector3(x, y, 0);
                     tile = Instantiate(tile, pos, Quaternion.identity);
 
-                    if (currentCell.isObstacle) tile.transform.SetParent(groundTileContainer);
-                    else if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainer);
-                    else tile.transform.SetParent(groundTileContainer);
+                    if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainerTransform);
+                    else tile.transform.SetParent(groundTileContainerTransform);
 
                     //yield return new WaitForSeconds(0.005f); //espera
                 }
@@ -216,10 +226,10 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator PlacePathTiles()
     {
-        Transform pathTileContainer = this.transform.GetChild(0);
+        Transform pathTileContainerTransform = pathTileContainer.transform;
         HashSet<Cell> visitedCells = new HashSet<Cell>();
 
-        PlacePathTilesRec(gridGraph.entryPoint, pathTileContainer, visitedCells);
+        PlacePathTilesRec(gridGraph.entryPoint, pathTileContainerTransform, visitedCells);
 
         yield return null;
     }
@@ -240,9 +250,39 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public bool IsBuildableCell(int x, int y)
+    {
+        Cell cell = gridGraph.GetCell(x, y);
+
+        if (towerCells.Contains(cell) && !cell.isTowerInCell) return true;
+        return false;
+    }
+
+    public void BlockCellByTower(int x, int y)
+    {
+        Cell cell = gridGraph.GetCell(x, y);
+        cell.isTowerInCell = true;
+    }
+
+    public void UnblockCell(int x, int y)
+    {
+        Cell cell = gridGraph.GetCell(x, y);
+        cell.isTowerInCell = false;
+    }
+
     private void ShowPathConnections()
     {
         HashSet<Cell> visitedCells = new HashSet<Cell>();
         ShowPathConnectionsRec(gridGraph.entryPoint, visitedCells);
+    }
+
+    public float GetMapHeight()
+    {
+        return height;
+    }
+
+    public float GetMapWidht()
+    {
+        return width;
     }
 }

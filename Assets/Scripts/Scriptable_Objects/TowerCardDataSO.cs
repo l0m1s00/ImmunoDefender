@@ -8,7 +8,7 @@ public class TowerCardDataSO : ScriptableObject
     public Sprite towerCellIcon;
     public int cost;
     public string description;
-    //public GameObject towerPrefab;
+    public GameObject towerPrefab;
     //public float range;
     //public float fireRate;
 }

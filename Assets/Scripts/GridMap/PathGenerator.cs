@@ -1,11 +1,9 @@
 using UnityEngine;
-//using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class PathGenerator
 {
-    private int margin = 2;
+    private int margin = 3;
     private int pathOffset = 2;
     private int roll = 1; //1 == 100% probadilidad de rotonda
 
@@ -178,22 +176,22 @@ public class PathGenerator
 
             if (CheckAreaClearLoop(gridGraph, currentCell, 1, 1) && Random.Range(0, roll) == 0) //x == 1, y == 1 --> rotonda arriba derecha
             {
-                Debug.Log("Nexo arriba derecha encontrado: " + (currentCell.x, currentCell.y));
+                //Debug.Log("Nexo arriba derecha encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, 1, 1);
             }
             if (CheckAreaClearLoop(gridGraph, currentCell, -1, -1) && Random.Range(0, roll) == 0) //x == -1, y == -1 --> rotonda abajo izquierda
             {
-                Debug.Log("Nexo abajo izquierda encontrado: " + (currentCell.x, currentCell.y));
+                //Debug.Log("Nexo abajo izquierda encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, -1, -1);
             }
             if (CheckAreaClearLoop(gridGraph, currentCell, 1, -1) && Random.Range(0, roll) == 0) //x == 1, y == -1 --> rotonda abajo derecha
             {
-                Debug.Log("Nexo abajo derecha encontrado: " + (currentCell.x, currentCell.y));
+                //Debug.Log("Nexo abajo derecha encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, 1, -1);
             }
             if (CheckAreaClearLoop(gridGraph, currentCell, -1, 1) && Random.Range(0, roll) == 0) //x == -1, y == 1 --> rotonda arriba izquierda
             {
-                Debug.Log("Nexo arriba izquierda encontrado: " + (currentCell.x, currentCell.y));
+                //Debug.Log("Nexo arriba izquierda encontrado: " + (currentCell.x, currentCell.y));
                 CreateLoop(gridGraph, currentCell, -1, 1);
             }
         }

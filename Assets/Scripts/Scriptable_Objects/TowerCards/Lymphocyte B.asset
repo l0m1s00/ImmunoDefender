@@ -17,3 +17,4 @@ MonoBehaviour:
   towerCellIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cost: 5
   description: "Analiza a los pat\xF3genos para potenciar la respuesta inmune"
+  towerPrefab: {fileID: 1019132104359009757, guid: 722782dbb7447e3428dc7a081cf8c259, type: 3}

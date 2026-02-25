@@ -17,7 +17,7 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private Button cardButton;
 
     [Header("Animation")]
-    [SerializeField] private float onMouseScaleFactor;
+    [SerializeField][Range(1f, 2f)] private float onMouseScaleFactor;
     [SerializeField] private float verticalOffset;
     [SerializeField] private float animationDuration;
     [SerializeField][Range(1f, 2f)] private float selectedScaleFactor;
@@ -37,16 +37,14 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     //generales
     private TowerCardDataSO towerData;
-    private TowerSelectionManager manager;
     private int cardIndex;
     private bool isSelected = false;
 
-    public void CardSetup(TowerCardDataSO data, int index, TowerSelectionManager manager)
+    public void CardSetup(TowerCardDataSO data, int index)
     {
         //generales
         cardIndex = index;
         towerData = data;
-        this.manager = manager;
         cardButton.onClick.AddListener(OnCardClicked);
         //UI
         iconImage.sprite = data.towerIcon;
@@ -65,7 +63,7 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void OnCardClicked()
     {
-        manager.SelectTower(cardIndex);
+        TowerSelectionManager.Instance.SelectTower(cardIndex);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

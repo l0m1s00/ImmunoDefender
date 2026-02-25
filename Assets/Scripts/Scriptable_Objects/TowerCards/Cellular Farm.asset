@@ -17,3 +17,4 @@ MonoBehaviour:
   towerCellIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cost: 100
   description: "Un conjunto de c\xE9lulas madre que generan genetics"
+  towerPrefab: {fileID: 1019132104359009757, guid: 492c060e2202ad84fb4a51d5f91c8c79, type: 3}

@@ -18,3 +18,4 @@ MonoBehaviour:
   cost: 1
   description: "C\xE9lula de ataque b\xE1sica de r\xE1pida respuesta y corta esperanza
     de vida"
+  towerPrefab: {fileID: 1019132104359009757, guid: cf42d40e4efbf424bbb42409970108db, type: 3}

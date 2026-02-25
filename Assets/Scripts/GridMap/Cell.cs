@@ -9,6 +9,7 @@ public class Cell
 
     public GridCellDataSO.CellType type;
     public bool isObstacle;
+    public bool isTowerInCell;
 
     public List<Cell> nextCells; //arcos de salida
     //public List<Cell> prevCells; //arcos de entrada
@@ -19,6 +20,7 @@ public class Cell
         this.y = y;
         this.type = GridCellDataSO.CellType.Ground; //por defecto
         isObstacle = false;
+        isTowerInCell = false;
         nextCells = new List<Cell>();
         //prevCells = new List<Cell>();
     }
