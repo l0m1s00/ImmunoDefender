@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -28,11 +29,15 @@ public class EnemySpawner : MonoBehaviour
     
     [Header("Wave Configuration")]
     [SerializeField] private List<WaveConfig> waves;
+    [SerializeField] private float delayBeforeWaveStarts;
 
     private List<Cell> enemyPath;
     private Vector2 spawnPoint;
     private int currentWave = 0;
     private Cell entryPoint;
+
+    //EVENTOS
+    public static event Action<string> OnStartWave;
 
     private void OnEnable()
     {
@@ -46,7 +51,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (nextWave) StartCoroutine(SpawnWave(waves[currentWave]));
+        if (nextWave) StartWave();
     }
 
     private void InitializeSpawner()
@@ -54,7 +59,6 @@ public class EnemySpawner : MonoBehaviour
         entryPoint = GridManager.Instance.GetGraphEntryPoint();
         spawnPoint = new Vector2(entryPoint.x, entryPoint.y);
         CalculateEnemyPath(); //determinar camino por el grafo que los enemigos deben seguir
-        StartCoroutine(SpawnWave(waves[currentWave])); //soltar enemigos
     }
 
     private void CalculatePathDFS(Cell currentCell, HashSet<Cell> visitedCells)
@@ -81,10 +85,18 @@ public class EnemySpawner : MonoBehaviour
         CalculatePathDFS(entryPoint, visitedCells);
     }
 
+    private void StartWave()
+    {
+        OnStartWave?.Invoke((currentWave+1).ToString()); //avisar del inicio de la oleada
+        StartCoroutine(SpawnWave(waves[currentWave])); //soltar enemigos
+    }
+
     private IEnumerator SpawnWave(WaveConfig wave)
     {
         nextWave = false; //DEBUG
-        
+
+        yield return new WaitForSeconds(delayBeforeWaveStarts); //tiempo de espera antes de empezar la oleada
+
         foreach (EnemyGroup enemyGroup in wave.enemyGroups)
         {
             for (int i = 0; i < enemyGroup.count; i++)
@@ -104,7 +116,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void InstantiateEnemy(EnemiesDataSO enemyData)
     {
-        GameObject newEnemy = Instantiate(enemyData.enemyPrefab, spawnPoint, Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemyData.enemyPrefab, spawnPoint, Quaternion.identity, enemiesContainer);
         newEnemy.GetComponent<Enemy>().SetStats(enemyPath, enemyData.speed); ;
     }
 }

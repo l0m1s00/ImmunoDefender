@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01e6e8ce58cf63b4999d5b919b1f431f, type: 3}
-  m_Name: FungusB
+  m_Name: FungiA
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
-  speed: 1
-  enemyPrefab: {fileID: 6270281315145396415, guid: 80b0826eddc55e24ab1028dd9866c124, type: 3}
+  speed: 2
+  enemyPrefab: {fileID: 8809707423437007706, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
