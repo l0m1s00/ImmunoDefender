@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 public class GridManager : MonoBehaviour
 {
@@ -26,6 +28,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int width;
     [SerializeField] private int minPathLength;
     [Range(0, 100)] [SerializeField] private int groundPercentage;
+
+    //EVENTOS
+    public static event Action OnMapGenerationCompleted;
 
     private void Awake()
     {
@@ -127,12 +132,7 @@ public class GridManager : MonoBehaviour
         GetTowerCells();
         StartCoroutine(PlaceScenaryTiles());
         StartCoroutine(PlacePathTiles());
-
-        //foreach (Cell cell in towerCells)
-        //{
-        //    Debug.Log((cell.x, cell.y));
-        //}
-
+        OnMapGenerationCompleted?.Invoke();
         yield return null;
     }
 
@@ -149,7 +149,7 @@ public class GridManager : MonoBehaviour
 
                 if (pathGenerator.IsCellFree(cell))
                 {
-                    roll = Random.Range(0, 100);
+                    roll = UnityEngine.Random.Range(0, 100);
 
                     if (roll >= groundPercentage)
                         cell.isObstacle = true;
@@ -250,6 +250,12 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    private void ShowPathConnections()
+    {
+        HashSet<Cell> visitedCells = new HashSet<Cell>();
+        ShowPathConnectionsRec(gridGraph.entryPoint, visitedCells);
+    }
+
     public bool IsBuildableCell(int x, int y)
     {
         Cell cell = gridGraph.GetCell(x, y);
@@ -270,12 +276,6 @@ public class GridManager : MonoBehaviour
         cell.isTowerInCell = false;
     }
 
-    private void ShowPathConnections()
-    {
-        HashSet<Cell> visitedCells = new HashSet<Cell>();
-        ShowPathConnectionsRec(gridGraph.entryPoint, visitedCells);
-    }
-
     public float GetMapHeight()
     {
         return height;
@@ -284,5 +284,10 @@ public class GridManager : MonoBehaviour
     public float GetMapWidht()
     {
         return width;
+    }
+
+    public Cell GetGraphEntryPoint()
+    {
+        return gridGraph.entryPoint;
     }
 }
