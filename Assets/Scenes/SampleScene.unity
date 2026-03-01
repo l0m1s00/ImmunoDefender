@@ -836,11 +836,11 @@ MonoBehaviour:
     - enemyData: {fileID: 11400000, guid: b2d570447a370934fb240ff15871468e, type: 2}
       count: 5
       timeBetweenEnemies: 0.1
-      delayAfterGroup: 3
+      delayAfterGroup: 2
     - enemyData: {fileID: 11400000, guid: 6bf49cda1c40b514cb6d849507dd1d71, type: 2}
       count: 8
       timeBetweenEnemies: 0.1
-      delayAfterGroup: 8
+      delayAfterGroup: 3
     - enemyData: {fileID: 11400000, guid: 41ca60628f6b629459e0a77b6687cb7d, type: 2}
       count: 4
       timeBetweenEnemies: 1
@@ -1657,6 +1657,37 @@ RectTransform:
   m_AnchoredPosition: {x: -121, y: -534}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1812457190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1812457191}
+  m_Layer: 0
+  m_Name: WASTE_CONTAINER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1812457191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812457190}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.60098, y: 8.58186, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1824136452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,3 +1911,4 @@ SceneRoots:
   - {fileID: 1173711707}
   - {fileID: 886023868}
   - {fileID: 1580016215}
+  - {fileID: 1812457191}

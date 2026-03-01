@@ -3,6 +3,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float waveAmplitude;
+    [SerializeField] private float waveSpeed;
+    [SerializeField] private float turnSmoothTime;
+
+    //Wave
+    private Vector3 ghostPosition;
+    private float randomMovementOffset;
+
+    //Suavizado de curvas
+    private Vector3 currentPerpendicular;
+    private Vector3 perpendicularVelocity;
+
     //STATS
     private float speed;
 
@@ -11,22 +23,34 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Move()
     {
-        Vector3 targetPos = new Vector3(route[i].x, route[i].y, 0f);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, targetPos) <= 0.001f)
+        Vector3 targetPosition = new Vector3(route[i].x, route[i].y, 0f);
+        Vector3 targetDirection = (targetPosition - ghostPosition).normalized;
+        Vector3 targetPerpendicular = new Vector3(-targetDirection.y, targetDirection.x, 0f);
+
+        currentPerpendicular = Vector3.SmoothDamp(currentPerpendicular, targetPerpendicular, ref perpendicularVelocity, turnSmoothTime);
+        
+        ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, speed * Time.deltaTime);
+        float wave = Mathf.Sin((Time.time * waveSpeed) + randomMovementOffset) * waveAmplitude;
+        transform.position = ghostPosition + (targetPerpendicular * wave);
+
+        if (Vector3.Distance(ghostPosition, targetPosition) <= 0.1f)
         {
-            if (i == route.Count-1) //alcanzado el final de la ruta
+            if (i == route.Count - 1)
             {
-                Destroy(this.gameObject);//CAMBIAR
+                Destroy(this.gameObject);
+                return;
             }
 
             i++;
         }
     }
 
-    public void SetStats(List<Cell> newRoute, float newSpeed)
+    public void InitializeEnemy(List<Cell> newRoute, float newSpeed)
     {
         route = newRoute;
         speed = newSpeed;
+        ghostPosition = transform.position;
+        randomMovementOffset = Random.Range(0f, 100f);
+        currentPerpendicular = Vector3.up;
     }
 }

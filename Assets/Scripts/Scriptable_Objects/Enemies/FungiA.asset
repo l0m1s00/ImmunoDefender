@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FungiA
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
   speed: 2
-  enemyPrefab: {fileID: 8809707423437007706, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
+  enemyPrefab: {fileID: 8862185737750109261, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
