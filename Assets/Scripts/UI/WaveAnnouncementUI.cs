@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class WaveAnnouncementUI : MonoBehaviour
 {
     [Header("Wave Announcement")]
     [SerializeField] private TextMeshProUGUI waveAnnouncementText;

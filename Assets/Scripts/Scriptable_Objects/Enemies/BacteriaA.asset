@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e6e8ce58cf63b4999d5b919b1f431f, type: 3}
   m_Name: BacteriaA
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
-  speed: 5
+  speed: 0.6
   enemyPrefab: {fileID: 477026949784236985, guid: 3e4fc49a3fce1e940b69f3b2f28fdd97, type: 3}

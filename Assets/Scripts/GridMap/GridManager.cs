@@ -12,8 +12,8 @@ public class GridManager : MonoBehaviour
 
     private GridGraph gridGraph;
     private PathGenerator pathGenerator;
-    private List<Cell> pathCells; //CAMBIAR A HASHSET
-    private HashSet<Cell> towerCells;
+    private List<Cell> pathCells;
+    private HashSet<Cell> towerCells = new HashSet<Cell>();
     private int pathSize;
 
     [Header("Cell Containers")]
@@ -36,8 +36,16 @@ public class GridManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
 
-        towerCells = new HashSet<Cell>();
+    private void OnEnable()
+    {
+        TowerBuilder.OnTowerBuild += BlockCellByTower;
+    }
+
+    private void OnDisable()
+    {
+        TowerBuilder.OnTowerBuild -= BlockCellByTower;
     }
 
     private void Start()
@@ -264,10 +272,13 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public void BlockCellByTower(int x, int y)
+    public void BlockCellByTower(GameObject tower)
     {
+        int x = (int)tower.transform.position.x;
+        int y = (int)tower.transform.position.y;
         Cell cell = gridGraph.GetCell(x, y);
         cell.isTowerInCell = true;
+        Debug.Log("Celda bloqueada por torre: " + (x, y));
     }
 
     public void UnblockCell(int x, int y)

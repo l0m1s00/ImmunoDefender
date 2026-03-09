@@ -27,13 +27,16 @@ public class Enemy : MonoBehaviour
         Vector3 targetDirection = (targetPosition - ghostPosition).normalized;
         Vector3 targetPerpendicular = new Vector3(-targetDirection.y, targetDirection.x, 0f);
 
+        //suavizar cambios de direccion
         currentPerpendicular = Vector3.SmoothDamp(currentPerpendicular, targetPerpendicular, ref perpendicularVelocity, turnSmoothTime);
-        
+        //falsa posicion que sigue el enemigo
         ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, speed * Time.deltaTime);
+        //movimiento ondulatorio para el desplazamiento
         float wave = Mathf.Sin((Time.time * waveSpeed) + randomMovementOffset) * waveAmplitude;
-        transform.position = ghostPosition + (targetPerpendicular * wave);
+        
+        transform.position = ghostPosition + (currentPerpendicular * wave);
 
-        if (Vector3.Distance(ghostPosition, targetPosition) <= 0.1f)
+        if (Vector3.Distance(ghostPosition, targetPosition) <= 0.2f)
         {
             if (i == route.Count - 1)
             {

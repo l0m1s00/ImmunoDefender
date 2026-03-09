@@ -9,6 +9,7 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
 
     [HideInInspector] public Vector2 mousePosition;
     [HideInInspector] public float scrollDelta;
+    [HideInInspector] public bool isLeftClicking;
 
     //EVENTOS
     public static event Action OnLeftClickPerformed;
@@ -47,7 +48,12 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
     {
         if (context.performed)
         {
+            isLeftClicking = true;
             OnLeftClickPerformed?.Invoke(); //notificar click izq
+        }
+        else
+        {
+            isLeftClicking = false;
         }
     }
 
@@ -66,6 +72,6 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
 
     private void Update()
     {
-        Debug.Log("Raton: " + mousePosition);
+        //Debug.Log("Raton: " + mousePosition);
     }
 }

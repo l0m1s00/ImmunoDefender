@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class PathGenerator
 {
     private int margin = 3;
     private int pathOffset = 2;
-    private int roll = 1; //1 == 100% probadilidad de rotonda
+    private int roll = 2; //1 == 100% probadilidad de rotonda, 2 == 50%, 3 == 33%
 
     public List<Cell> pathCells; //historial de generacion del camino
     public int finalPosX;
@@ -167,8 +169,6 @@ public class PathGenerator
         Cell currentCell;
         int width = gridGraph.width;
         int height = gridGraph.height;
-
-        //int roll = Random.Range(0, 2); //no siempre se hace una rotonda, 50%
 
         for (int i = 0; i < pathCells.Count; i++)
         {

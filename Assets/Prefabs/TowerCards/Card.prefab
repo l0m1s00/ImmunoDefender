@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 8785518816129405104}
   - component: {fileID: 6248370516131089634}
   - component: {fileID: 1514609412501035516}
+  - component: {fileID: 8599194763686741288}
   - component: {fileID: 476289799910912161}
   - component: {fileID: 2281971781908943502}
   - component: {fileID: 2470514625771922013}
@@ -378,7 +379,7 @@ RectTransform:
   m_GameObject: {fileID: 4410219352563605011}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7068570125431968891}
@@ -431,6 +432,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8599194763686741288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4410219352563605011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3c6974b72262946bcb4d208b3bc734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerCard
+  cardButton: {fileID: 2281971781908943502}
+  cardUIRef: {fileID: 476289799910912161}
 --- !u!114 &476289799910912161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +464,6 @@ MonoBehaviour:
   cardNameText: {fileID: 6114129689525448834}
   cardDescriptionText: {fileID: 349848815084632979}
   cardLocalCanvas: {fileID: 2470514625771922013}
-  cardButton: {fileID: 2281971781908943502}
   onMouseScaleFactor: 1.15
   verticalOffset: 30
   animationDuration: 0.1

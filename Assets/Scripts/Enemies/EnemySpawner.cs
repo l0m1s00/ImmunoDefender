@@ -117,6 +117,6 @@ public class EnemySpawner : MonoBehaviour
     private void InstantiateEnemy(EnemiesDataSO enemyData)
     {
         GameObject newEnemy = Instantiate(enemyData.enemyPrefab, spawnPoint, Quaternion.identity, enemiesContainer);
-        newEnemy.GetComponent<Enemy>().InitializeEnemy(enemyPath, enemyData.speed); ;
+        newEnemy.GetComponent<Enemy>().InitializeEnemy(enemyPath, enemyData.speed);
     }
 }

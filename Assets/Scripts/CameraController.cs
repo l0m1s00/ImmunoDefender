@@ -4,7 +4,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float minMoveSpeed;
+    [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float edgeLimit;
 
     [Header("Zoom Settings")]
@@ -13,20 +14,20 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float maxCamSize;
     [SerializeField] private float zoomSmooth; //menor = mas rapido
 
-    private Camera camera;
-    private float targetCamSize;
+    private Camera mainCamera;
+    private float camSize;
     private float zoomVelocity;
 
     private void Awake()
     {
-        camera = Camera.main;
-        targetCamSize = camera.orthographicSize;
+        mainCamera = Camera.main;
+        camSize = mainCamera.orthographicSize;
     }
 
     void Update()
     {
         CameraZoom();
-        MoveCamera();
+        /*if (Inputs.Instance.isLeftClicking)*/ MoveCamera();
         transform.position = ClampCameraPosition(transform.position);
     }
 
@@ -36,13 +37,13 @@ public class CameraController : MonoBehaviour
 
         if (scroll != 0f)
         {
-            targetCamSize -= Mathf.Sign(scroll) * zoomStep;
-            targetCamSize = Mathf.Clamp(targetCamSize, minCamSize, maxCamSize);
+            camSize -= Mathf.Sign(scroll) * zoomStep;
+            camSize = Mathf.Clamp(camSize, minCamSize, maxCamSize);
         }
 
-        if (Mathf.Abs(camera.orthographicSize - targetCamSize) > 0.01f)
+        if (Mathf.Abs(mainCamera.orthographicSize - camSize) > 0.01f)
         {
-            camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, targetCamSize, ref zoomVelocity, zoomSmooth);
+            mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, camSize, ref zoomVelocity, zoomSmooth);
         }
     }
 
@@ -51,22 +52,36 @@ public class CameraController : MonoBehaviour
         Vector2 mousePos = Inputs.Instance.mousePosition;
         Vector3 moveDir = Vector3.zero;
 
+        //1. Movimiento moviendo el raton a los limites de la pantalla
         if (mousePos.y >= Screen.height - edgeLimit) moveDir.y += 1f;
         if (mousePos.y <= edgeLimit) moveDir.y -= 1f;
         if (mousePos.x >= Screen.width - edgeLimit) moveDir.x += 1f;
         if (mousePos.x <= edgeLimit) moveDir.x -= 1f;
 
+        //2. Movimiento arrastrando en direccion contraria - requiere <if (Inputs.Instance.isLeftClicking) MoveCamera();>
+        //if (mousePos.y >= Screen.height - edgeLimit) moveDir.y -= 1f;
+        //if (mousePos.y <= edgeLimit) moveDir.y += 1f;
+        //if (mousePos.x >= Screen.width - edgeLimit) moveDir.x -= 1f;
+        //if (mousePos.x <= edgeLimit) moveDir.x += 1f;
+
         if (moveDir == Vector3.zero) return; //no hay movimiento de camara
 
         moveDir.Normalize();
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+
+        //para que la velocidad de desplazamiento de la camara sea proporcional zoom, mas zoom menor velocidad
+        //calcular valor de 0 a 1 en base al zoom min y max, 0 minZoom 1 maxZoom
+        float zoomPer = Mathf.InverseLerp(minCamSize, maxCamSize, mainCamera.orthographicSize);
+        //calcular velocidad dependiendo del zoom
+        float speed = Mathf.Lerp(minMoveSpeed, maxMoveSpeed, zoomPer);
+
+        transform.position += moveDir * speed * Time.deltaTime;
     }
 
     private Vector3 ClampCameraPosition(Vector3 targetPos)
     {
         //determinar cuanto "ve" la camara
-        float camHeight = camera.orthographicSize;
-        float camWidth = camera.orthographicSize * camera.aspect;
+        float camHeight = mainCamera.orthographicSize;
+        float camWidth = mainCamera.orthographicSize * mainCamera.aspect;
 
         //definir limites del mapa
         float minX = -0.5f;

@@ -1,10 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections;
 
-public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TowerCardUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Image iconImage;
@@ -14,16 +13,13 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private TextMeshProUGUI cardDescriptionText;
     [SerializeField] private Canvas cardLocalCanvas;
     //[SerializeField] private Image selectedOutline;
-    [SerializeField] private Button cardButton;
 
-    [Header("Animation")]
+    [Header("Animation Settings")]
     [SerializeField][Range(1f, 2f)] private float onMouseScaleFactor;
     [SerializeField] private float verticalOffset;
     [SerializeField] private float animationDuration;
     [SerializeField][Range(1f, 2f)] private float selectedScaleFactor;
     [SerializeField] private float selectedUpOffset;
-
-    [Header("Render")]
     [SerializeField] private int selectedOrderInLayer;
 
     //animacion
@@ -32,53 +28,45 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Quaternion originalRot;
     private RectTransform rectTransform;
     private Coroutine currentAnimationCoroutine;
-    //render
     private int originalOrderInLayer;
 
-    //generales
-    private TowerCardDataSO towerData;
-    private int cardIndex;
-    private bool isSelected = false;
-
-    public void CardSetup(TowerCardDataSO data, int index)
+    private void Awake()
     {
-        //generales
-        cardIndex = index;
-        towerData = data;
-        cardButton.onClick.AddListener(OnCardClicked);
-        //UI
+        rectTransform = GetComponent<RectTransform>();
+        originalOrderInLayer = cardLocalCanvas.sortingOrder;
+    }
+
+    public void SetupVisuals(TowerCardDataSO data)
+    {
         iconImage.sprite = data.towerIcon;
         cellImage.sprite = data.towerCellIcon;
         costText.text = data.cost.ToString();
         cardNameText.text = data.name;
         cardDescriptionText.text = data.description;
         //selectedOutline.enabled = false;
-        //animacion
-        rectTransform = GetComponent<RectTransform>();
-        originalPos = rectTransform.localPosition;
-        originalScale = rectTransform.localScale;
-        originalRot = rectTransform.localRotation;
-        originalOrderInLayer = cardLocalCanvas.sortingOrder;
+        originalPos = transform.localPosition;
+        originalScale = transform.localScale;
+        originalRot = transform.localRotation;
     }
 
-    private void OnCardClicked()
+    public void AnimateHover(bool isHovering)
     {
-        TowerSelectionManager.Instance.SelectTower(cardIndex);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (isSelected) return;
-
-        Vector3 targetScale = originalScale * onMouseScaleFactor;
-        Vector3 targetPos = originalPos + new Vector3(0, verticalOffset, 0);
+        Vector3 targetScale = isHovering ? originalScale * onMouseScaleFactor : originalScale;
+        Vector3 targetPos = isHovering ? originalPos + new Vector3(0f, verticalOffset, 0f) : originalPos;
         StartAnimation(targetScale, targetPos, originalRot);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void AnimateSelected()
     {
-        if (isSelected) return;
+        cardLocalCanvas.sortingOrder = selectedOrderInLayer;
+        Vector3 targetScale = originalScale * selectedScaleFactor;
+        Vector3 targetPos = originalPos + new Vector3(0f, selectedUpOffset, 0f);
+        StartAnimation(targetScale, targetPos, Quaternion.identity);
+    }
 
+    public void AnimateDeselected()
+    {
+        cardLocalCanvas.sortingOrder = originalOrderInLayer;
         StartAnimation(originalScale, originalPos, originalRot);
     }
 
@@ -116,27 +104,6 @@ public class TowerCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         rectTransform.localRotation = targetRot;
         currentAnimationCoroutine = null;
     }
-
-    public void SetSelected(bool state)
-    {
-        isSelected = state;
-
-        if (isSelected)
-        {
-            cardLocalCanvas.sortingOrder = selectedOrderInLayer;
-            Vector3 targetScale = originalScale * selectedScaleFactor;
-            Vector3 targetPos = originalPos + new Vector3(0f, selectedUpOffset, 0f);
-            Quaternion targetRot = Quaternion.identity; //0,0,0
-            StartAnimation(targetScale, targetPos, targetRot);
-        }
-        else
-        {
-            cardLocalCanvas.sortingOrder = originalOrderInLayer;
-            StartAnimation(originalScale, originalPos, originalRot);
-        }
-    }
-
-    //outline bool isSelected SetSelected(bool)
 }
 
 
