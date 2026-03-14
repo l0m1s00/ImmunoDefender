@@ -9,7 +9,7 @@ using UnityEngine;
 [System.Serializable]
 public struct EnemyGroup
 {
-    public EnemiesDataSO enemyData; //tipo de enemigo del grupo
+    public EnemyData enemyData; //tipo de enemigo del grupo
     public int count; //numero de enemigos del grupo
     public float timeBetweenEnemies; //delay entre enemigos del mismo grupo
     public float delayAfterGroup; //descanso al terminar de mandar al grupo
@@ -118,7 +118,7 @@ public class EnemySpawner : MonoBehaviour
         currentWave++;
     }
 
-    private void InstantiateEnemy(EnemiesDataSO enemyData)
+    private void InstantiateEnemy(EnemyData enemyData)
     {
         GameObject newEnemyObj = PoolManager.Instance.SpawnEnemy(enemyData);
         newEnemyObj.transform.position = spawnPoint;

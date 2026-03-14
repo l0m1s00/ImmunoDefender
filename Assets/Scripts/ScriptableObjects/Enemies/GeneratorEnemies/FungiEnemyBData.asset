@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e6e8ce58cf63b4999d5b919b1f431f, type: 3}
-  m_Name: FungiB
-  m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
-  speed: 0.2
-  health: 5
+  m_Script: {fileID: 11500000, guid: e7eb336d9ade257448bef24bfa141cd2, type: 3}
+  m_Name: FungiEnemyBData
+  m_EditorClassIdentifier: Assembly-CSharp::FungiEnemyData
+  speed: 0.4
+  health: 15
   enemyPrefab: {fileID: 6270281315145396415, guid: 80b0826eddc55e24ab1028dd9866c124, type: 3}
+  dropWasteMinCooldown: 2
+  dropWasteMaxCooldown: 8

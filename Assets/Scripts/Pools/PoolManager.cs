@@ -9,7 +9,7 @@ public class PoolManager : MonoBehaviour
     public static PoolManager Instance;
 
     [Header("Enemy Pool Settings")]
-    [SerializeField] private List<EnemiesDataSO> enemyTypes;
+    [SerializeField] private List<EnemyData> enemyTypes;
     [SerializeField] private Transform enemyPoolContainer;
     [SerializeField] private int initialEnemyPoolSize;
     [Header("Tower Pool Settings")]
@@ -27,7 +27,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private int initialWastePoolSize;
 
     //pool de enemigos
-    private Dictionary<EnemiesDataSO, ObjectPool> enemyPool = new Dictionary<EnemiesDataSO, ObjectPool>();
+    private Dictionary<EnemyData, ObjectPool> enemyPool = new Dictionary<EnemyData, ObjectPool>();
     //pool de torres
     private Dictionary<TowerData, ObjectPool> towerPool = new Dictionary<TowerData, ObjectPool>();
     //pool de fantasmas torre
@@ -51,7 +51,7 @@ public class PoolManager : MonoBehaviour
     //crear X cantidad de cada tipo de objeto y reservarlos
     private void CreateEnemyPools()
     {
-        foreach (EnemiesDataSO enemyDataSO in enemyTypes)
+        foreach (EnemyData enemyDataSO in enemyTypes)
         {
             ObjectPool newPool = new ObjectPool(enemyDataSO.enemyPrefab, initialEnemyPoolSize, enemyPoolContainer);
             enemyPool.Add(enemyDataSO, newPool);
@@ -86,7 +86,7 @@ public class PoolManager : MonoBehaviour
     }
 
     //coger un objeto, "Instantiate"
-    public GameObject SpawnEnemy(EnemiesDataSO enemyData)
+    public GameObject SpawnEnemy(EnemyData enemyData)
     {
         return enemyPool[enemyData].Get();
     }
@@ -112,7 +112,7 @@ public class PoolManager : MonoBehaviour
     }
 
     //devolver un enemigo, "Destroy"
-    public void DespawnEnemy(EnemiesDataSO enemyData, GameObject enemyObj)
+    public void DespawnEnemy(EnemyData enemyData, GameObject enemyObj)
     {
         enemyPool[enemyData].Restore(enemyObj);
     }

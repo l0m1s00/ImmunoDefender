@@ -9,7 +9,7 @@ public abstract class AttackerCell : ImmuneCell
     protected float attackTimer = 0f;
     protected bool isReturning = false;
 
-    public override void Initialize(Tower parentTower, GameObject target, ImmuneCellData data)
+    public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
         base.Initialize(parentTower, target, data);
 
@@ -39,8 +39,9 @@ public abstract class AttackerCell : ImmuneCell
 
     protected virtual void HandleCombat()
     {
-        if (currentTarget == null || !currentTarget.gameObject.activeInHierarchy || IsTargetOutOfTowerRange())
+        if (!IsCurrentTargetValid())
         {
+            currentTarget = null;
             RequestNewTarget();
 
             if (currentTarget == null)
@@ -72,12 +73,20 @@ public abstract class AttackerCell : ImmuneCell
             
             if (distanceToTower > attackTower.GetTowerRange())
             {
-                currentTarget = null;
                 return true;
             }
         }
 
         return false;
+    }
+
+    protected bool IsCurrentTargetValid()
+    {
+        if (currentTarget == null) return false;
+        if (!currentTarget.gameObject.activeInHierarchy) return false;
+        if (IsTargetOutOfTowerRange()) return false;
+
+        return true;
     }
 
     protected virtual void ReturnToHeadquarters()
@@ -105,8 +114,9 @@ public abstract class AttackerCell : ImmuneCell
 
     protected virtual void Attack()
     {
-        
+        currentTarget.TakeDamage(damage);
     }
+
 
     //solicitar a la torre padre un nuevo objetivo
     public void RequestNewTarget()
@@ -117,7 +127,7 @@ public abstract class AttackerCell : ImmuneCell
             
             if (newTarget != null)
             {
-                currentTarget = newTarget.gameObject;
+                currentTarget = newTarget;
             }
         }
     }

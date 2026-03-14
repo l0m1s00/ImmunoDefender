@@ -57,7 +57,7 @@ public abstract class AttackTower : Tower
         availableSoldiers--;
 
         GameObject newCellObj = Instantiate(soldierData.immuneCellPrefab, soldiersSpawnPoint.position, Quaternion.identity);
-        newCellObj.GetComponent<NeutrophilImmuneCell>().Initialize(this, currentTarget.gameObject, soldierData);
+        newCellObj.GetComponent<NeutrophilImmuneCell>().Initialize(this, currentTarget, soldierData);
     }
 
     protected void ScanForEnemies()

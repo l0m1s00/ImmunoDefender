@@ -4,7 +4,7 @@ public class NeutrophilImmuneCell : AttackerCell
 {
     private float currentDamageCapacity;
 
-    public override void Initialize(Tower parentTower, GameObject target, ImmuneCellData data)
+    public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
         base.Initialize(parentTower, target, data);
 

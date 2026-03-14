@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour, IResettable
     private Vector3 perpendicularVelocity;
 
     //STATS
-    private EnemiesDataSO data;
+    private EnemyData data;
     private float speed;
     private float maxHealth;
     private float currentHealth;
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour, IResettable
     }
 
     //preparar al enemigo para lanzarlo en la partida
-    public void InitializeEnemy(List<Cell> newRoute, EnemiesDataSO enemyData)
+    public void InitializeEnemy(List<Cell> newRoute, EnemyData enemyData)
     {
         //stats
         data = enemyData;
@@ -80,6 +80,21 @@ public class Enemy : MonoBehaviour, IResettable
     {
         OnEnemyRemovedFromBattlefield?.Invoke(this);
         PoolManager.Instance.DespawnEnemy(data, this.gameObject);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (currentHealth <= 0f) return;
+
+        if (currentHealth - damage <= 0f)
+        {
+            RemoveEnemy();
+        }
+        else
+        {
+            currentHealth -= damage;
+            enemyUIRef.UpdateHealthBar(currentHealth / maxHealth);
+        }
     }
 
     public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso

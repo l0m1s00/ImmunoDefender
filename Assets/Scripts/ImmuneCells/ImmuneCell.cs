@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class ImmuneCell : MonoBehaviour
 {
     protected Tower headquarters; //torre que ha generado la celula
-    protected GameObject currentTarget;
+    protected Enemy currentTarget;
 
     protected float speed;
 
@@ -12,7 +12,7 @@ public abstract class ImmuneCell : MonoBehaviour
 
     }
 
-    public virtual void Initialize(Tower parentTower, GameObject target, ImmuneCellData data)
+    public virtual void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
         headquarters = parentTower;
         currentTarget = target;
