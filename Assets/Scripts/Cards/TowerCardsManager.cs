@@ -6,8 +6,8 @@ public class TowerCardsManager : MonoBehaviour
 {
     public static TowerCardsManager Instance;
 
-    [Header("Tower Data")]
-    [SerializeField] private List<TowerCardDataSO> towerSO;
+    [Header("Towers Data")]
+    [SerializeField] private List<TowerData> towerSO;
 
     [Header("UI References")]
     [SerializeField] private Transform towerCardsContainer;
@@ -101,7 +101,7 @@ public class TowerCardsManager : MonoBehaviour
         }
     }
 
-    public void DeselectTowerWrapper(GameObject obj) //puente para conectar eventos que emplean metodos con parametros distintos
+    public void DeselectTowerWrapper(Tower tower) //puente para conectar eventos que emplean metodos con parametros distintos
     {
         DeselectTower();
     }

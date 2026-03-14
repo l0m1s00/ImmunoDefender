@@ -8,11 +8,11 @@ public class TowerCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private Button cardButton;
     [SerializeField] private TowerCardUI cardUIRef;
 
-    private TowerCardDataSO data;
+    private TowerData data;
     private int index;
     private bool isSelected = false;
 
-    public void InitializeCard(TowerCardDataSO data, int index)
+    public void InitializeCard(TowerData data, int index)
     {
         this.data = data;
         this.index = index;
@@ -43,7 +43,7 @@ public class TowerCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         else cardUIRef.AnimateDeselected();
     }
 
-    public TowerCardDataSO GetTowerCardData()
+    public TowerData GetTowerCardData()
     {
         return data;
     }

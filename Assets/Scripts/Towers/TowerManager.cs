@@ -5,7 +5,13 @@ public class TowerManager : MonoBehaviour
 {
     public static TowerManager Instance;
 
-    private List<GameObject> towers = new List<GameObject>();
+    private List<Tower> towers = new List<Tower>(); //torres construidas
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     private void OnEnable()
     {
@@ -17,19 +23,12 @@ public class TowerManager : MonoBehaviour
         TowerBuilder.OnTowerBuild -= AddTower;
     }
 
-    private void Awake()
-    {
-        if (Instance == null) { Instance = this; }
-        else { Destroy(gameObject); return; }
-    }
-
-    public void AddTower(GameObject newTower) 
+    private void AddTower(Tower newTower) 
     {
         towers.Add(newTower);
-        //Debug.Log("Torres construidas: " + towers.Count);
     }
 
-    public void DeleteTower(GameObject towerToEliminate)
+    private void DeleteTower(Tower towerToEliminate)
     {
         towers.Remove(towerToEliminate);
     }

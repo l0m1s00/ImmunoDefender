@@ -272,13 +272,13 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public void BlockCellByTower(GameObject tower)
+    public void BlockCellByTower(Tower tower)
     {
-        int x = (int)tower.transform.position.x;
-        int y = (int)tower.transform.position.y;
+        int x = (int)tower.gameObject.transform.position.x;
+        int y = (int)tower.gameObject.transform.position.y;
         Cell cell = gridGraph.GetCell(x, y);
         cell.isTowerInCell = true;
-        Debug.Log("Celda bloqueada por torre: " + (x, y));
+        //Debug.Log("Celda bloqueada por torre: " + (x, y));
     }
 
     public void UnblockCell(int x, int y)

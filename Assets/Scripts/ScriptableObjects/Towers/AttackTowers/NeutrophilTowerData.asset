@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd97c38a5e396d046a84af5d51d85853, type: 3}
+  m_Name: NeutrophilTowerData
+  m_EditorClassIdentifier: Assembly-CSharp::NeutrophilTowerDataSO
+  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerPrefab: {fileID: 1019132104359009757, guid: cf42d40e4efbf424bbb42409970108db, type: 3}
+  towerGhostPrefab: {fileID: 9102854649705375753, guid: bb48ca598d9325c43add5ca623c9964f, type: 3}
+  towerName: Neutrophil
+  description: Celula de rapida respuesta y corta esperanza de vida
+  cost: 30
+  soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
+  nSoldiers: 3
+  range: 1.5
+  refillCooldown: 5
+  spawnSoldierCooldown: 1.5

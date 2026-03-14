@@ -36,12 +36,12 @@ public class TowerCardUI : MonoBehaviour
         originalOrderInLayer = cardLocalCanvas.sortingOrder;
     }
 
-    public void SetupVisuals(TowerCardDataSO data)
+    public void SetupVisuals(TowerData data)
     {
         iconImage.sprite = data.towerIcon;
         cellImage.sprite = data.towerCellIcon;
         costText.text = data.cost.ToString();
-        cardNameText.text = data.name;
+        cardNameText.text = data.towerName;
         cardDescriptionText.text = data.description;
         //selectedOutline.enabled = false;
         originalPos = transform.localPosition;

@@ -2,19 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TowerBuilder : MonoBehaviour
+public class TowerBuilder : MonoBehaviour, IResettable
 {
+    [Header("Components")]
+    [SerializeField] private TowerManagerUI towerManagerUIRef;
     [Header("Containers")]
-    [SerializeField] private GameObject towersContainer;
+    [SerializeField] private Transform towersContainer;
 
-    [Header("Visual Feedback")]
-    [SerializeField] private Color invalidColor;
-    private Color validColor;
-
-    private TowerCard towerToBuild = null; //que torre hay que construir
-    private TowerCardDataSO towerToBuildData = null; //datos de la torre que hay que construir
+    private TowerCard towerCardToBuild = null; //que torre hay que construir
+    private TowerData towerToBuildData = null; //datos de la torre que hay que construir
     private GameObject currentGhostTower = null;
-    private SpriteRenderer ghostTowerRenderer = null;
     private Camera mainCamera;
 
     private int currentGridX;
@@ -22,7 +19,7 @@ public class TowerBuilder : MonoBehaviour
     private bool isCurrentCellValid;
 
     //EVENTOS
-    public static event Action<GameObject> OnTowerBuild; //notificar de la construccion de una torre
+    public static event Action<Tower> OnTowerBuild; //notificar de la construccion de una torre
 
     private void Start()
     {
@@ -32,52 +29,41 @@ public class TowerBuilder : MonoBehaviour
     private void OnEnable()
     {
         TowerCardsManager.OnTowerCardSelected += SetTowerToBuild; //suscripcion al evento de construccion de torres (carta seleccionada)
-        TowerCardsManager.OnTowerCardSelected += SetGhostTower;
         Inputs.OnLeftClickPerformed += BuildTower;
     }
 
     private void OnDisable()
     {
         TowerCardsManager.OnTowerCardSelected -= SetTowerToBuild;
-        TowerCardsManager.OnTowerCardSelected -= SetGhostTower;
         Inputs.OnLeftClickPerformed -= BuildTower;
     }
 
     private void Update()
     {
-        if (towerToBuild == null) return;
+        if (towerCardToBuild == null) return;
 
-        UpdateGhostPosition();
+        if (currentGhostTower != null) UpdateGhostPosition();
     }
 
     private void SetTowerToBuild(TowerCard towerCardToBuild)
     {
         if (towerCardToBuild != null)
         {
-            towerToBuild = towerCardToBuild;
-            towerToBuildData = towerToBuild.GetTowerCardData();
-            //Debug.Log("Torre asignada para la construccion: " + towerToBuildSO.towerName);
+            //datos de la torre a construir
+            this.towerCardToBuild = towerCardToBuild;
+            towerToBuildData = this.towerCardToBuild.GetTowerCardData();
+            //fantasma para visualizar construccion
+            currentGhostTower = PoolManager.Instance.SpawnGhostTower(towerToBuildData);
+            towerManagerUIRef.SetupGhostRender(currentGhostTower);
         }
         else
         {
-            towerToBuild = null;
+            PoolManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
+            this.towerCardToBuild = null;
             towerToBuildData = null;
+            currentGhostTower = null;
+            towerManagerUIRef.ResetGhostRender();
             //Debug.Log("Construccion de torre cancelada");
-        }
-    }
-
-    private void SetGhostTower(TowerCard towerCardToBuild)
-    {
-        ghostTowerRenderer = null; //se asume que la construccion de torre ha sido cancelada
-        Destroy(currentGhostTower);
-
-        if (towerCardToBuild != null)
-        {
-            currentGhostTower = Instantiate(towerCardToBuild.GetTowerCardData().towerPrefab);
-
-            ghostTowerRenderer = currentGhostTower.GetComponent<SpriteRenderer>();
-            validColor = ghostTowerRenderer.color;
-            validColor.a = invalidColor.a;
         }
     }
 
@@ -96,24 +82,24 @@ public class TowerBuilder : MonoBehaviour
         if (GridManager.Instance != null)
         {
             isCurrentCellValid = GridManager.Instance.IsBuildableCell(currentGridX, currentGridY);
-            SetGhostColor(isCurrentCellValid);
+            towerManagerUIRef.SetGhostRenderVisualization(isCurrentCellValid);
         }
-    }
-
-    private void SetGhostColor(bool isValid)
-    {
-        if (ghostTowerRenderer != null) ghostTowerRenderer.color = isValid ? validColor : invalidColor;
     }
 
     private void BuildTower()
     {
         //determinar si el click de construccion es valido y si le corresponde a esta funcion
-        if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerToBuild == null) return;
+        if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerCardToBuild == null) return;
 
-        Transform towersContainerTransform = towersContainer.transform;
-        GameObject newTower = Instantiate(towerToBuildData.towerPrefab, new Vector3(currentGridX, currentGridY, 0), Quaternion.identity);
-        newTower.transform.SetParent(towersContainerTransform);
-        //Debug.Log("Torre construida: " + (currentGridX, currentGridY) + " | " + towerToBuildData.name);
-        OnTowerBuild?.Invoke(newTower);
+        GameObject newTowerObj = PoolManager.Instance.SpawnTower(towerToBuildData);
+        newTowerObj.transform.position = new Vector3(currentGridX, currentGridY, 0);
+        newTowerObj.transform.SetParent(towersContainer);
+        newTowerObj.GetComponent<Tower>().InitializeTower(towerToBuildData);
+        OnTowerBuild?.Invoke(newTowerObj.GetComponent<Tower>());
+    }
+
+    public void Reset() //reseteo del fantasma
+    {
+        towerManagerUIRef.ResetGhostRender();
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e6e8ce58cf63b4999d5b919b1f431f, type: 3}
+  m_Name: BacteriaB
+  m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
+  speed: 0.4
+  health: 3
+  enemyPrefab: {fileID: 1503751294014380307, guid: e3eb0ab6892d2c64c80e7a6f42968424, type: 3}

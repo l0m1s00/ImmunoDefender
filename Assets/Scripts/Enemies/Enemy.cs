@@ -1,8 +1,14 @@
+using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IResettable
 {
+    [Header("Components")]
+    [SerializeField] private EnemyUI enemyUIRef;
+
+    [Header("Movement Settings")]
     [SerializeField] private float waveAmplitude;
     [SerializeField] private float waveSpeed;
     [SerializeField] private float turnSmoothTime;
@@ -16,10 +22,16 @@ public class Enemy : MonoBehaviour
     private Vector3 perpendicularVelocity;
 
     //STATS
+    private EnemiesDataSO data;
     private float speed;
+    private float maxHealth;
+    private float currentHealth;
 
     private List<Cell> route;
     private int i = 0;
+
+    //EVENTOS
+    public static event Action<Enemy> OnEnemyRemovedFromBattlefield;
 
     protected virtual void Move()
     {
@@ -40,7 +52,7 @@ public class Enemy : MonoBehaviour
         {
             if (i == route.Count - 1)
             {
-                Destroy(this.gameObject);
+                RemoveEnemy();
                 return;
             }
 
@@ -48,12 +60,33 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void InitializeEnemy(List<Cell> newRoute, float newSpeed)
+    //preparar al enemigo para lanzarlo en la partida
+    public void InitializeEnemy(List<Cell> newRoute, EnemiesDataSO enemyData)
     {
+        //stats
+        data = enemyData;
+        speed = data.speed;
+        maxHealth = data.health;
+        currentHealth = maxHealth;
+        enemyUIRef.UpdateHealthBar(1f);
+        //movimiento
         route = newRoute;
-        speed = newSpeed;
         ghostPosition = transform.position;
-        randomMovementOffset = Random.Range(0f, 100f);
+        randomMovementOffset = UnityEngine.Random.Range(0f, 100f);
         currentPerpendicular = Vector3.up;
+    }
+
+    private void RemoveEnemy()
+    {
+        OnEnemyRemovedFromBattlefield?.Invoke(this);
+        PoolManager.Instance.DespawnEnemy(data, this.gameObject);
+    }
+
+    public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso
+    {
+        perpendicularVelocity = Vector3.zero;
+        currentPerpendicular = Vector3.zero;
+        ghostPosition = Vector3.zero;
+        i = 0;
     }
 }

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class FungiEnemy : Enemy
 {
-    [Header("Toxic Waste")]
-    [SerializeField] private GameObject wastePrefab;
+    [Header("Toxic Waste Settings")]
     [SerializeField] private float dropWasteMinCooldown;
     [SerializeField] private float dropWasteMaxCooldown;
     private Transform wasteContainer;
@@ -15,7 +14,7 @@ public class FungiEnemy : Enemy
     {
         CalculateNextWasteDropTime();
         dropWasteTimer = Random.Range(1f, currentDropWasteTime);
-        wasteContainer = GameObject.Find("WASTE_CONTAINER").transform;
+        wasteContainer = GameObject.Find("InGameWaste").transform;
     }
 
     void Update()
@@ -43,6 +42,16 @@ public class FungiEnemy : Enemy
 
     private void SpawnWaste()
     {
-        Instantiate(wastePrefab, transform.position, Quaternion.identity, wasteContainer);
+        GameObject newWaste = PoolManager.Instance.SpawnWaste();
+        newWaste.transform.position = this.transform.position;
+        newWaste.transform.SetParent(wasteContainer);
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        dropWasteTimer = 0f;
+        CalculateNextWasteDropTime();
     }
 }

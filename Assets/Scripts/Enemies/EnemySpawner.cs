@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+
+///////////////////////////////  ENEMIES WAVE SYSTEM ///////////////////////////////////////////////
 [System.Serializable]
 public struct EnemyGroup
 {
@@ -18,6 +20,7 @@ public struct WaveConfig
 {
     public List<EnemyGroup> enemyGroups; //gruppos de enemigos que componen una oleada
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -38,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
 
     //EVENTOS
     public static event Action<string> OnStartWave;
+    public static event Action<Enemy> OnEnemySpawn;
 
     private void OnEnable()
     {
@@ -116,7 +120,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void InstantiateEnemy(EnemiesDataSO enemyData)
     {
-        GameObject newEnemy = Instantiate(enemyData.enemyPrefab, spawnPoint, Quaternion.identity, enemiesContainer);
-        newEnemy.GetComponent<Enemy>().InitializeEnemy(enemyPath, enemyData.speed);
+        GameObject newEnemyObj = PoolManager.Instance.SpawnEnemy(enemyData);
+        newEnemyObj.transform.position = spawnPoint;
+        newEnemyObj.transform.SetParent(enemiesContainer);
+        Enemy newEnemy = newEnemyObj.GetComponent<Enemy>();
+        newEnemy.InitializeEnemy(enemyPath, enemyData);
+        OnEnemySpawn?.Invoke(newEnemy); //notificar que ha aparecido un enemigo
     }
 }
