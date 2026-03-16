@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: NeutrophilImmuneCellData
   m_EditorClassIdentifier: Assembly-CSharp::NeutrophilImmuneCellData
   immuneCellPrefab: {fileID: 4232972929839749729, guid: d770acdb6ee539843a77c88e3840c958, type: 3}
-  speed: 2
+  speed: 1.5
   damage: 1
-  attackRange: 0.5
+  attackRange: 0.3
   attackCooldown: 2
   maxDamageCapacity: 5

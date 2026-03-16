@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyData : ScriptableObject
+public abstract class EnemyData : ScriptableObject
 {
     [Header("General Stats")]
     public float speed;

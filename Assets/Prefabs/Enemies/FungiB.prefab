@@ -323,9 +323,7 @@ MonoBehaviour:
   waveAmplitude: 0.1
   waveSpeed: 3
   turnSmoothTime: 0.8
-  wastePrefab: {fileID: 984637169920034713, guid: 624e2bced6538974e95bc755ec4bae71, type: 3}
-  dropWasteMinCooldown: 10
-  dropWasteMaxCooldown: 20
+  wasteData: {fileID: 11400000, guid: 65fe01d2b16f9d84cb5913c441832373, type: 2}
 --- !u!114 &4558433433386065174
 MonoBehaviour:
   m_ObjectHideFlags: 0

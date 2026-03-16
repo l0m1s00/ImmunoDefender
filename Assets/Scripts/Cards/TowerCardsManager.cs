@@ -13,7 +13,7 @@ public class TowerCardsManager : MonoBehaviour
     [SerializeField] private Transform towerCardsContainer;
     [SerializeField] private List<Transform> cardHolders;
     [SerializeField] private GameObject towerCardPrefab;
-    [SerializeField] private float maxFanOffset;
+    //[SerializeField] private float maxFanOffset;
 
     private List<TowerCard> towerCards = new List<TowerCard>();
     private int currentSelectedCardIndex = -1; //-1 nada seleccionado
@@ -48,21 +48,21 @@ public class TowerCardsManager : MonoBehaviour
     {
         GameObject newCard;
         TowerCard cardLogic;
-        float a;
-        float angle;
+        //float a;
+        //float angle;
 
         for (int i = 0; i < towerSO.Count; i++) //numero de cartas a crear
         {
-            a = 0f;
-            if (towerSO.Count > 1)
-            {
-                a = (float) i / (towerSO.Count-1);
-                a = (a * 2f) - 1f;
-            }
+            //a = 0f;
+            //if (towerSO.Count > 1)
+            //{
+            //    a = (float) i / (towerSO.Count-1);
+            //    a = (a * 2f) - 1f;
+            //}
 
-            angle = -a * maxFanOffset;
+            //angle = -a * maxFanOffset;
             newCard = Instantiate(towerCardPrefab, towerCardsContainer);
-            newCard.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+            //newCard.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
             newCard.transform.position = cardHolders[i].position;
             
             cardLogic = newCard.GetComponent<TowerCard>();

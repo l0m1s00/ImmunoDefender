@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2278909778232399103}
   - component: {fileID: 8899460443902134351}
+  - component: {fileID: -7176186053464365137}
   m_Layer: 0
   m_Name: MacrophageCell
   m_TagString: Untagged
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.4672984, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.69509435, b: 0.42830187, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -90,3 +91,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7176186053464365137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8921595548247017375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7cefe8d31c42c4fa5e7a079fe09ddd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MacrophageImmuneCell

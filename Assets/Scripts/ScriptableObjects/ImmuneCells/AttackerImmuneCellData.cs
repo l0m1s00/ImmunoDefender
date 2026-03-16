@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AttackerImmuneCellData : ImmuneCellData
+public abstract class AttackerImmuneCellData : ImmuneCellData
 {
     [Header("Combat Stats")]
     public float damage;

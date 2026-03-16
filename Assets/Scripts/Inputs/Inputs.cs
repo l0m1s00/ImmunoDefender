@@ -9,7 +9,8 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
 
     [HideInInspector] public Vector2 mousePosition;
     [HideInInspector] public float scrollDelta;
-    [HideInInspector] public bool isLeftClicking;
+    [HideInInspector] public bool isLeftClicking = false;
+    [HideInInspector] public bool isWheelClicking = false;
 
     //EVENTOS
     public static event Action OnLeftClickPerformed;
@@ -54,6 +55,18 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
         else
         {
             isLeftClicking = false;
+        }
+    }
+
+    public void OnWheelClick(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isWheelClicking = true;
+        }
+        else
+        {
+            isWheelClicking = false;
         }
     }
 

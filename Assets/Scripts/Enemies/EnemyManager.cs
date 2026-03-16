@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
     public static EnemyManager Instance;
 
     private HashSet<Enemy> enemiesInBattlefield = new HashSet<Enemy>();
+    private HashSet<ToxicWaste> wasteInBattlefield = new HashSet<ToxicWaste>();
 
     private void Awake()
     {
@@ -17,12 +18,14 @@ public class EnemyManager : MonoBehaviour
     {
         EnemySpawner.OnEnemySpawn += AddEnemy;
         Enemy.OnEnemyRemovedFromBattlefield += RemoveEnemy;
+        FungiEnemy.OnToxicWasteGenerated += AddToxicWaste;
     }
 
     private void OnDisable()
     {
         EnemySpawner.OnEnemySpawn -= AddEnemy;
         Enemy.OnEnemyRemovedFromBattlefield -= RemoveEnemy;
+        FungiEnemy.OnToxicWasteGenerated -= AddToxicWaste;
     }
 
     private void AddEnemy(Enemy newEnemyInBattlefield)
@@ -30,13 +33,28 @@ public class EnemyManager : MonoBehaviour
         enemiesInBattlefield.Add(newEnemyInBattlefield);
     }
 
+    private void AddToxicWaste(ToxicWaste newWasteInBattlefield)
+    {
+        wasteInBattlefield.Add(newWasteInBattlefield);
+    }
+
     private void RemoveEnemy(Enemy defeatedEnemy)
     {
         enemiesInBattlefield.Remove(defeatedEnemy);
     }
 
+    private void RemoveToxicWaste(ToxicWaste cleanedWaste)
+    {
+        wasteInBattlefield.Remove(cleanedWaste);
+    }
+
     public HashSet<Enemy> GetEnemiesInBattlefield()
     {
         return enemiesInBattlefield;
+    }
+
+    public HashSet<ToxicWaste> GetToxicWasteInBattlefield()
+    {
+        return wasteInBattlefield;
     }
 }

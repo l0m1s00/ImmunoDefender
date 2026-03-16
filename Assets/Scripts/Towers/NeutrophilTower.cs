@@ -18,13 +18,10 @@ public class NeutrophilTower : AttackTower
         refillTimer = refillCooldown;
     }
 
-    private void Update()
+    protected override void Update()
     {
-        HandleCurrentTarget();
-        ScanForEnemies();
-        //gestion de soldados
         HandleSoldiersRefill();
-        HandleSoldiersSpawn();
+        base.Update();
     }
 
     private void HandleSoldiersRefill()
@@ -51,6 +48,7 @@ public class NeutrophilTower : AttackTower
     {
         base.Reset();
 
-
+        refillTimer = 0f;
+        refillCooldown = 0f;
     }
 }

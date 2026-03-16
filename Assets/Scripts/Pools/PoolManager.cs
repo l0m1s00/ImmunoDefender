@@ -122,9 +122,9 @@ public class PoolManager : MonoBehaviour
         towerPool[towerData].Restore(towerObj);
     }
 
-    public void DespawnGhostTower(TowerData towerData, GameObject towerObj)
+    public void DespawnGhostTower(TowerData towerData, GameObject towerGhostObj)
     {
-        ghostTowerPool[towerData].Restore(towerObj);
+        ghostTowerPool[towerData].Restore(towerGhostObj);
     }
 
     public void DespawnImmuneCell(ImmuneCellData immuneCellData, GameObject immuneCellObj)

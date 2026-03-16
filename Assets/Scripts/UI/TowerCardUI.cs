@@ -11,8 +11,9 @@ public class TowerCardUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI cardNameText;
     [SerializeField] private TextMeshProUGUI cardDescriptionText;
+    [SerializeField] private GameObject informationPanel;
     [SerializeField] private Canvas cardLocalCanvas;
-    //[SerializeField] private Image selectedOutline;
+    [SerializeField] private Image selectedOutline;
 
     [Header("Animation Settings")]
     [SerializeField][Range(1f, 2f)] private float onMouseScaleFactor;
@@ -47,17 +48,23 @@ public class TowerCardUI : MonoBehaviour
         originalPos = transform.localPosition;
         originalScale = transform.localScale;
         originalRot = transform.localRotation;
+        informationPanel.SetActive(false);
+        selectedOutline.enabled = false;
     }
 
     public void AnimateHover(bool isHovering)
     {
         Vector3 targetScale = isHovering ? originalScale * onMouseScaleFactor : originalScale;
         Vector3 targetPos = isHovering ? originalPos + new Vector3(0f, verticalOffset, 0f) : originalPos;
+        informationPanel.SetActive(isHovering);
         StartAnimation(targetScale, targetPos, originalRot);
     }
 
     public void AnimateSelected()
     {
+        informationPanel.SetActive(false);
+        selectedOutline.enabled = true;
+
         cardLocalCanvas.sortingOrder = selectedOrderInLayer;
         Vector3 targetScale = originalScale * selectedScaleFactor;
         Vector3 targetPos = originalPos + new Vector3(0f, selectedUpOffset, 0f);
@@ -66,6 +73,8 @@ public class TowerCardUI : MonoBehaviour
 
     public void AnimateDeselected()
     {
+        selectedOutline.enabled = false;
+
         cardLocalCanvas.sortingOrder = originalOrderInLayer;
         StartAnimation(originalScale, originalPos, originalRot);
     }

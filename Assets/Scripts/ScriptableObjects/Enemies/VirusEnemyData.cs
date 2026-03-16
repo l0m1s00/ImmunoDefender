@@ -1,0 +1,7 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "VirusEnemyData", menuName = "Immuno Defender/Enemies/Virus Enemy Data")]
+public class VirusEnemyData : EnemyData
+{
+    
+}

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e6e8ce58cf63b4999d5b919b1f431f, type: 3}
-  m_Name: VirusA
-  m_EditorClassIdentifier: Assembly-CSharp::EnemiesDataSO
-  speed: 0.6
+  m_Script: {fileID: 11500000, guid: 2f435f4d95a1aae4d8e64ac385c17fc7, type: 3}
+  m_Name: VirusAEnemyData
+  m_EditorClassIdentifier: Assembly-CSharp::VirusEnemyData
+  speed: 0.8
   health: 2
   enemyPrefab: {fileID: 1769715054376363537, guid: 07a9cb1961292cc40b2af7c905013be4, type: 3}

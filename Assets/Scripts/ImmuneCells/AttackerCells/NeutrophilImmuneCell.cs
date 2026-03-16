@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NeutrophilImmuneCell : AttackerCell
 {
-    private float currentDamageCapacity;
+    private float currentDamageCapacity; //cantidad de danyo que puede infligir antes de morir
 
     public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
@@ -23,7 +23,14 @@ public class NeutrophilImmuneCell : AttackerCell
         if (currentDamageCapacity <= 0f)
         {
             if (headquarters is NeutrophilTower neutrophilHeadquarters) neutrophilHeadquarters.OnNeutrophilSoldierDead();
-            Destroy(this.gameObject);
+            PoolManager.Instance.DespawnImmuneCell(data, this.gameObject);
         }
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        currentDamageCapacity = 0f;
     }
 }

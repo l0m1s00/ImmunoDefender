@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ImmuneCellData : ScriptableObject
+public abstract class ImmuneCellData : ScriptableObject
 {
     [Header("General")]
     public GameObject immuneCellPrefab;

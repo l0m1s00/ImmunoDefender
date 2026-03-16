@@ -136,6 +136,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""WheelClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ab80da5-7bee-42d2-956d-885ed0fa6365"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -237,6 +246,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8f2fb8d-0846-411a-94c3-f1f772830e7c"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WheelClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -250,6 +270,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_InGame_RightClick = m_InGame.FindAction("RightClick", throwIfNotFound: true);
         m_InGame_SelectNumbers = m_InGame.FindAction("SelectNumbers", throwIfNotFound: true);
         m_InGame_Scroll = m_InGame.FindAction("Scroll", throwIfNotFound: true);
+        m_InGame_WheelClick = m_InGame.FindAction("WheelClick", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -335,6 +356,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_RightClick;
     private readonly InputAction m_InGame_SelectNumbers;
     private readonly InputAction m_InGame_Scroll;
+    private readonly InputAction m_InGame_WheelClick;
     /// <summary>
     /// Provides access to input actions defined in input action map "InGame".
     /// </summary>
@@ -366,6 +388,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "InGame/Scroll".
         /// </summary>
         public InputAction @Scroll => m_Wrapper.m_InGame_Scroll;
+        /// <summary>
+        /// Provides access to the underlying input action "InGame/WheelClick".
+        /// </summary>
+        public InputAction @WheelClick => m_Wrapper.m_InGame_WheelClick;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -407,6 +433,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
+            @WheelClick.started += instance.OnWheelClick;
+            @WheelClick.performed += instance.OnWheelClick;
+            @WheelClick.canceled += instance.OnWheelClick;
         }
 
         /// <summary>
@@ -433,6 +462,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
+            @WheelClick.started -= instance.OnWheelClick;
+            @WheelClick.performed -= instance.OnWheelClick;
+            @WheelClick.canceled -= instance.OnWheelClick;
         }
 
         /// <summary>
@@ -508,5 +540,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "WheelClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWheelClick(InputAction.CallbackContext context);
     }
 }

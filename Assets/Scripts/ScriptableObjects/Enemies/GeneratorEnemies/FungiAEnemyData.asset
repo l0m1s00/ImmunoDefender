@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7eb336d9ade257448bef24bfa141cd2, type: 3}
-  m_Name: FungiEnemyBData
+  m_Name: FungiAEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::FungiEnemyData
-  speed: 0.4
-  health: 15
-  enemyPrefab: {fileID: 6270281315145396415, guid: 80b0826eddc55e24ab1028dd9866c124, type: 3}
-  dropWasteMinCooldown: 2
-  dropWasteMaxCooldown: 8
+  speed: 0.2
+  health: 10
+  enemyPrefab: {fileID: 8862185737750109261, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
+  dropWasteMinCooldown: 8
+  dropWasteMaxCooldown: 12
+  minToxicWasteAmount: 4
+  maxToxicWasteAmount: 8

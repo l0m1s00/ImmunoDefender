@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour, IResettable
         currentPerpendicular = Vector3.up;
     }
 
-    private void RemoveEnemy()
+    protected virtual void RemoveEnemy()
     {
         OnEnemyRemovedFromBattlefield?.Invoke(this);
         PoolManager.Instance.DespawnEnemy(data, this.gameObject);

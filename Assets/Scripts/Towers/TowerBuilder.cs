@@ -49,6 +49,12 @@ public class TowerBuilder : MonoBehaviour, IResettable
     {
         if (towerCardToBuild != null)
         {
+            if (towerToBuildData != null && currentGhostTower != null)
+            {
+                towerManagerUIRef.ResetGhostRender();
+                PoolManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
+            }
+
             //datos de la torre a construir
             this.towerCardToBuild = towerCardToBuild;
             towerToBuildData = this.towerCardToBuild.GetTowerCardData();
@@ -58,11 +64,11 @@ public class TowerBuilder : MonoBehaviour, IResettable
         }
         else
         {
+            towerManagerUIRef.ResetGhostRender();
             PoolManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
             this.towerCardToBuild = null;
             towerToBuildData = null;
             currentGhostTower = null;
-            towerManagerUIRef.ResetGhostRender();
             //Debug.Log("Construccion de torre cancelada");
         }
     }
@@ -92,7 +98,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
         if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerCardToBuild == null) return;
 
         GameObject newTowerObj = PoolManager.Instance.SpawnTower(towerToBuildData);
-        newTowerObj.transform.position = new Vector3(currentGridX, currentGridY, 0);
+        newTowerObj.transform.position = new Vector3(currentGridX, currentGridY, 0f);
         newTowerObj.transform.SetParent(towersContainer);
         newTowerObj.GetComponent<Tower>().InitializeTower(towerToBuildData);
         OnTowerBuild?.Invoke(newTowerObj.GetComponent<Tower>());
@@ -100,6 +106,6 @@ public class TowerBuilder : MonoBehaviour, IResettable
 
     public void Reset() //reseteo del fantasma
     {
-        towerManagerUIRef.ResetGhostRender();
+        
     }
 }

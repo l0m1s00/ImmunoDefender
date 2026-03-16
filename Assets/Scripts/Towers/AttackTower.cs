@@ -5,6 +5,8 @@ public abstract class AttackTower : Tower
 {
     [Header("Components")]
     [SerializeField] protected Transform soldiersSpawnPoint;
+    [SerializeField] protected ParticleSystem spawnSoldierParticles;
+    private Transform soldiersContainer;
     [Header("Optimization")]
     [SerializeField][Range(0.1f, 1f)] protected float scanInterval;
     //Stats
@@ -15,10 +17,15 @@ public abstract class AttackTower : Tower
     protected float range; //rango de la torre
     //Enemy Target
     protected Enemy currentTarget;
-    private float scanTimer;
+    private float scanTimer = 0f;
     //Deploy Soldier Settings
-    private float spawnSoldierCooldown;
-    private float spawnTimer = 0f;
+    protected float spawnSoldierCooldown;
+    protected float spawnTimer = 0f;
+
+    private void Awake()
+    {
+        soldiersContainer = GameObject.Find("InGameCells").transform;
+    }
 
     public override void InitializeTower(TowerData data)
     {
@@ -41,6 +48,13 @@ public abstract class AttackTower : Tower
         availableSoldiers = maxSoldiers;
     }
 
+    protected virtual void Update()
+    {
+        HandleCurrentTarget();
+        ScanForEnemies();
+        HandleSoldiersSpawn();
+    }
+
     protected void HandleSoldiersSpawn()
     {
         spawnTimer -= Time.deltaTime;
@@ -52,12 +66,15 @@ public abstract class AttackTower : Tower
         }
     }
 
-    protected void DeploySoldier()
+    protected virtual void DeploySoldier()
     {
         availableSoldiers--;
 
-        GameObject newCellObj = Instantiate(soldierData.immuneCellPrefab, soldiersSpawnPoint.position, Quaternion.identity);
-        newCellObj.GetComponent<NeutrophilImmuneCell>().Initialize(this, currentTarget, soldierData);
+        GameObject newImmuneCellObj = PoolManager.Instance.SpawnImmuneCell(soldierData);
+        newImmuneCellObj.transform.position = soldiersSpawnPoint.position;
+        newImmuneCellObj.transform.SetParent(soldiersContainer);
+        newImmuneCellObj.GetComponent<AttackerCell>().Initialize(this, currentTarget, soldierData);
+        spawnSoldierParticles.Play();
     }
 
     protected void ScanForEnemies()
@@ -121,6 +138,19 @@ public abstract class AttackTower : Tower
     public float GetTowerRange()
     {
         return range;
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        availableSoldiers = 0;
+        totalSoldiers = 0;
+        maxSoldiers = 0;
+        range = 0f;
+        currentTarget = null;
+        scanTimer = 0f;
+        spawnSoldierCooldown = 0f;
     }
 
     private void OnDrawGizmosSelected() //DEBUG

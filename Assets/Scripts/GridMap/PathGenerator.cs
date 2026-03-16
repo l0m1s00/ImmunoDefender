@@ -7,7 +7,7 @@ public class PathGenerator
 {
     private int margin = 3;
     private int pathOffset = 2;
-    private int roll = 2; //1 == 100% probadilidad de rotonda, 2 == 50%, 3 == 33%
+    private int roll = 1; //1 == 100% probadilidad de rotonda, 2 == 50%, 3 == 33%
 
     public List<Cell> pathCells; //historial de generacion del camino
     public int finalPosX;

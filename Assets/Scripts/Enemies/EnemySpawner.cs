@@ -26,6 +26,8 @@ public class EnemySpawner : MonoBehaviour
 {
     //DEBUG
     [SerializeField] private bool nextWave = false;
+    private float startTimer = 5f;
+    /// 
 
     [Header("Spawner Settings")]
     [SerializeField] private Transform enemiesContainer;
@@ -55,7 +57,10 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (nextWave) StartWave();
+        //DEBUG
+        startTimer -= Time.deltaTime;
+        if (startTimer <= 0f || nextWave) StartWave();
+        ///////
     }
 
     private void InitializeSpawner()
@@ -97,7 +102,9 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWave(WaveConfig wave)
     {
+        startTimer = float.MaxValue;
         nextWave = false; //DEBUG
+        ////////////////
 
         yield return new WaitForSeconds(delayBeforeWaveStarts); //tiempo de espera antes de empezar la oleada
 

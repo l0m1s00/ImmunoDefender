@@ -9,24 +9,41 @@ public class NegativeStates : MonoBehaviour
 
     private void OnEnable()
     {
-        FungiEnemy.OnToxicWasteGenerated += IncreaseToxicity;
+        FungiEnemy.OnIncreaseToxicBar += IncreaseToxicity;
+        MacrophageImmuneCell.OnToxicWasteCleaned += DecreaseToxicity;
     }
 
     private void OnDisable()
     {
-        FungiEnemy.OnToxicWasteGenerated -= IncreaseToxicity;
+        FungiEnemy.OnIncreaseToxicBar -= IncreaseToxicity;
+        MacrophageImmuneCell.OnToxicWasteCleaned -= DecreaseToxicity;
     }
 
-    public void IncreaseToxicity(float toxicAmount)
+
+    private void Update()
     {
-        if (currentToxicity + toxicAmount >= maxToxicity)
+        Debug.Log(currentToxicity);
+    }
+
+    private void DecreaseToxicity(float cleanAmount)
+    {
+        currentToxicity -= cleanAmount;
+
+        if (currentToxicity < 0f) currentToxicity = 0f;
+
+        if (septicShockState && currentToxicity < maxToxicity) septicShockState = false;
+
+        negativeStatesUIRef.UpdateToxicBar(currentToxicity / maxToxicity);
+    }
+
+    private void IncreaseToxicity(float toxicAmount)
+    {
+        currentToxicity += toxicAmount;
+
+        if (currentToxicity >= maxToxicity)
         {
             currentToxicity = maxToxicity;
             septicShockState = true;
-        }
-        else
-        {
-            currentToxicity += toxicAmount;
         }
 
         negativeStatesUIRef.UpdateToxicBar(currentToxicity / maxToxicity);

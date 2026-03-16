@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float minMoveSpeed;
-    [SerializeField] private float maxMoveSpeed;
-    [SerializeField] private float edgeLimit;
+    //Movement Settings
+    private Vector3 dragOrigin;
+    private bool isDragging = false;
 
     [Header("Zoom Settings")]
     [SerializeField] private float zoomStep; //cantidad de zoom por movimiento de rueda
@@ -27,7 +26,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         CameraZoom();
-        /*if (Inputs.Instance.isLeftClicking)*/ MoveCamera();
+        MoveCamera();
         transform.position = ClampCameraPosition(transform.position);
     }
 
@@ -49,32 +48,25 @@ public class CameraController : MonoBehaviour
 
     private void MoveCamera()
     {
-        Vector2 mousePos = Inputs.Instance.mousePosition;
-        Vector3 moveDir = Vector3.zero;
-
-        //1. Movimiento moviendo el raton a los limites de la pantalla
-        if (mousePos.y >= Screen.height - edgeLimit) moveDir.y += 1f;
-        if (mousePos.y <= edgeLimit) moveDir.y -= 1f;
-        if (mousePos.x >= Screen.width - edgeLimit) moveDir.x += 1f;
-        if (mousePos.x <= edgeLimit) moveDir.x -= 1f;
-
-        //2. Movimiento arrastrando en direccion contraria - requiere <if (Inputs.Instance.isLeftClicking) MoveCamera();>
-        //if (mousePos.y >= Screen.height - edgeLimit) moveDir.y -= 1f;
-        //if (mousePos.y <= edgeLimit) moveDir.y += 1f;
-        //if (mousePos.x >= Screen.width - edgeLimit) moveDir.x -= 1f;
-        //if (mousePos.x <= edgeLimit) moveDir.x += 1f;
-
-        if (moveDir == Vector3.zero) return; //no hay movimiento de camara
-
-        moveDir.Normalize();
-
-        //para que la velocidad de desplazamiento de la camara sea proporcional zoom, mas zoom menor velocidad
-        //calcular valor de 0 a 1 en base al zoom min y max, 0 minZoom 1 maxZoom
-        float zoomPer = Mathf.InverseLerp(minCamSize, maxCamSize, mainCamera.orthographicSize);
-        //calcular velocidad dependiendo del zoom
-        float speed = Mathf.Lerp(minMoveSpeed, maxMoveSpeed, zoomPer);
-
-        transform.position += moveDir * speed * Time.deltaTime;
+        if (Inputs.Instance.isWheelClicking)
+        {
+            if (!isDragging)
+            {
+                dragOrigin = mainCamera.ScreenToWorldPoint(Inputs.Instance.mousePosition);
+                isDragging = true;
+            }
+            else
+            {
+                Vector3 currentMousePos = mainCamera.ScreenToWorldPoint(Inputs.Instance.mousePosition);
+                Vector3 mouseDifference = dragOrigin - currentMousePos;
+                mouseDifference.z = 0f;
+                transform.position += mouseDifference;
+            }
+        }
+        else
+        {
+            isDragging = false;
+        }
     }
 
     private Vector3 ClampCameraPosition(Vector3 targetPos)

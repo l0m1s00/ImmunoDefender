@@ -14,13 +14,7 @@ public class TowerManagerUI : MonoBehaviour
         ghostTowerRenderer = towerGhostObj.GetComponent<SpriteRenderer>();
         validColor = ghostTowerRenderer.color;
         validColor.a = invalidColor.a;
-    }
-
-    public void ResetGhostRender()
-    {
-        ghostTowerRenderer.color = validColor;
-        towerToBuildRangeRenderer = null;
-        ghostTowerRenderer = null;
+        ghostTowerRenderer.enabled = true;
     }
 
     public void SetGhostRenderVisualization(bool active)
@@ -29,14 +23,22 @@ public class TowerManagerUI : MonoBehaviour
         {
             if (active)
             {
-                ghostTowerRenderer.color = validColor;
                 towerToBuildRangeRenderer.enabled = true;
+                ghostTowerRenderer.color = validColor;
             }
             else
             {
-                ghostTowerRenderer.color = invalidColor;
                 towerToBuildRangeRenderer.enabled = false;
+                ghostTowerRenderer.color = invalidColor;
             }
         }
+    }
+
+    public void ResetGhostRender()
+    {
+        ghostTowerRenderer.color = validColor;
+        ghostTowerRenderer = null;
+        towerToBuildRangeRenderer.enabled = false;
+        towerToBuildRangeRenderer = null;
     }
 }

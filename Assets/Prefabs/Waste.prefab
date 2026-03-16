@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6811739027222422386}
   - component: {fileID: 4658176404980804416}
+  - component: {fileID: -5025754710582305230}
   m_Layer: 0
   m_Name: Waste
   m_TagString: Untagged
@@ -90,3 +91,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5025754710582305230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984637169920034713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534b9495c8696dc46837f97c75d66113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToxicWaste

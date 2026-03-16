@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AttackerCell : ImmuneCell
@@ -7,7 +8,8 @@ public abstract class AttackerCell : ImmuneCell
     protected float attackCooldown;
 
     protected float attackTimer = 0f;
-    protected bool isReturning = false;
+
+    protected State currentState = State.None;
 
     public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
@@ -18,6 +20,7 @@ public abstract class AttackerCell : ImmuneCell
             damage = attackerData.damage;
             attackRange = attackerData.attackRange;
             attackCooldown = attackerData.attackCooldown;
+            currentState = State.Chase;
         }
     }
 
@@ -27,17 +30,52 @@ public abstract class AttackerCell : ImmuneCell
 
         if (attackTimer > 0f) attackTimer -= Time.deltaTime;
 
-        if (isReturning)
+        HandleActionsFSM();
+        ActionsFSM();
+    }
+
+    protected virtual void ActionsFSM()
+    {
+        switch (currentState)
         {
-            ReturnToHeadquarters();
-        }
-        else
-        {
-            HandleCombat();
+            case State.Chase:
+                ChaseEnemyActions();
+                break;
+            case State.Attack:
+                AttackActions();
+                break;
+            case State.Return:
+                ReturnActions();
+                break;
+            default:
+                break;
         }
     }
 
-    protected virtual void HandleCombat()
+    protected virtual void HandleActionsFSM()
+    {
+        switch (currentState)
+        {
+            case State.Chase:
+                HandleChaseState();
+                break;
+            case State.Attack:
+                HandleAttackState();
+                break;
+            case State.Return:
+                HandleReturnState();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void ChaseEnemyActions()
+    {
+        MoveTowardsTarget(currentTarget.gameObject);
+    }
+
+    private void HandleChaseState()
     {
         if (!IsCurrentTargetValid())
         {
@@ -46,22 +84,88 @@ public abstract class AttackerCell : ImmuneCell
 
             if (currentTarget == null)
             {
-                isReturning = true;
+                currentState = State.Return;
                 return;
             }
         }
 
         float distanceToTarget = Vector2.Distance(transform.position, currentTarget.transform.position);
-    
-        if (distanceToTarget > attackRange)
+
+        if (distanceToTarget <= attackRange)
         {
-            MoveTowardsTarget();
+            currentState = State.Attack;
+            return;
         }
-        else if (attackTimer <= 0f)
+    }
+
+    private void AttackActions()
+    {
+        if (attackTimer <= 0f)
         {
             Attack();
             attackTimer = attackCooldown;
         }
+    }
+
+    protected virtual void Attack()
+    {
+        currentTarget.TakeDamage(damage);
+    }
+
+    private void HandleAttackState()
+    {
+        if (!IsCurrentTargetValid())
+        {
+            currentTarget = null;
+            RequestNewTarget();
+
+            if (currentTarget == null)
+            {
+                currentState = State.Return;
+                return;
+            }
+
+            currentState = State.Chase;
+            return;
+        }
+
+        float distanceToTarget = Vector2.Distance(transform.position, currentTarget.transform.position);
+
+        if (distanceToTarget > attackRange)
+        {
+            currentState = State.Chase;
+        }
+    }
+
+    private void ReturnActions()
+    {
+        ReturnToHeadquarters();
+    }
+
+    protected virtual void ReturnToHeadquarters()
+    {
+        MoveTowardsTarget(headquarters.gameObject);
+    }
+
+    private void HandleReturnState()
+    {
+        RequestNewTarget();
+
+        if (currentTarget != null)
+        {
+            currentState = State.Chase;
+            return;
+        }
+        if (Vector2.Distance(transform.position, headquarters.transform.position) < 0.1f)
+        {
+            EnterTower();
+        }
+    }
+
+    private void EnterTower()
+    {
+        if (headquarters is AttackTower attackTowerHome) attackTowerHome.SoldierReturn();
+        Destroy(gameObject);
     }
 
     //comprueba si el enemigo sigue en los limites de la torre
@@ -89,34 +193,6 @@ public abstract class AttackerCell : ImmuneCell
         return true;
     }
 
-    protected virtual void ReturnToHeadquarters()
-    {
-        RequestNewTarget();
-        if (currentTarget != null)
-        {
-            isReturning = false;
-            return;
-        }
-
-        transform.position = Vector2.MoveTowards(transform.position, headquarters.transform.position, speed * Time.deltaTime);
-    
-        if (Vector2.Distance(transform.position, headquarters.transform.position) < 0.1f)
-        {
-            EnterTower();
-        }
-    }
-
-    private void EnterTower()
-    {
-        if (headquarters is AttackTower attackTowerHome) attackTowerHome.SoldierReturn();
-        Destroy(gameObject);
-    }
-
-    protected virtual void Attack()
-    {
-        currentTarget.TakeDamage(damage);
-    }
-
 
     //solicitar a la torre padre un nuevo objetivo
     public void RequestNewTarget()
@@ -130,5 +206,16 @@ public abstract class AttackerCell : ImmuneCell
                 currentTarget = newTarget;
             }
         }
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        damage = 0f;
+        attackRange = 0f;
+        attackCooldown = 0f;
+        attackTimer = 0f;
+        currentState = State.None;
     }
 }
