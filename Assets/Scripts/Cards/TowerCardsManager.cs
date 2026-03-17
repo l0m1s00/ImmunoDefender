@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
 
 public class TowerCardsManager : MonoBehaviour
 {
     public static TowerCardsManager Instance;
 
-    [Header("Towers Data")]
-    [SerializeField] private List<TowerData> towerSO;
+    private List<TowerData> towerTypes;
 
     [Header("UI References")]
     [SerializeField] private Transform towerCardsContainer;
@@ -31,15 +31,23 @@ public class TowerCardsManager : MonoBehaviour
     {
         Inputs.OnRightClickPerformed += DeselectTower;
         TowerBuilder.OnTowerBuild += DeselectTowerWrapper;
+        StartGameButtons.OnStartGame += StartThis; //DEBUG
     }
 
     private void OnDisable()
     {
         Inputs.OnRightClickPerformed -= DeselectTower;
         TowerBuilder.OnTowerBuild -= DeselectTowerWrapper;
+        StartGameButtons.OnStartGame -= StartThis; //DEBUG
     }
 
     private void Start()
+    {
+        towerTypes = EntityLibrary.Instance.GetTowerTypes();
+    }
+
+    //DEBUG
+    private void StartThis()
     {
         CreateCards();
     }
@@ -51,7 +59,7 @@ public class TowerCardsManager : MonoBehaviour
         //float a;
         //float angle;
 
-        for (int i = 0; i < towerSO.Count; i++) //numero de cartas a crear
+        for (int i = 0; i < towerTypes.Count; i++) //numero de cartas a crear
         {
             //a = 0f;
             //if (towerSO.Count > 1)
@@ -66,7 +74,7 @@ public class TowerCardsManager : MonoBehaviour
             newCard.transform.position = cardHolders[i].position;
             
             cardLogic = newCard.GetComponent<TowerCard>();
-            cardLogic.InitializeCard(towerSO[i], i);
+            cardLogic.InitializeCard(towerTypes[i], i);
 
             towerCards.Add(cardLogic);
         }

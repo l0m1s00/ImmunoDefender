@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MacrophageTowerData", menuName = "Immuno Defender/Towers/Attacker Tower Data/Macrophage Tower Data")]
+[CreateAssetMenu(fileName = "MacrophageTowerData", menuName = "Immuno Defender/Towers/Targeting Tower Data/Attacker Tower Data/Macrophage Tower Data")]
 public class MacrophageTowerData : AttackerTowerData
 {
     //[Header("Toxic Waste Settings")]

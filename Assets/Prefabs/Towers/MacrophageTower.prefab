@@ -106,9 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9afbf8b7d763f4a846a6b00b302472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MacrophageTower
+  scanInterval: 0.2
   soldiersSpawnPoint: {fileID: 665744215814699847}
   spawnSoldierParticles: {fileID: 534073732021436826}
-  scanInterval: 0.1
 --- !u!1 &2147269656858948248
 GameObject:
   m_ObjectHideFlags: 0

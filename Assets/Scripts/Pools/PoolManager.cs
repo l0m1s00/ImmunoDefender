@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -9,18 +10,18 @@ public class PoolManager : MonoBehaviour
     public static PoolManager Instance;
 
     [Header("Enemy Pool Settings")]
-    [SerializeField] private List<EnemyData> enemyTypes;
     [SerializeField] private Transform enemyPoolContainer;
     [SerializeField] private int initialEnemyPoolSize;
+    private List<EnemyData> enemyTypes;
     [Header("Tower Pool Settings")]
-    [SerializeField] private List<TowerData> towerTypes;
     [SerializeField] private Transform towerPoolContainer;
     [SerializeField] private Transform ghostTowerPoolContainer;
     [SerializeField] private int initialTowersPoolSize;
+    private List<TowerData> towerTypes;
     [Header("Immune Cell Pool Settings")]
-    [SerializeField] private List<ImmuneCellData> immuneCellTypes;
     [SerializeField] private Transform immuneCellPoolContainer;
     [SerializeField] private int initialImmuneCellPoolSize;
+    private List<ImmuneCellData> immuneCellTypes;
     [Header("Consumable Items")]
     [SerializeField] private GameObject wastePrefab;
     [SerializeField] private Transform wastePoolContainer;
@@ -41,11 +42,28 @@ public class PoolManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else { Destroy(gameObject); return; }
+    }
+
+    private void Start()
+    {
+        InitializePool();
+    }
+
+    private void InitializePool()
+    {
+        GetEntityTypes();
 
         CreateEnemyPools();
         CreateTowerPools();
         CreateImmuneCellPool();
         CreateConsumableItemsPool();
+    }
+
+    private void GetEntityTypes()
+    {
+        enemyTypes = EntityLibrary.Instance.GetEnemyTypes();
+        towerTypes = EntityLibrary.Instance.GetTowerTypes();
+        immuneCellTypes = EntityLibrary.Instance.GetCellTypes();
     }
 
     //crear X cantidad de cada tipo de objeto y reservarlos

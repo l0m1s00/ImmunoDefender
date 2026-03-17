@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class GridManager : MonoBehaviour
 {
-    public bool restart; //debug
-
     public static GridManager Instance;
 
     private GridGraph gridGraph;
@@ -41,11 +39,13 @@ public class GridManager : MonoBehaviour
     private void OnEnable()
     {
         TowerBuilder.OnTowerBuild += BlockCellByTower;
+        StartGameButtons.OnResetGameMap += RestartMapGeneration;
     }
 
     private void OnDisable()
     {
         TowerBuilder.OnTowerBuild -= BlockCellByTower;
+        StartGameButtons.OnResetGameMap -= RestartMapGeneration;
     }
 
     private void Start()
@@ -61,14 +61,6 @@ public class GridManager : MonoBehaviour
         StartCoroutine(GenerateMap());
     }
 
-    private void Update()
-    {
-        if (restart) //debug
-        {
-            RestartMapGeneration();
-        }
-    }
-
     private void NewPath()
     {
         gridGraph = new GridGraph(width, height);
@@ -81,7 +73,6 @@ public class GridManager : MonoBehaviour
 
     private void RestartMapGeneration()
     {
-        restart = false;
         Transform pathTileContainerTransform = pathTileContainer.transform;
         for (int i = 0; i < pathTileContainerTransform.childCount; i++)
         {
@@ -107,7 +98,7 @@ public class GridManager : MonoBehaviour
 
         //ShowPathConnections();
         StartCoroutine(GenerateMap());
-    } //debug
+    } 
 
     private void GetTowerCells()
     {

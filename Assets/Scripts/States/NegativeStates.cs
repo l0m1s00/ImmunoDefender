@@ -22,7 +22,7 @@ public class NegativeStates : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentToxicity);
+        
     }
 
     private void DecreaseToxicity(float cleanAmount)

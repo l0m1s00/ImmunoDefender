@@ -145,6 +145,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Space"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a56a6b8-a91c-4d29-a219-f7e365ba8824"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +266,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""WheelClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de110a25-0f1f-4f93-b844-c9b0f9d650d6"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Space"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +291,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_InGame_SelectNumbers = m_InGame.FindAction("SelectNumbers", throwIfNotFound: true);
         m_InGame_Scroll = m_InGame.FindAction("Scroll", throwIfNotFound: true);
         m_InGame_WheelClick = m_InGame.FindAction("WheelClick", throwIfNotFound: true);
+        m_InGame_Space = m_InGame.FindAction("Space", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -357,6 +378,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_SelectNumbers;
     private readonly InputAction m_InGame_Scroll;
     private readonly InputAction m_InGame_WheelClick;
+    private readonly InputAction m_InGame_Space;
     /// <summary>
     /// Provides access to input actions defined in input action map "InGame".
     /// </summary>
@@ -392,6 +414,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "InGame/WheelClick".
         /// </summary>
         public InputAction @WheelClick => m_Wrapper.m_InGame_WheelClick;
+        /// <summary>
+        /// Provides access to the underlying input action "InGame/Space".
+        /// </summary>
+        public InputAction @Space => m_Wrapper.m_InGame_Space;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -436,6 +462,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @WheelClick.started += instance.OnWheelClick;
             @WheelClick.performed += instance.OnWheelClick;
             @WheelClick.canceled += instance.OnWheelClick;
+            @Space.started += instance.OnSpace;
+            @Space.performed += instance.OnSpace;
+            @Space.canceled += instance.OnSpace;
         }
 
         /// <summary>
@@ -465,6 +494,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @WheelClick.started -= instance.OnWheelClick;
             @WheelClick.performed -= instance.OnWheelClick;
             @WheelClick.canceled -= instance.OnWheelClick;
+            @Space.started -= instance.OnSpace;
+            @Space.performed -= instance.OnSpace;
+            @Space.canceled -= instance.OnSpace;
         }
 
         /// <summary>
@@ -547,5 +579,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnWheelClick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Space" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpace(InputAction.CallbackContext context);
     }
 }

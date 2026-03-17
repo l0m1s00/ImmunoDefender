@@ -25,6 +25,7 @@ public struct WaveConfig
 public class EnemySpawner : MonoBehaviour
 {
     //DEBUG
+    private bool start = false;
     [SerializeField] private bool nextWave = false;
     private float startTimer = 5f;
     /// 
@@ -48,19 +49,30 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnable()
     {
         GridManager.OnMapGenerationCompleted += InitializeSpawner;
+        StartGameButtons.OnStartGame += StartThis; //DEBUG
     }
 
     private void OnDisable()
     {
         GridManager.OnMapGenerationCompleted -= InitializeSpawner;
+        StartGameButtons.OnStartGame -= StartThis; //DEBUG
     }
 
     private void Update()
     {
         //DEBUG
-        startTimer -= Time.deltaTime;
-        if (startTimer <= 0f || nextWave) StartWave();
+        if (start)
+        {
+            startTimer -= Time.deltaTime;
+            if (startTimer <= 0f || nextWave) StartWave();
+        }
         ///////
+    }
+
+    //DEBUG
+    private void StartThis()
+    {
+        start = true;
     }
 
     private void InitializeSpawner()

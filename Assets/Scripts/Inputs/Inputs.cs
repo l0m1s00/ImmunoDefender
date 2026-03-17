@@ -11,6 +11,7 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
     [HideInInspector] public float scrollDelta;
     [HideInInspector] public bool isLeftClicking = false;
     [HideInInspector] public bool isWheelClicking = false;
+    [HideInInspector] public bool isSpacePress = false;
 
     //EVENTOS
     public static event Action OnLeftClickPerformed;
@@ -67,6 +68,18 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
         else
         {
             isWheelClicking = false;
+        }
+    }
+
+    public void OnSpace(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isSpacePress = true;
+        }
+        else
+        {
+            isSpacePress = false;
         }
     }
 

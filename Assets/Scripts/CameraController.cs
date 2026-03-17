@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
 
     private void MoveCamera()
     {
-        if (Inputs.Instance.isWheelClicking)
+        if (Inputs.Instance.isWheelClicking || Inputs.Instance.isSpacePress)
         {
             if (!isDragging)
             {
