@@ -82,6 +82,13 @@ public class TowerCardsManager : MonoBehaviour
 
     public void SelectTower(int index)
     {
+        int cost = towerCards[index].GetTowerCardData().cost;
+
+        if (!EconomyManager.Instance.CanAfford(cost))
+        {
+            return;
+        }
+
         if (currentSelectedCardIndex == index) //click sobre la misma carta seleccionada anteriormente
         {
             DeselectTower();

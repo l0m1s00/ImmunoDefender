@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IResettable
@@ -26,6 +27,7 @@ public class Enemy : MonoBehaviour, IResettable
     private float speed;
     private float maxHealth;
     private float currentHealth;
+    private bool isBeingInvestigated = false;
 
     private List<Cell> route;
     private int i = 0;
@@ -88,6 +90,7 @@ public class Enemy : MonoBehaviour, IResettable
 
         if (currentHealth - damage <= 0f)
         {
+            EconomyManager.Instance.AddCurrency(data.rewardDrop);
             RemoveEnemy();
         }
         else
@@ -97,11 +100,38 @@ public class Enemy : MonoBehaviour, IResettable
         }
     }
 
+    public void UpdateInvestigationBar(float amount)
+    {
+        enemyUIRef.UpdateInvestigationFill(amount);
+    }
+
+    public void DeactivateInvestigationBar()
+    {
+        enemyUIRef.DeactivateInvestigationFill();
+    }
+
+    public EnemyData GetData()
+    {
+        return data;
+    }
+
+    public bool IsBeingInvestigated()
+    {
+        return isBeingInvestigated;
+    }
+
+    public void SetIsBeingInvestigated(bool investigating)
+    {
+        isBeingInvestigated = investigating;
+    }
+
     public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso
     {
         perpendicularVelocity = Vector3.zero;
         currentPerpendicular = Vector3.zero;
         ghostPosition = Vector3.zero;
         i = 0;
+        isBeingInvestigated = false;
+        DeactivateInvestigationBar();
     }
 }

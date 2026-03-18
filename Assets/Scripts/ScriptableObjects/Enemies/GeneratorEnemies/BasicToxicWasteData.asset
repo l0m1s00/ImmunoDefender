@@ -15,3 +15,4 @@ MonoBehaviour:
   toxicAmount: 1
   ejectionSpeed: 0.5
   friction: 0.7
+  reward: 1

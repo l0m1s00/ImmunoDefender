@@ -74,7 +74,7 @@ public class MacrophageImmuneCell : AttackerCell
         if (eatTimer <= 0f)
         {
             OnToxicWasteCleaned?.Invoke(currentWasteTarget.GetToxicityValue());
-            PoolManager.Instance.DespawnWaste(currentWasteTarget.gameObject);
+            currentWasteTarget.EliminateWaste();
             currentWasteTarget = null;
             canEatWaste = false;
             currentState = State.Return;

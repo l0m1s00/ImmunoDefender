@@ -97,6 +97,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
         //determinar si el click de construccion es valido y si le corresponde a esta funcion
         if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerCardToBuild == null) return;
 
+        EconomyManager.Instance.SpendCurrency(towerToBuildData.cost);
         GameObject newTowerObj = PoolManager.Instance.SpawnTower(towerToBuildData);
         newTowerObj.transform.position = new Vector3(currentGridX, currentGridY, 0f);
         newTowerObj.transform.SetParent(towersContainer);

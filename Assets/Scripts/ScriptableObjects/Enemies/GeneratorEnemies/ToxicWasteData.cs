@@ -7,4 +7,6 @@ public class ToxicWasteData : ScriptableObject
     public float toxicAmount;
     public float ejectionSpeed;
     public float friction;
+    [Header("Rewards")]
+    public int reward;
 }

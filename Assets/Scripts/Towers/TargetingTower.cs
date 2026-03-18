@@ -44,12 +44,11 @@ public class TargetingTower : Tower
     {
         Enemy closestEnemy = null;
         float shortestDistance = float.MaxValue;
-        HashSet<Enemy> enemiesInBattlefield = EnemyManager.Instance.GetEnemiesInBattlefield();
 
-        foreach (Enemy enemy in enemiesInBattlefield)
+        foreach (Enemy enemy in EnemyManager.Instance.GetEnemiesInBattlefield())
         {
             //enemigo a comparar desaparece por cualquier causa
-            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+            if (!IsValidTarget(enemy) || enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
             float distanceToEnemy = Vector2.Distance(this.transform.position, enemy.transform.position);
 
@@ -61,6 +60,11 @@ public class TargetingTower : Tower
         }
 
         return closestEnemy;
+    }
+
+    protected virtual bool IsValidTarget(Enemy enemy)
+    {
+        return true;
     }
 
     protected void HandleCurrentTarget()

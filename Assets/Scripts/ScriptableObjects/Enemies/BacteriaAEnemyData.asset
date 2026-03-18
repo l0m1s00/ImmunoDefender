@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BacteriaEnemyData
   speed: 0.4
   health: 5
+  rewardDrop: 4
   enemyPrefab: {fileID: 477026949784236985, guid: 3e4fc49a3fce1e940b69f3b2f28fdd97, type: 3}

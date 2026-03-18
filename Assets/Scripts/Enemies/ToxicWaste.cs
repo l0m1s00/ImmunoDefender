@@ -7,6 +7,7 @@ public class ToxicWaste : MonoBehaviour, IResettable
     private float currentImpulseSpeed;
     private float friction;
     private float toxicityValue;
+    private int reward;
 
     public void Initialize(ToxicWasteData wasteData, Vector3 ejectionDirection)
     {
@@ -15,6 +16,7 @@ public class ToxicWaste : MonoBehaviour, IResettable
         friction = wasteData.friction;
         isTargeted = false;
         toxicityValue = wasteData.toxicAmount;
+        reward = wasteData.reward;
 
         StartCoroutine(SlideCoroutine(ejectionDirection));
     }
@@ -28,6 +30,12 @@ public class ToxicWaste : MonoBehaviour, IResettable
 
             yield return null;
         }
+    }
+
+    public void EliminateWaste()
+    {
+        EconomyManager.Instance.AddCurrency(reward);
+        PoolManager.Instance.DespawnWaste(this.gameObject);
     }
 
     public void SetIsTargeted(bool set)
