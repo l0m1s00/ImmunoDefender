@@ -452,10 +452,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 63b707d213fbd5549890a47a37828047, type: 2}
   - {fileID: 11400000, guid: 1f82d9035c6578e4f9746a2faa15699c, type: 2}
   - {fileID: 11400000, guid: 5e4b8c70a43cc1b4d813749ba67d985e, type: 2}
-  height: 15
-  width: 17
-  minPathLength: 1
-  groundPercentage: 75
 --- !u!4 &273255286
 Transform:
   m_ObjectHideFlags: 0
@@ -750,6 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb7fed4ebee4ab4c9038ab8218bdeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityLibrary
+  difficultySettingsData: {fileID: 11400000, guid: c10129f23283f3a43b61c9b9859822b9, type: 2}
   enemyTypes:
   - {fileID: 11400000, guid: 248fde886b2192d4eb9b6ee5207c81fb, type: 2}
   - {fileID: 11400000, guid: 56223b0e313a2104aa6e775150ac5e46, type: 2}
@@ -776,7 +773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a55ec501b6e42438232b9895becb34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EconomyManager
-  startingCurrency: 1000
 --- !u!1 &443631322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1701,40 @@ MonoBehaviour:
   nextWave: 0
   enemiesContainer: {fileID: 1580016215}
   waves:
+  - enemyGroups:
+    - enemyData: {fileID: 11400000, guid: 084ed315ba4e76548ac00241078432e4, type: 2}
+      count: 10
+      timeBetweenEnemies: 0.2
+      delayAfterGroup: 3
+    - enemyData: {fileID: 11400000, guid: e295eacd9d9148a4d9a910cbb0bf73b8, type: 2}
+      count: 5
+      timeBetweenEnemies: 0.1
+      delayAfterGroup: 0
+  - enemyGroups:
+    - enemyData: {fileID: 11400000, guid: 015df2864d0b9d14292e7b20a8329bda, type: 2}
+      count: 1
+      timeBetweenEnemies: 0
+      delayAfterGroup: 0.5
+    - enemyData: {fileID: 11400000, guid: 084ed315ba4e76548ac00241078432e4, type: 2}
+      count: 2
+      timeBetweenEnemies: 0.2
+      delayAfterGroup: 0.5
+    - enemyData: {fileID: 11400000, guid: 028f350e0b1db06469aaee2ceb93cfe6, type: 2}
+      count: 2
+      timeBetweenEnemies: 0.1
+      delayAfterGroup: 0.3
+    - enemyData: {fileID: 11400000, guid: 028f350e0b1db06469aaee2ceb93cfe6, type: 2}
+      count: 2
+      timeBetweenEnemies: 0.1
+      delayAfterGroup: 0.3
+    - enemyData: {fileID: 11400000, guid: 248fde886b2192d4eb9b6ee5207c81fb, type: 2}
+      count: 4
+      timeBetweenEnemies: 0.1
+      delayAfterGroup: 0.3
+    - enemyData: {fileID: 11400000, guid: 56223b0e313a2104aa6e775150ac5e46, type: 2}
+      count: 4
+      timeBetweenEnemies: 0.1
+      delayAfterGroup: 0
   - enemyGroups:
     - enemyData: {fileID: 11400000, guid: 248fde886b2192d4eb9b6ee5207c81fb, type: 2}
       count: 5

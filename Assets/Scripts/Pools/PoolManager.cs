@@ -61,9 +61,9 @@ public class PoolManager : MonoBehaviour
 
     private void GetEntityTypes()
     {
-        enemyTypes = EntityLibrary.Instance.GetEnemyTypes();
-        towerTypes = EntityLibrary.Instance.GetTowerTypes();
-        immuneCellTypes = EntityLibrary.Instance.GetCellTypes();
+        enemyTypes = DataLibrary.Instance.GetEnemyTypes();
+        towerTypes = DataLibrary.Instance.GetTowerTypes();
+        immuneCellTypes = DataLibrary.Instance.GetCellTypes();
     }
 
     //crear X cantidad de cada tipo de objeto y reservarlos

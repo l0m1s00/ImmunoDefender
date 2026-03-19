@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EntityLibrary : MonoBehaviour
+public class DataLibrary : MonoBehaviour
 {
-    public static EntityLibrary Instance;
+    public static DataLibrary Instance;
 
+    [Header("Difficulty Settings")]
+    [SerializeField] private DifficultySettingsData difficultySettingsData;
     [Header("Enemy Types")]
     [SerializeField] private List<EnemyData> enemyTypes;
     [Header("Tower Types")]
@@ -23,4 +25,5 @@ public class EntityLibrary : MonoBehaviour
     public List<EnemyData> GetEnemyTypes () { return enemyTypes; }
     public List<TowerData> GetTowerTypes() { return towerTypes; }
     public List<ImmuneCellData> GetCellTypes() { return cellTypes; }
+    public DifficultySettingsData GetSelectedDifficultyData() { return difficultySettingsData; }
 }

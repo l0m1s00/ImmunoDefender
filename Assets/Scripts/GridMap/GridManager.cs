@@ -21,11 +21,11 @@ public class GridManager : MonoBehaviour
     [Header("Cell Objects")]
     [SerializeField] private GridCellDataSO[] pathCellObjects;
     [SerializeField] private GridCellDataSO[] levelCellObjects;
-    [Header("Map Settings")]
-    [SerializeField] private int height;
-    [SerializeField] private int width;
-    [SerializeField] private int minPathLength;
-    [Range(0, 100)] [SerializeField] private int groundPercentage;
+    //Map Settings
+    private int height;
+    private int width;
+    private int minPathLength;
+    private int groundPercentage;
 
     //EVENTOS
     public static event Action OnMapGenerationCompleted;
@@ -50,6 +50,8 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeGrid();
+
         NewPath();
 
         while (pathSize < minPathLength)
@@ -59,6 +61,15 @@ public class GridManager : MonoBehaviour
 
         //ShowPathConnections();
         StartCoroutine(GenerateMap());
+    }
+
+    private void InitializeGrid()
+    {
+        DifficultySettingsData difficultyData = DataLibrary.Instance.GetSelectedDifficultyData();
+        width = difficultyData.width;
+        height = difficultyData.height;
+        groundPercentage = difficultyData.groundPercentage;
+        minPathLength = difficultyData.minPathSize;
     }
 
     private void NewPath()

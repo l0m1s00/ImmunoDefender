@@ -21,7 +21,7 @@ public class BLymphocyteTower : TargetingTower
 
         currentInvestigation = new Dictionary<EnemyData, float>();
 
-        foreach (EnemyData enemyType in EntityLibrary.Instance.GetEnemyTypes())
+        foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
         {
             currentInvestigation.Add(enemyType, 0f);
         }

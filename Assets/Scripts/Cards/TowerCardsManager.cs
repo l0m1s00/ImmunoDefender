@@ -43,7 +43,7 @@ public class TowerCardsManager : MonoBehaviour
 
     private void Start()
     {
-        towerTypes = EntityLibrary.Instance.GetTowerTypes();
+        towerTypes = DataLibrary.Instance.GetTowerTypes();
     }
 
     //DEBUG
