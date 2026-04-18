@@ -10,8 +10,11 @@ public enum State
     Clean, //Exclusivo de los macrofagos
 }
 
-public abstract class ImmuneCell : MonoBehaviour, IResettable
+public abstract class ImmuneCell : MonoBehaviour, IResettable/*, ISelectable*/
 {
+    [Header("Components")]
+    [SerializeField] private ImmuneCellUI immuneCellUIRef;
+
     protected ImmuneCellData data;
     protected Tower headquarters; //torre que ha generado la celula
     protected Enemy currentTarget;
@@ -43,4 +46,14 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable
         headquarters = null;
         currentTarget = null;
     }
+
+    //public virtual void OnSelect()
+    //{
+    //    immuneCellUIRef.SelectCell();
+    //}
+
+    //public virtual void OnDeselect()
+    //{
+    //    immuneCellUIRef.DeselectCell();
+    //}
 }

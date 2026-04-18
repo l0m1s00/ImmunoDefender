@@ -3,11 +3,8 @@ using UnityEngine;
 
 public class BLymphocyteTower : TargetingTower
 {
-    private float investigationAmount;
-    private float investigationInterval;
-    private float maxInvestigationAmount = 100f;
-    Dictionary<EnemyData, float> currentInvestigation;
     private Enemy lastInvestigatedEnemy;
+    protected BLymphocyteTowerStats bLymphocyteStats => (BLymphocyteTowerStats)basicStats;
 
     public override void InitializeTower(TowerData data)
     {
@@ -15,15 +12,7 @@ public class BLymphocyteTower : TargetingTower
 
         if (data is BLymphocyteTowerData bLymphocyteTowerData)
         {
-            investigationAmount = bLymphocyteTowerData.investigationAmount;
-            investigationInterval = bLymphocyteTowerData.investigationInterval;
-        }
-
-        currentInvestigation = new Dictionary<EnemyData, float>();
-
-        foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
-        {
-            currentInvestigation.Add(enemyType, 0f);
+            basicStats = new BLymphocyteTowerStats(bLymphocyteTowerData);
         }
     }
 
@@ -48,7 +37,7 @@ public class BLymphocyteTower : TargetingTower
         if (currentTarget != null)
         {
             currentTarget.SetIsBeingInvestigated(true);
-            float currentAmount = currentInvestigation[currentTarget.GetData()];
+            float currentAmount = bLymphocyteStats.currentInvestigation[currentTarget.GetData()];
             currentTarget.UpdateInvestigationBar(currentAmount);
         }
 
@@ -59,27 +48,38 @@ public class BLymphocyteTower : TargetingTower
     {
         if (currentTarget == null) return;
 
-        float amountPerSecond = investigationAmount / investigationInterval;
-        currentInvestigation[currentTarget.GetData()] += amountPerSecond * Time.deltaTime;
+        float amountPerSecond = bLymphocyteStats.investigationAmount / bLymphocyteStats.investigationInterval;
+        bLymphocyteStats.currentInvestigation[currentTarget.GetData()] += amountPerSecond * Time.deltaTime;
 
-        float amount = currentInvestigation[currentTarget.GetData()];
+        float amount = bLymphocyteStats.currentInvestigation[currentTarget.GetData()];
 
-        if (amount >= maxInvestigationAmount)
+        if (amount >= bLymphocyteStats.maxInvestigationAmount)
         {
-            currentInvestigation[currentTarget.GetData()] = 0f;
+            bLymphocyteStats.currentInvestigation[currentTarget.GetData()] = 0f;
 
             //añadir bufos
 
             amount = 0f;
         }
 
-        currentTarget.UpdateInvestigationBar(amount / maxInvestigationAmount);
+        currentTarget.UpdateInvestigationBar(amount / bLymphocyteStats.maxInvestigationAmount);
 
     }
 
     protected override bool IsValidTarget(Enemy enemy)
     {
         return !enemy.IsBeingInvestigated();
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = new List<EntitiyStat>();
+
+        stats.Add(new EntitiyStat { statName = "Range: ", statValue = bLymphocyteStats.range.ToString() });
+        stats.Add(new EntitiyStat { statName = "Investigation Interval (s): ", statValue = bLymphocyteStats.investigationInterval.ToString() });
+        stats.Add(new EntitiyStat { statName = "Investigation Amount: ", statValue = bLymphocyteStats.investigationAmount.ToString() });
+
+        return stats;
     }
 
     public override void Reset()
@@ -93,8 +93,8 @@ public class BLymphocyteTower : TargetingTower
             lastInvestigatedEnemy = null;
         }
 
-        investigationAmount = 0f;
-        investigationInterval = 0f;
-        currentInvestigation = null;
+        bLymphocyteStats.investigationAmount = 0f;
+        bLymphocyteStats.investigationInterval = 0f;
+        bLymphocyteStats.currentInvestigation = null;
     }
 }

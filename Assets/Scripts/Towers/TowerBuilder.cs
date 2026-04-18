@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +10,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
     [Header("Containers")]
     [SerializeField] private Transform towersContainer;
 
+    private HashSet<GameObject> towerHolderCellObjects;
     private TowerCard towerCardToBuild = null; //que torre hay que construir
     private TowerData towerToBuildData = null; //datos de la torre que hay que construir
     private GameObject currentGhostTower = null;
@@ -30,19 +32,21 @@ public class TowerBuilder : MonoBehaviour, IResettable
     {
         TowerCardsManager.OnTowerCardSelected += SetTowerToBuild; //suscripcion al evento de construccion de torres (carta seleccionada)
         Inputs.OnLeftClickPerformed += BuildTower;
+        GridManager.OnMapGenerationCompleted += GetTowerHolderObjects;
     }
 
     private void OnDisable()
     {
         TowerCardsManager.OnTowerCardSelected -= SetTowerToBuild;
         Inputs.OnLeftClickPerformed -= BuildTower;
+        GridManager.OnMapGenerationCompleted -= GetTowerHolderObjects;
     }
 
     private void Update()
     {
         if (towerCardToBuild == null) return;
 
-        if (currentGhostTower != null) UpdateGhostPosition();
+        if (currentGhostTower != null && GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Playing) UpdateGhostPosition();
     }
 
     private void SetTowerToBuild(TowerCard towerCardToBuild)
@@ -95,14 +99,29 @@ public class TowerBuilder : MonoBehaviour, IResettable
     private void BuildTower()
     {
         //determinar si el click de construccion es valido y si le corresponde a esta funcion
-        if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerCardToBuild == null) return;
+        if (EventSystem.current.IsPointerOverGameObject() || !isCurrentCellValid || towerCardToBuild == null ||
+            GameManager.Instance.GetCurrentGameState() != GameManager.GameState.Playing) return;
 
         EconomyManager.Instance.SpendCurrency(towerToBuildData.cost);
         GameObject newTowerObj = PoolManager.Instance.SpawnTower(towerToBuildData);
-        newTowerObj.transform.position = new Vector3(currentGridX, currentGridY, 0f);
+        
+        foreach (GameObject towerHolderObj in towerHolderCellObjects)
+        {
+            if (towerHolderObj.transform.position.x == currentGridX && towerHolderObj.transform.position.y == currentGridY)
+            {
+                Vector3 buildHolderPos = towerHolderObj.transform.GetChild(0).transform.position;
+                newTowerObj.transform.position = buildHolderPos;
+            }
+        }
+
         newTowerObj.transform.SetParent(towersContainer);
         newTowerObj.GetComponent<Tower>().InitializeTower(towerToBuildData);
         OnTowerBuild?.Invoke(newTowerObj.GetComponent<Tower>());
+    }
+
+    private void GetTowerHolderObjects()
+    {
+        towerHolderCellObjects = GridManager.Instance.GetTowerHolderCellsObjects();
     }
 
     public void Reset() //reseteo del fantasma

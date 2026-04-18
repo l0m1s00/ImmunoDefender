@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cc21a6706053749a4716d9ab512a3a, type: 3}
   m_Name: SmallDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
+  title: "Peque\xF1o"
+  description: Establecer una defensa es dificil
+  features: "- Cantidad de recursos inicial aumentada\\n- Tama\xF1o de mapa muy reducido"
   width: 17
   height: 9
   groundPercentage: 85

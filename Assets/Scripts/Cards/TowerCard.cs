@@ -22,25 +22,25 @@ public class TowerCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void OnCardClicked()
     {
-        TowerCardsManager.Instance.SelectTower(index);
+        if (GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Playing) TowerCardsManager.Instance.SelectTower(index);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isSelected) cardUIRef.AnimateHover(true);
+        if (!isSelected) cardUIRef.DoAnimateHover(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isSelected) cardUIRef.AnimateHover(false);
+        if (!isSelected) cardUIRef.DoAnimateHover(false);
     }
 
     public void SetSelected(bool state)
     {
         isSelected = state;
 
-        if (isSelected) cardUIRef.AnimateSelected();
-        else cardUIRef.AnimateDeselected();
+        if (isSelected) cardUIRef.DoAnimateSelected();
+        else cardUIRef.DoAnimateDeselected();
     }
 
     public TowerData GetTowerCardData()

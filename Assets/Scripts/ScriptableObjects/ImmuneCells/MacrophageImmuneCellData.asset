@@ -15,6 +15,6 @@ MonoBehaviour:
   immuneCellPrefab: {fileID: 8921595548247017375, guid: e9c13d92796314d4093ea7b49140aaf8, type: 3}
   speed: 1.2
   damage: 1
-  attackRange: 0.3
+  attackRange: 0.1
   attackCooldown: 2
   deleteToxicWasteCooldown: 0.8

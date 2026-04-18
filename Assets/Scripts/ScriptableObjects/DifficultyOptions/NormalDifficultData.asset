@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cc21a6706053749a4716d9ab512a3a, type: 3}
   m_Name: NormalDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
+  title: Normal
+  description: Experiencia de juego recomendada
+  features: "- Cantidad de recursos inicil perfecta para establecer una primera defensa\\n-
+    Tama\xF1o de mapa normal"
   width: 17
   height: 15
   groundPercentage: 75

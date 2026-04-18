@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19fe60a52a007d46a4871c0ae8461ed, type: 3}
-  m_Name: TowerHolder
+  m_Name: TowerHolder1
   m_EditorClassIdentifier: Assembly-CSharp::GridCellObject
   cellType: 1
   cellPrefab: {fileID: 5320669449224965334, guid: f5145dd92a2f369458d573c13744f058, type: 3}
-  zRotation: 0
+  zRotation: 180

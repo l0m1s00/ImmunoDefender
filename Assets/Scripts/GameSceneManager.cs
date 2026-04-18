@@ -21,12 +21,12 @@ public class GameSceneManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        StartCoroutine(LoadSceneAsync(MAIN_MENU_SCENE, GameManager.GameState.MainMenu));
+        StartCoroutine(LoadSceneAsync(MAIN_MENU_SCENE));
     }
 
     public void LoadGameplay()
     {
-        StartCoroutine(LoadSceneAsync(IN_GAME_SCENE, GameManager.GameState.Playing));
+        StartCoroutine(LoadSceneAsync(IN_GAME_SCENE));
     }
 
     //public void RestartCurrentScene()
@@ -34,7 +34,7 @@ public class GameSceneManager : MonoBehaviour
 
     //}
 
-    private IEnumerator LoadSceneAsync(string sceneName, GameManager.GameState newGameState)
+    private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         
@@ -42,7 +42,5 @@ public class GameSceneManager : MonoBehaviour
         {
             yield return null;
         }
-
-        GameManager.Instance.SetGameState(newGameState);
     }
 }

@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IResettable
+public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 {
     [Header("Components")]
     [SerializeField] private EnemyUI enemyUIRef;
@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour, IResettable
     private float speed;
     private float maxHealth;
     private float currentHealth;
+    private float damage;
     private bool isBeingInvestigated = false;
 
     private List<Cell> route;
@@ -67,6 +68,7 @@ public class Enemy : MonoBehaviour, IResettable
     {
         //stats
         data = enemyData;
+        damage = data.damage;
         speed = data.speed;
         maxHealth = data.health;
         currentHealth = maxHealth;
@@ -133,5 +135,31 @@ public class Enemy : MonoBehaviour, IResettable
         i = 0;
         isBeingInvestigated = false;
         DeactivateInvestigationBar();
+    }
+
+    public virtual void OnSelect()
+    {
+        enemyUIRef.SelectEnemy();
+    }
+
+    public virtual void OnDeselect()
+    {
+        enemyUIRef.DeselectEnemy();
+    }
+
+    public virtual string GetEntityName()
+    {
+        return data.enemyName;
+    }
+
+    public virtual List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = new List<EntitiyStat>();
+
+        stats.Add(new EntitiyStat { statName = "Health", statValue = currentHealth.ToString() });
+        stats.Add(new EntitiyStat { statName = "Speed", statValue = speed.ToString() });
+        stats.Add(new EntitiyStat { statName = "Damage", statValue = damage.ToString() });
+
+        return stats;
     }
 }

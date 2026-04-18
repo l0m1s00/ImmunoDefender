@@ -9,7 +9,7 @@ public class MacrophageImmuneCell : AttackerCell
     private ToxicWaste currentWasteTarget;
 
     //EVENTOS
-    public static event Action<float> OnToxicWasteCleaned;
+    public static event Action<ToxicWaste> OnToxicWasteCleaned;
 
     public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
@@ -73,7 +73,7 @@ public class MacrophageImmuneCell : AttackerCell
 
         if (eatTimer <= 0f)
         {
-            OnToxicWasteCleaned?.Invoke(currentWasteTarget.GetToxicityValue());
+            OnToxicWasteCleaned?.Invoke(currentWasteTarget);
             currentWasteTarget.EliminateWaste();
             currentWasteTarget = null;
             canEatWaste = false;

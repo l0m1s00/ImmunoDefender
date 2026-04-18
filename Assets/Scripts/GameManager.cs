@@ -1,10 +1,12 @@
+using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public enum GameState { MainMenu, Playing, Paused, GameOver, Victory }
+    public enum GameState { MainMenu, Playing, Paused, Resume, GameOver, Victory }
     private GameState currentState;
 
     private void Awake()
@@ -19,13 +21,27 @@ public class GameManager : MonoBehaviour
         currentState = GameState.MainMenu;
     }
 
+    private void OnEnable()
+    {
+        PauseMenu.OnPauseGame += PauseGame;
+        PauseMenu.OnReturnToMainMenu += LoadMainMenu;
+        MainMenuManager.OnLoadGameplay += LoadGameplay;
+    }
+
+    private void OnDisable()
+    {
+        PauseMenu.OnPauseGame -= PauseGame;
+        PauseMenu.OnReturnToMainMenu -= LoadMainMenu;
+        MainMenuManager.OnLoadGameplay -= LoadGameplay;
+    }
+
     private void ChangeGameState(GameState newState)
     {
         if (currentState == newState) return;
 
         currentState = newState;
 
-        HandleStates();
+        //HandleStates();
     }
 
     private void HandleStates()
@@ -51,17 +67,17 @@ public class GameManager : MonoBehaviour
 
     private void MainMenuActions()
     {
-        Time.timeScale = 1f;
+        LoadMainMenu();
     }
 
     private void PlayingActions()
     {
-        Time.timeScale = 1f;
+        LoadGameplay();
     }
 
     private void PausedActions()
     {
-        Time.timeScale = 0f;
+        PauseGame();
     }
 
     private void GameOverActions()
@@ -69,13 +85,41 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    private void PauseGame()
+    {
+        if (currentState != GameState.Paused)
+        {
+            ChangeGameState(GameState.Paused);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            ChangeGameState(GameState.Playing);
+            Time.timeScale = 1f;
+        }
+    }
+
+    private void LoadGameplay()
+    {
+        ChangeGameState(GameState.Playing);
+        Time.timeScale = 1f;
+        GameSceneManager.Instance.LoadGameplay();
+    }
+
+    private void LoadMainMenu()
+    {
+        ChangeGameState(GameState.MainMenu);
+        Time.timeScale = 1f;
+        GameSceneManager.Instance.LoadMainMenu();
+    }
+
     public GameState GetCurrentGameState()
     {
         return currentState;
     }
 
-    public void SetGameState(GameState newState)
-    {
-        ChangeGameState(newState);
-    }
+    //public void SetGameState(GameState newState)
+    //{
+    //    ChangeGameState(newState);
+    //}
 }

@@ -19,6 +19,12 @@ public class EnemyManager : MonoBehaviour
         EnemySpawner.OnEnemySpawn += AddEnemy;
         Enemy.OnEnemyRemovedFromBattlefield += RemoveEnemy;
         FungiEnemy.OnToxicWasteGenerated += AddToxicWaste;
+        MacrophageImmuneCell.OnToxicWasteCleaned += RemoveToxicWaste;
+    }
+
+    private void Update()
+    {
+        Debug.Log(wasteInBattlefield.Count);
     }
 
     private void OnDisable()
@@ -26,6 +32,7 @@ public class EnemyManager : MonoBehaviour
         EnemySpawner.OnEnemySpawn -= AddEnemy;
         Enemy.OnEnemyRemovedFromBattlefield -= RemoveEnemy;
         FungiEnemy.OnToxicWasteGenerated -= AddToxicWaste;
+        MacrophageImmuneCell.OnToxicWasteCleaned -= RemoveToxicWaste;
     }
 
     private void AddEnemy(Enemy newEnemyInBattlefield)

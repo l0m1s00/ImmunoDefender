@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f435f4d95a1aae4d8e64ac385c17fc7, type: 3}
   m_Name: VirusBEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::VirusEnemyData
+  enemyName: Virus B
+  damage: 1
   speed: 1
   health: 1
   rewardDrop: 6

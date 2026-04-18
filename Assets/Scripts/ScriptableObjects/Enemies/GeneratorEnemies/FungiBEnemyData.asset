@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7eb336d9ade257448bef24bfa141cd2, type: 3}
   m_Name: FungiBEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::FungiEnemyData
+  enemyName: Fungi B
+  damage: 10
   speed: 0.4
   health: 15
   rewardDrop: 12

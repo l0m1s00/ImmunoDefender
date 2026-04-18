@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TowerData : ScriptableObject
+public abstract class TowerData : ScriptableObject
 {
     [Header("General")]
     public Sprite towerIcon;

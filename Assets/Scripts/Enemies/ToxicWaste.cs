@@ -3,20 +3,22 @@ using UnityEngine;
 
 public class ToxicWaste : MonoBehaviour, IResettable
 {
+    [SerializeField] private ToxicWasteData wasteData;
+
     private bool isTargeted;
     private float currentImpulseSpeed;
     private float friction;
     private float toxicityValue;
     private int reward;
 
-    public void Initialize(ToxicWasteData wasteData, Vector3 ejectionDirection)
+    public void Initialize(Vector3 ejectionDirection)
     {
         float randomSpeedModifier = Random.Range(0.7f, 1.3f);
         currentImpulseSpeed = wasteData.ejectionSpeed * randomSpeedModifier;
         friction = wasteData.friction;
-        isTargeted = false;
         toxicityValue = wasteData.toxicAmount;
         reward = wasteData.reward;
+        isTargeted = false;
 
         StartCoroutine(SlideCoroutine(ejectionDirection));
     }

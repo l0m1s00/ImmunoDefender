@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MacrophageTower : AttackTower
@@ -8,12 +9,12 @@ public class MacrophageTower : AttackTower
 
         if (currentTarget == null)
         {
-            if (availableSoldiers > 0f && spawnTimer <= 0f)
+            if (attackStats.availableSoldiers > 0f && spawnTimer <= 0f)
             {
                 if (CheckForWasteInRange())
                 {
                     DeploySoldier();
-                    spawnTimer = spawnSoldierCooldown;
+                    spawnTimer = attackStats.spawnSoldierCooldown;
                 }
             }
         }
@@ -30,7 +31,7 @@ public class MacrophageTower : AttackTower
 
             float distanceToWaste = Vector2.Distance(transform.position, waste.transform.position);
 
-            if (distanceToWaste <= range && distanceToWaste < shortestDistance)
+            if (distanceToWaste <= attackStats.range && distanceToWaste < shortestDistance)
             {
                 shortestDistance = distanceToWaste;
                 closestWaste = waste;
@@ -52,6 +53,17 @@ public class MacrophageTower : AttackTower
         if (target != null) target.SetIsTargeted(true);
 
         return target;
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = new List<EntitiyStat>();
+
+        stats.Add(new EntitiyStat { statName = "Range: ", statValue = attackStats.range.ToString() });
+        stats.Add(new EntitiyStat { statName = "Total Soldiers: ", statValue = attackStats.maxSoldiers.ToString() });
+        stats.Add(new EntitiyStat { statName = "Deployed Soldiers: ", statValue = (attackStats.maxSoldiers - attackStats.availableSoldiers).ToString() });
+
+        return stats;
     }
 
     public override void Reset()

@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NeutrophilTower : AttackTower
-{ 
-    //Refill Soldiers Settings
+{
     private float refillTimer;
-    private float refillCooldown;
+
+    protected NeutrophilTowerStats neutrophilStats => (NeutrophilTowerStats)basicStats;
 
     public override void InitializeTower(TowerData data)
     {
@@ -12,10 +13,10 @@ public class NeutrophilTower : AttackTower
 
         if (data is NeutrophilTowerData neutrophilTowerData)
         {
-            refillCooldown = neutrophilTowerData.refillCooldown;
+            basicStats = new NeutrophilTowerStats(neutrophilTowerData);
         }
 
-        refillTimer = refillCooldown;
+        refillTimer = neutrophilStats.refillCooldown;
     }
 
     protected override void Update()
@@ -26,22 +27,34 @@ public class NeutrophilTower : AttackTower
 
     private void HandleSoldiersRefill()
     {
-        if (totalSoldiers < maxSoldiers)
+        if (neutrophilStats.totalSoldiers < neutrophilStats.maxSoldiers)
         {
             refillTimer -= Time.deltaTime;
 
             if (refillTimer <= 0f)
             {
-                totalSoldiers++;
-                availableSoldiers++;
-                refillTimer = refillCooldown;
+                neutrophilStats.totalSoldiers++;
+                neutrophilStats.availableSoldiers++;
+                refillTimer = neutrophilStats.refillCooldown;
             }
         }
     }
 
     public void OnNeutrophilSoldierDead()
     {
-        totalSoldiers--;
+        neutrophilStats.totalSoldiers--;
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = new List<EntitiyStat>();
+
+        stats.Add(new EntitiyStat { statName = "Range: ", statValue = neutrophilStats.range.ToString() });
+        stats.Add(new EntitiyStat { statName = "Total Soldiers: ", statValue = neutrophilStats.maxSoldiers.ToString() });
+        stats.Add(new EntitiyStat { statName = "Deployed Soldiers: ", statValue = (neutrophilStats.maxSoldiers - neutrophilStats.availableSoldiers).ToString() });
+        stats.Add(new EntitiyStat { statName = "Reload Soldier (s): ", statValue = neutrophilStats.refillCooldown.ToString() });
+
+        return stats;
     }
 
     public override void Reset()
@@ -49,6 +62,6 @@ public class NeutrophilTower : AttackTower
         base.Reset();
 
         refillTimer = 0f;
-        refillCooldown = 0f;
+        neutrophilStats.refillCooldown = 0f;
     }
 }

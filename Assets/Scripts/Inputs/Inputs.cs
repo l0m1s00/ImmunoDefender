@@ -16,6 +16,7 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
     //EVENTOS
     public static event Action OnLeftClickPerformed;
     public static event Action OnRightClickPerformed;
+    public static event Action OnESCPerformed;
 
     private void Awake()
     {
@@ -38,13 +39,14 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        scrollDelta = context.ReadValue<Vector2>().y;
+        if (GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Playing) scrollDelta = context.ReadValue<Vector2>().y;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         mousePosition = context.ReadValue<Vector2>();
     }
+
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
@@ -56,6 +58,14 @@ public class Inputs : MonoBehaviour, InputActions.IInGameActions
         else
         {
             isLeftClicking = false;
+        }
+    }
+
+    public void OnESC(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OnESCPerformed?.Invoke();
         }
     }
 

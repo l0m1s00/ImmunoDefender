@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public abstract class AttackTower : TargetingTower
@@ -7,14 +8,11 @@ public abstract class AttackTower : TargetingTower
     [SerializeField] protected Transform soldiersSpawnPoint;
     [SerializeField] protected ParticleSystem spawnSoldierParticles;
     private Transform soldiersContainer;
-    //Stats
-    protected ImmuneCellData soldierData;
-    protected int availableSoldiers; //soldados disponibles para mandar
-    protected int totalSoldiers; //cantidad de soldados de la torre, desplegados y dentro de la torre
-    protected int maxSoldiers; //cantidad de celulas que puede enviar para combatir
     //Deploy Soldier Settings
-    protected float spawnSoldierCooldown;
     protected float spawnTimer = 0f;
+
+    //Stats
+    protected AttackTowerStats attackStats => (AttackTowerStats)basicStats;
 
     private void Awake()
     {
@@ -31,15 +29,8 @@ public abstract class AttackTower : TargetingTower
         //este if revela la verdadera identidad de TowerDataSO
         if (data is AttackerTowerData attackerData)
         {
-            range = attackerData.range;
-            maxSoldiers = attackerData.nSoldiers;
-            soldierData = attackerData.soldierDataSO;
-            spawnSoldierCooldown = attackerData.spawnSoldierCooldown;
-            //actualizar rango visual de la torre
+            basicStats = new AttackTowerStats(attackerData);
         }
-
-        totalSoldiers = maxSoldiers;
-        availableSoldiers = maxSoldiers;
     }
 
     protected override void Update()
@@ -52,42 +43,42 @@ public abstract class AttackTower : TargetingTower
     {
         spawnTimer -= Time.deltaTime;
 
-        if (currentTarget != null && availableSoldiers > 0 && spawnTimer <= 0f)
+        if (currentTarget != null && attackStats.availableSoldiers > 0 && spawnTimer <= 0f)
         {
             DeploySoldier();
-            spawnTimer = spawnSoldierCooldown;
+            spawnTimer = attackStats.spawnSoldierCooldown;
         }
     }
 
     protected virtual void DeploySoldier()
     {
-        availableSoldiers--;
+        attackStats.availableSoldiers--;
 
-        GameObject newImmuneCellObj = PoolManager.Instance.SpawnImmuneCell(soldierData);
+        GameObject newImmuneCellObj = PoolManager.Instance.SpawnImmuneCell(attackStats.soldierData);
         newImmuneCellObj.transform.position = soldiersSpawnPoint.position;
         newImmuneCellObj.transform.SetParent(soldiersContainer);
-        newImmuneCellObj.GetComponent<AttackerCell>().Initialize(this, currentTarget, soldierData);
+        newImmuneCellObj.GetComponent<AttackerCell>().Initialize(this, currentTarget, attackStats.soldierData);
         spawnSoldierParticles.Play();
     }
 
     public void SoldierReturn()
     {
-        availableSoldiers++;
+        attackStats.availableSoldiers++;
     }
 
     public override void Reset()
     {
         base.Reset();
 
-        availableSoldiers = 0;
-        totalSoldiers = 0;
-        maxSoldiers = 0;
-        spawnSoldierCooldown = 0f;
+        attackStats.availableSoldiers = 0;
+        attackStats.totalSoldiers = 0;
+        attackStats.maxSoldiers = 0;
+        attackStats.spawnSoldierCooldown = 0f;
     }
 
     private void OnDrawGizmosSelected() //DEBUG
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.DrawWireSphere(transform.position, attackStats.range);
     }
 }

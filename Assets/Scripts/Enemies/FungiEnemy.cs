@@ -4,8 +4,7 @@ using Random = UnityEngine.Random;
 
 public class FungiEnemy : Enemy
 {
-    [Header("Toxic Waste Settings")]
-    [SerializeField] private ToxicWasteData wasteData;
+    //[Header("Toxic Waste Settings")]
     private Transform wasteContainer;
 
     private int minToxicWasteAmountOnDeath = 4;
@@ -15,7 +14,6 @@ public class FungiEnemy : Enemy
     private Vector3 previousPosition;
 
     //EVENTOS
-    public static event Action<float> OnIncreaseToxicBar;
     public static event Action<ToxicWaste> OnToxicWasteGenerated;
 
     private void Start()
@@ -79,9 +77,8 @@ public class FungiEnemy : Enemy
     {
         GameObject newWaste = PoolManager.Instance.SpawnWaste();
         newWaste.transform.position = this.transform.position;
-        newWaste.GetComponent<ToxicWaste>().Initialize(wasteData, direction);
+        newWaste.GetComponent<ToxicWaste>().Initialize(direction);
         newWaste.transform.SetParent(wasteContainer);
-        OnIncreaseToxicBar?.Invoke(wasteData.toxicAmount);
         OnToxicWasteGenerated?.Invoke(newWaste.GetComponent<ToxicWaste>());
     }
 

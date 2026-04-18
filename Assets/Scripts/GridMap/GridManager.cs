@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
     private PathGenerator pathGenerator;
     private List<Cell> pathCells;
     private HashSet<Cell> towerCells = new HashSet<Cell>();
+    private HashSet<GameObject> towerHolderCells = new HashSet<GameObject>();
     private int pathSize;
 
     [Header("Cell Containers")]
@@ -19,8 +20,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject pathTileContainer;
     [SerializeField] private GameObject groundTileContainer;
     [Header("Cell Objects")]
-    [SerializeField] private GridCellDataSO[] pathCellObjects;
-    [SerializeField] private GridCellDataSO[] levelCellObjects;
+    [SerializeField] private GridCellDataSO[] pathCellObjectsData;
+    [SerializeField] private GridCellDataSO[] levelCellObjectsData;
+    [SerializeField] private GridCellDataSO[] towerHolderCellObjectsData;
     //Map Settings
     private int height;
     private int width;
@@ -142,6 +144,7 @@ public class GridManager : MonoBehaviour
         GetTowerCells();
         StartCoroutine(PlaceScenaryTiles());
         StartCoroutine(PlacePathTiles());
+        StartCoroutine(PlaceTowerHoldersTiles());
         OnMapGenerationCompleted?.Invoke();
         yield return null;
     }
@@ -174,7 +177,7 @@ public class GridManager : MonoBehaviour
     {
         Transform groundTileContainerTransform = groundTileContainer.transform;
         Transform towerHolderTileContainerTransform = towerHolderTileContainer.transform;
-        GameObject groundTile = levelCellObjects[0].cellPrefab;
+        GameObject groundTile = levelCellObjectsData[0].cellPrefab;
         GameObject tile;
         Cell currentCell;
         Vector3 pos;
@@ -190,12 +193,12 @@ public class GridManager : MonoBehaviour
                 {
                     if (currentCell.isObstacle)
                     {
-                        randomIndex = Random.Range(2, levelCellObjects.Length);
-                        tile = levelCellObjects[randomIndex].cellPrefab;
+                        randomIndex = Random.Range(1, levelCellObjectsData.Length);
+                        tile = levelCellObjectsData[randomIndex].cellPrefab;
                     }
                     else if (towerCells.Contains(currentCell))
                     {
-                        tile = levelCellObjects[1].cellPrefab;
+                        continue;
                     }
                     else
                         tile = groundTile;
@@ -203,12 +206,29 @@ public class GridManager : MonoBehaviour
                     pos = new Vector3(x, y, 0);
                     tile = Instantiate(tile, pos, Quaternion.identity);
 
-                    if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainerTransform);
-                    else tile.transform.SetParent(groundTileContainerTransform);
+                    //if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainerTransform);
+                    //else tile.transform.SetParent(groundTileContainerTransform);
+
+                    tile.transform.SetParent(groundTileContainerTransform);
 
                     //yield return new WaitForSeconds(0.005f); //espera
                 }
             }
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator PlaceTowerHoldersTiles()
+    {
+        foreach (Cell currentTowerHolderCell in towerCells)
+        {
+            int neighboursValue = pathGenerator.GetCellNeighbourValue(currentTowerHolderCell.x, currentTowerHolderCell.y, gridGraph);
+            GameObject tilePrefab = towerHolderCellObjectsData[neighboursValue].cellPrefab;
+            GameObject tile = Instantiate(tilePrefab, new Vector3(currentTowerHolderCell.x, currentTowerHolderCell.y, 0f), Quaternion.identity);
+            towerHolderCells.Add(tile);
+            tile.transform.Rotate(0f, 0f, towerHolderCellObjectsData[neighboursValue].zRotation);
+            tile.transform.SetParent(towerHolderTileContainer.transform);
         }
 
         yield return null;
@@ -223,9 +243,9 @@ public class GridManager : MonoBehaviour
         visitedCells.Add(currentCell);
 
         int neighboursValue = pathGenerator.GetCellNeighbourValue(currentCell.x, currentCell.y, gridGraph);
-        GameObject tilePrefab = pathCellObjects[neighboursValue].cellPrefab;
+        GameObject tilePrefab = pathCellObjectsData[neighboursValue].cellPrefab;
         GameObject tile = Instantiate(tilePrefab, new Vector3(currentCell.x, currentCell.y, 0f), Quaternion.identity);
-        tile.transform.Rotate(0f, 0f, pathCellObjects[neighboursValue].zRotation);
+        tile.transform.Rotate(0f, 0f, pathCellObjectsData[neighboursValue].zRotation);
         tile.transform.SetParent(pathTileContainer);
 
         foreach (Cell nextCell in currentCell.nextCells)
@@ -299,8 +319,15 @@ public class GridManager : MonoBehaviour
         return width;
     }
 
+    public HashSet<GameObject> GetTowerHolderCellsObjects()
+    {
+        return towerHolderCells;
+    }
+
     public Cell GetGraphEntryPoint()
     {
         return gridGraph.entryPoint;
     }
+
+
 }

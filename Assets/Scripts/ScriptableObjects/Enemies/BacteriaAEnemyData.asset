@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8448b479debb741889185e2fc0cf6b, type: 3}
   m_Name: BacteriaAEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::BacteriaEnemyData
+  enemyName: Bacteria A
+  damage: 3
   speed: 0.4
   health: 5
   rewardDrop: 4
