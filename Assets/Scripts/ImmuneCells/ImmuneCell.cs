@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 //distintos estados en los que puede estar una celula (soldado)
 public enum State
@@ -10,16 +12,18 @@ public enum State
     Clean, //Exclusivo de los macrofagos
 }
 
-public abstract class ImmuneCell : MonoBehaviour, IResettable/*, ISelectable*/
+public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
 {
     [Header("Components")]
     [SerializeField] private ImmuneCellUI immuneCellUIRef;
 
-    protected ImmuneCellData data;
+    protected BasicCellStats basicStats;
     protected Tower headquarters; //torre que ha generado la celula
     protected Enemy currentTarget;
 
-    protected float speed;
+    //EVENTOS
+    public event Action OnStatsChanged;
+    public event Action<ISelectable> OnEntityDestroyed;
 
     protected virtual void Update()
     {
@@ -30,15 +34,24 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable/*, ISelectable*/
     {
         headquarters = parentTower;
         currentTarget = target;
-        speed = data.speed;
-        this.data = data;
+        basicStats = new BasicCellStats(data);
+    }
+
+    protected void NotifyStatsChanged()
+    {
+        OnStatsChanged?.Invoke();
+    }
+
+    protected void NotifyEntityDestruction()
+    {
+        OnEntityDestroyed?.Invoke(this);
     }
 
     protected virtual void MoveTowardsTarget(GameObject target)
     {
         if (target == null) return;
 
-        this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, speed * Time.deltaTime);
+        this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, basicStats.speed * Time.deltaTime);
     }
 
     public virtual void Reset()
@@ -47,13 +60,23 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable/*, ISelectable*/
         currentTarget = null;
     }
 
-    //public virtual void OnSelect()
-    //{
-    //    immuneCellUIRef.SelectCell();
-    //}
+    public virtual void OnSelect()
+    {
+        immuneCellUIRef.SelectCell();
+    }
 
-    //public virtual void OnDeselect()
-    //{
-    //    immuneCellUIRef.DeselectCell();
-    //}
+    public virtual void OnDeselect()
+    {
+        immuneCellUIRef.DeselectCell();
+    }
+
+    public string GetEntityName()
+    {
+        return basicStats.cellName;
+    }
+
+    public virtual List<EntitiyStat> GetStats()
+    {
+        return null;
+    }
 }

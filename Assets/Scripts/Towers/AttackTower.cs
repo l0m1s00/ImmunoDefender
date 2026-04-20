@@ -19,9 +19,9 @@ public abstract class AttackTower : TargetingTower
         soldiersContainer = GameObject.Find("InGameCells").transform;
     }
 
-    public override void InitializeTower(TowerData data)
+    public override void Initialize(TowerData data)
     {
-        base.InitializeTower(data);
+        base.Initialize(data);
 
         //pattern matching y polimorfismo:
         //aunque las cartas se creen empleando TowerDataSO, realmente lo que se pasa es el tipo de la torre, AttackerTowerDataSO
@@ -53,6 +53,7 @@ public abstract class AttackTower : TargetingTower
     protected virtual void DeploySoldier()
     {
         attackStats.availableSoldiers--;
+        NotifyStatsChanged();
 
         GameObject newImmuneCellObj = PoolManager.Instance.SpawnImmuneCell(attackStats.soldierData);
         newImmuneCellObj.transform.position = soldiersSpawnPoint.position;
@@ -64,6 +65,7 @@ public abstract class AttackTower : TargetingTower
     public void SoldierReturn()
     {
         attackStats.availableSoldiers++;
+        NotifyStatsChanged();
     }
 
     public override void Reset()

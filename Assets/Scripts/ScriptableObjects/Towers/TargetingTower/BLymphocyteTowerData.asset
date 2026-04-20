@@ -22,3 +22,4 @@ MonoBehaviour:
   range: 2
   investigationAmount: 20
   investigationInterval: 0.4
+  damageBonus: 0.01

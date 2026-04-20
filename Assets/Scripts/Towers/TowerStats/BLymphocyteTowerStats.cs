@@ -3,21 +3,43 @@ using UnityEngine;
 
 public class BLymphocyteTowerStats : TargetingTowerStats
 {
+    protected float baseInvestigationAmount;
     public float investigationAmount;
+    protected float baseInvestigationInterval;
     public float investigationInterval;
     public float maxInvestigationAmount;
+    protected float baseDamageBonus;
+    public float damageBonus;
     public Dictionary<EnemyData, float> currentInvestigation;
+    public Dictionary<EnemyData, float> damageBonuses;
 
     public BLymphocyteTowerStats(BLymphocyteTowerData data) : base(data)
     {
-        investigationAmount = data.investigationAmount;
-        investigationInterval = data.investigationInterval;
+        baseInvestigationAmount = data.investigationAmount;
+        investigationAmount = baseInvestigationAmount;
+        baseInvestigationInterval = data.investigationInterval;
+        investigationInterval = baseInvestigationInterval;
         maxInvestigationAmount = 100f;
+        baseDamageBonus = data.damageBonus;
+        damageBonus = baseDamageBonus;
         currentInvestigation = new Dictionary<EnemyData, float>();
+        damageBonuses = new Dictionary<EnemyData, float>();
 
         foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
         {
             currentInvestigation.Add(enemyType, 0f);
+            damageBonuses.Add(enemyType, 0f);
         }
+    }
+
+    public List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = new List<EntitiyStat>();
+
+        stats.Add(new EntitiyStat { statName = "Range", initialStatValue = baseRange.ToString(), currentStatValue = range.ToString() });
+        stats.Add(new EntitiyStat { statName = "Investigation Interval", initialStatValue = baseInvestigationInterval.ToString() + " s", currentStatValue = investigationInterval.ToString() + " s"});
+        stats.Add(new EntitiyStat { statName = "Investigation Amount", initialStatValue = baseInvestigationAmount.ToString(), currentStatValue = investigationAmount.ToString() });
+
+        return stats;
     }
 }

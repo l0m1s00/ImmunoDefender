@@ -35,6 +35,8 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     //EVENTOS
     public static event Action<Enemy> OnEnemyRemovedFromBattlefield;
+    public event Action OnStatsChanged;
+    public event Action<ISelectable> OnEntityDestroyed;
 
     protected virtual void Move()
     {
@@ -82,6 +84,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     protected virtual void RemoveEnemy()
     {
+        OnEntityDestroyed?.Invoke(this);
         OnEnemyRemovedFromBattlefield?.Invoke(this);
         PoolManager.Instance.DespawnEnemy(data, this.gameObject);
     }
@@ -99,6 +102,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         {
             currentHealth -= damage;
             enemyUIRef.UpdateHealthBar(currentHealth / maxHealth);
+            OnStatsChanged?.Invoke();
         }
     }
 
@@ -156,9 +160,9 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();
 
-        stats.Add(new EntitiyStat { statName = "Health", statValue = currentHealth.ToString() });
-        stats.Add(new EntitiyStat { statName = "Speed", statValue = speed.ToString() });
-        stats.Add(new EntitiyStat { statName = "Damage", statValue = damage.ToString() });
+        stats.Add(new EntitiyStat { statName = "Health", currentStatValue = currentHealth.ToString() });
+        stats.Add(new EntitiyStat { statName = "Speed", currentStatValue = speed.ToString() });
+        stats.Add(new EntitiyStat { statName = "Damage", currentStatValue = damage.ToString() });
 
         return stats;
     }

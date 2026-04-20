@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class TargetingTowerStats : BasicTowerStats
 {
+    protected float baseRange; 
     public float range; //rango de la torre
 
     public TargetingTowerStats(TargetingTowerData data) : base(data)
     {
-        range = data.range;
+        baseRange = data.range;
+        range = baseRange;
     }
 }

@@ -13,9 +13,9 @@ public abstract class TargetingTower : Tower
     //Stats
     protected TargetingTowerStats targetingStats => (TargetingTowerStats)basicStats;
 
-    public override void InitializeTower(TowerData data)
+    public override void Initialize(TowerData data)
     {
-        base.InitializeTower(data);
+        base.Initialize(data);
 
         if (data is TargetingTowerData targetingData)
         {

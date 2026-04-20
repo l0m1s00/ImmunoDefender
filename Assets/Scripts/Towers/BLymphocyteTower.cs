@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,12 @@ public class BLymphocyteTower : TargetingTower
     private Enemy lastInvestigatedEnemy;
     protected BLymphocyteTowerStats bLymphocyteStats => (BLymphocyteTowerStats)basicStats;
 
-    public override void InitializeTower(TowerData data)
+    //EVENTOS
+    public static event Action OnBuffGenerated;
+
+    public override void Initialize(TowerData data)
     {
-        base.InitializeTower(data);
+        base.Initialize(data);
 
         if (data is BLymphocyteTowerData bLymphocyteTowerData)
         {
@@ -56,9 +60,8 @@ public class BLymphocyteTower : TargetingTower
         if (amount >= bLymphocyteStats.maxInvestigationAmount)
         {
             bLymphocyteStats.currentInvestigation[currentTarget.GetData()] = 0f;
-
-            //añadir bufos
-
+            bLymphocyteStats.damageBonuses[currentTarget.GetData()] += bLymphocyteStats.damageBonus;
+            OnBuffGenerated?.Invoke();
             amount = 0f;
         }
 
@@ -73,13 +76,17 @@ public class BLymphocyteTower : TargetingTower
 
     public override List<EntitiyStat> GetStats()
     {
-        List<EntitiyStat> stats = new List<EntitiyStat>();
+        return bLymphocyteStats.GetStats();
+    }
 
-        stats.Add(new EntitiyStat { statName = "Range: ", statValue = bLymphocyteStats.range.ToString() });
-        stats.Add(new EntitiyStat { statName = "Investigation Interval (s): ", statValue = bLymphocyteStats.investigationInterval.ToString() });
-        stats.Add(new EntitiyStat { statName = "Investigation Amount: ", statValue = bLymphocyteStats.investigationAmount.ToString() });
+    public float GetDamageBonusAgainstEnemy(EnemyData enemyData)
+    {
+        return bLymphocyteStats.damageBonuses[enemyData];
+    }
 
-        return stats;
+    public Dictionary<EnemyData, float> GetAllDamageBonuses()
+    {
+        return bLymphocyteStats.damageBonuses;
     }
 
     public override void Reset()

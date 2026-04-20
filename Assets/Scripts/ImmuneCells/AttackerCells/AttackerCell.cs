@@ -1,14 +1,11 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AttackerCell : ImmuneCell
 {
-    protected float damage;
-    protected float attackRange;
-    protected float attackCooldown;
-
+    protected AttackerCellStats attackerStats => (AttackerCellStats)basicStats;
     protected float attackTimer = 0f;
-
     protected State currentState = State.None;
 
     public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
@@ -17,9 +14,7 @@ public abstract class AttackerCell : ImmuneCell
 
         if (data is AttackerImmuneCellData attackerData)
         {
-            damage = attackerData.damage;
-            attackRange = attackerData.attackRange;
-            attackCooldown = attackerData.attackCooldown;
+            basicStats = new AttackerCellStats(attackerData);
             currentState = State.Chase;
         }
     }
@@ -91,7 +86,7 @@ public abstract class AttackerCell : ImmuneCell
 
         float distanceToTarget = Vector2.Distance(transform.position, currentTarget.transform.position);
 
-        if (distanceToTarget <= attackRange)
+        if (distanceToTarget <= attackerStats.attackRange)
         {
             currentState = State.Attack;
             return;
@@ -103,13 +98,72 @@ public abstract class AttackerCell : ImmuneCell
         if (attackTimer <= 0f)
         {
             Attack();
-            attackTimer = attackCooldown;
+            attackTimer = attackerStats.attackCooldown;
         }
     }
 
     protected virtual void Attack()
     {
-        currentTarget.TakeDamage(damage);
+        if (currentTarget == null || !currentTarget.gameObject.activeInHierarchy) return;
+
+        float totalDamage = attackerStats.damage + CalculateCurrentDamageBuffsAgainstEnemy();
+        currentTarget.TakeDamage(totalDamage);
+    }
+
+    private float CalculateCurrentDamageBuffsAgainstEnemy()
+    {
+        float damageBonus = 0f;
+
+        foreach (Tower tower in TowerManager.Instance.GetBuiltTowers()) //revisar las torres cercanas para buscar alguna que proporcione buffos
+        {
+            if (tower is BLymphocyteTower bLymphocyteTower)
+            {
+                float distanceToTower = Vector2.Distance(headquarters.transform.position, bLymphocyteTower.transform.position);
+
+                if (distanceToTower <= bLymphocyteTower.GetTowerRange())
+                {
+                    damageBonus += bLymphocyteTower.GetDamageBonusAgainstEnemy(currentTarget.GetData());
+                }
+            }
+        }
+
+        return damageBonus;
+    }
+
+    private List<float> CalculateDamageBuffsAgainstAllEnemies()
+    {
+        List<float> damageBuffs = new List<float>();
+
+        foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
+        {
+            damageBuffs.Add(0f);
+        }
+
+        foreach (Tower tower in TowerManager.Instance.GetBuiltTowers())
+        {
+            if (tower is BLymphocyteTower bLymphocyteTower)
+            {
+                float distanceToTower = Vector2.Distance(headquarters.transform.position, bLymphocyteTower.transform.position);
+
+                if (distanceToTower <= bLymphocyteTower.GetTowerRange())
+                {
+                    int i = 0;
+                    foreach (KeyValuePair<EnemyData, float> extraDamage in bLymphocyteTower.GetAllDamageBonuses())
+                    {
+                        damageBuffs[i] += extraDamage.Value;
+                        i++;
+                    }
+                }
+            }
+        }
+
+        return damageBuffs;
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<float> damageBonuses = CalculateDamageBuffsAgainstAllEnemies();
+        return attackerStats.GetStats(damageBonuses);
     }
 
     private void HandleAttackState()
@@ -131,7 +185,7 @@ public abstract class AttackerCell : ImmuneCell
 
         float distanceToTarget = Vector2.Distance(transform.position, currentTarget.transform.position);
 
-        if (distanceToTarget > attackRange)
+        if (distanceToTarget > attackerStats.attackRange)
         {
             currentState = State.Chase;
         }
@@ -165,7 +219,8 @@ public abstract class AttackerCell : ImmuneCell
     private void EnterTower()
     {
         if (headquarters is AttackTower attackTowerHome) attackTowerHome.SoldierReturn();
-        Destroy(gameObject);
+        NotifyEntityDestruction();
+        PoolManager.Instance.DespawnImmuneCell(attackerStats.data, this.gameObject);
     }
 
     //comprueba si el enemigo sigue en los limites de la torre
@@ -212,9 +267,9 @@ public abstract class AttackerCell : ImmuneCell
     {
         base.Reset();
 
-        damage = 0f;
-        attackRange = 0f;
-        attackCooldown = 0f;
+        attackerStats.damage = 0f;
+        attackerStats.attackRange = 0f;
+        attackerStats.attackCooldown = 0f;
         attackTimer = 0f;
         currentState = State.None;
     }

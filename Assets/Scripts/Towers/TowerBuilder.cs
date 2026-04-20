@@ -115,7 +115,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
         }
 
         newTowerObj.transform.SetParent(towersContainer);
-        newTowerObj.GetComponent<Tower>().InitializeTower(towerToBuildData);
+        newTowerObj.GetComponent<Tower>().Initialize(towerToBuildData);
         OnTowerBuild?.Invoke(newTowerObj.GetComponent<Tower>());
     }
 

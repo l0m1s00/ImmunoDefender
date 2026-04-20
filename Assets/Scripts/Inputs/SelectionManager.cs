@@ -1,17 +1,7 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-//MOVER
-[System.Serializable]
-public struct EntitiyStat
-{
-    public string statName;
-    public string statValue;
-    //public Image statIcon;
-}
 
 public class SelectionManager : MonoBehaviour
 {
@@ -24,11 +14,13 @@ public class SelectionManager : MonoBehaviour
     private void OnEnable()
     {
         Inputs.OnLeftClickPerformed += HandleSelection;
+        BLymphocyteTower.OnBuffGenerated += RefreshUI;
     }
 
     private void OnDisable()
     {
         Inputs.OnLeftClickPerformed -= HandleSelection;
+        BLymphocyteTower.OnBuffGenerated -= RefreshUI;
     }
 
     private void HandleSelection()
@@ -46,32 +38,58 @@ public class SelectionManager : MonoBehaviour
             {
                 if (currentSelectedElement != selectableHit)
                 {
-                    currentSelectedElement?.OnDeselect();
-                    currentSelectedElement = selectableHit;
-                    currentSelectedElement.OnSelect();
-
-                    //tomamos la informacion de la entidad para mostrar en el panel de estadisticas
-                    OnEntitySelectedForInfo?.Invoke(selectableHit.GetEntityName(), selectableHit.GetStats()); ;
+                    SelectNewEntity(selectableHit);
                 }
             }
-            else
+            else //se detecta algo pero no es seleccionable
             {
-                DeselectCurrentElement();
+                SelectNewEntity(null);
             }
         }
-        else
+        else //se ha hecho click en la nada
         {
-            DeselectCurrentElement();
+            SelectNewEntity(null);
         }
     }
 
-    private void DeselectCurrentElement()
+    private void SelectNewEntity(ISelectable newEntity)
     {
         if (currentSelectedElement != null)
         {
+            currentSelectedElement.OnStatsChanged -= RefreshUI;
+            currentSelectedElement.OnEntityDestroyed -= HandleEntityDestroyed;
             currentSelectedElement.OnDeselect();
-            currentSelectedElement = null;
+        }
+
+        currentSelectedElement = newEntity;
+
+        if (currentSelectedElement != null)
+        {
+            currentSelectedElement.OnStatsChanged += RefreshUI;
+            currentSelectedElement.OnEntityDestroyed += HandleEntityDestroyed;
+            currentSelectedElement.OnSelect();
+            RefreshUI();
+        }
+        else
+        {
             OnEntityDeselected?.Invoke();
+        }
+    }
+
+    private void RefreshUI()
+    {
+        if (currentSelectedElement != null)
+        {
+            //tomamos la informacion de la entidad para mostrar en el panel de estadisticas
+            OnEntitySelectedForInfo?.Invoke(currentSelectedElement.GetEntityName(), currentSelectedElement.GetStats());
+        }
+    }
+
+    private void HandleEntityDestroyed(ISelectable destroyedEntity)
+    {
+        if (currentSelectedElement == destroyedEntity)
+        {
+            SelectNewEntity(null);
         }
     }
 }

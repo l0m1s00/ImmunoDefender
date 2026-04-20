@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +9,18 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 
     protected BasicTowerStats basicStats;
 
-    public virtual void InitializeTower(TowerData data)
+    //EVENTOS
+    public event Action OnStatsChanged;
+    public event Action<ISelectable> OnEntityDestroyed;
+
+    public virtual void Initialize(TowerData data)
     {
         basicStats = new BasicTowerStats(data);
+    }
+
+    protected void NotifyStatsChanged()
+    {
+        OnStatsChanged?.Invoke();
     }
 
     public virtual void OnSelect()

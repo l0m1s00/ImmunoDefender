@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public interface IResettable
@@ -11,4 +12,6 @@ public interface ISelectable
     void OnDeselect();
     string GetEntityName();
     List<EntitiyStat> GetStats();
+    event Action OnStatsChanged;
+    event Action<ISelectable> OnEntityDestroyed;
 }

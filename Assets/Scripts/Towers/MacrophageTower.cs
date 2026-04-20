@@ -3,6 +3,18 @@ using UnityEngine;
 
 public class MacrophageTower : AttackTower
 {
+    protected MacrophageTowerStats macrophageStats => (MacrophageTowerStats)basicStats;
+
+    public override void Initialize(TowerData data)
+    {
+        base.Initialize(data);
+
+        if (data is MacrophageTowerData macrophageTowerData)
+        {
+            basicStats = new MacrophageTowerStats(macrophageTowerData);
+        }
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -57,13 +69,7 @@ public class MacrophageTower : AttackTower
 
     public override List<EntitiyStat> GetStats()
     {
-        List<EntitiyStat> stats = new List<EntitiyStat>();
-
-        stats.Add(new EntitiyStat { statName = "Range: ", statValue = attackStats.range.ToString() });
-        stats.Add(new EntitiyStat { statName = "Total Soldiers: ", statValue = attackStats.maxSoldiers.ToString() });
-        stats.Add(new EntitiyStat { statName = "Deployed Soldiers: ", statValue = (attackStats.maxSoldiers - attackStats.availableSoldiers).ToString() });
-
-        return stats;
+        return macrophageStats.GetStats();
     }
 
     public override void Reset()

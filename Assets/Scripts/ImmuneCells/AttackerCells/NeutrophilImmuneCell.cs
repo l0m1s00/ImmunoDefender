@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NeutrophilImmuneCell : AttackerCell
 {
-    private float currentDamageCapacity; //cantidad de danyo que puede infligir antes de morir
+    protected NeutrophilCellStats neutrophilCellStats => (NeutrophilCellStats)basicStats;
 
     public override void Initialize(Tower parentTower, Enemy target, ImmuneCellData data)
     {
@@ -10,27 +11,34 @@ public class NeutrophilImmuneCell : AttackerCell
 
         if (data is NeutrophilImmuneCellData neutrophilData)
         {
-            currentDamageCapacity = neutrophilData.maxDamageCapacity;
+            basicStats = new NeutrophilCellStats(neutrophilData);
         }
     }
 
     protected override void Attack()
     {
         base.Attack();
+        //neutrophilCellStats.remainingAttacks -= neutrophilCellStats.damage;
+        neutrophilCellStats.remainingAttacks --;
+        NotifyStatsChanged();
 
-        currentDamageCapacity -= damage;
-
-        if (currentDamageCapacity <= 0f)
+        if (neutrophilCellStats.remainingAttacks <= 0)
         {
             if (headquarters is NeutrophilTower neutrophilHeadquarters) neutrophilHeadquarters.OnNeutrophilSoldierDead();
-            PoolManager.Instance.DespawnImmuneCell(data, this.gameObject);
+            NotifyEntityDestruction();
+            PoolManager.Instance.DespawnImmuneCell(neutrophilCellStats.data, this.gameObject);
         }
     }
+
+    //public override List<EntitiyStat> GetStats()
+    //{
+    //    return neutrophilCellStats.GetStats(CalculateCurrentDamageBuffs());
+    //}
 
     public override void Reset()
     {
         base.Reset();
 
-        currentDamageCapacity = 0f;
+        neutrophilCellStats.remainingAttacks = 0f;
     }
 }

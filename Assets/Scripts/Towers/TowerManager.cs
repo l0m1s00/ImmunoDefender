@@ -32,4 +32,9 @@ public class TowerManager : MonoBehaviour
     {
         towers.Remove(towerToEliminate);
     }
+
+    public List<Tower> GetBuiltTowers()
+    {
+        return towers;
+    }
 }

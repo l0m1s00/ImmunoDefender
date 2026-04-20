@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MacrophageImmuneCell : AttackerCell
 {
-    private float deleteToxicWasteTime;
     private float eatTimer;
     private bool canEatWaste = false;
     private ToxicWaste currentWasteTarget;
+
+    protected MacrophageCellStats macrophageCellStats => (MacrophageCellStats)basicStats;
 
     //EVENTOS
     public static event Action<ToxicWaste> OnToxicWasteCleaned;
@@ -17,8 +19,8 @@ public class MacrophageImmuneCell : AttackerCell
 
         if (data is MacrophageImmuneCellData macrophageData)
         {
-            deleteToxicWasteTime = macrophageData.deleteToxicWasteCooldown;
-            eatTimer = deleteToxicWasteTime;
+            basicStats = new MacrophageCellStats(macrophageData);
+            eatTimer = macrophageCellStats.deleteToxicWasteTime;
         }
     }
 
@@ -43,7 +45,7 @@ public class MacrophageImmuneCell : AttackerCell
             currentTarget = null;
             currentState = State.Clean;
             canEatWaste = false;
-            eatTimer = deleteToxicWasteTime;
+            eatTimer = macrophageCellStats.deleteToxicWasteTime;
         }
 
         if (currentState == State.Clean) HandleCleanState();
@@ -61,7 +63,7 @@ public class MacrophageImmuneCell : AttackerCell
 
         float distanceToWaste = Vector2.Distance(transform.position, currentWasteTarget.transform.position);
     
-        if (distanceToWaste <= attackRange && !canEatWaste)
+        if (distanceToWaste <= macrophageCellStats.attackRange && !canEatWaste)
         {
             canEatWaste = true;
         }
@@ -98,7 +100,7 @@ public class MacrophageImmuneCell : AttackerCell
     {
         base.Reset();
 
-        deleteToxicWasteTime = 0f;
+        macrophageCellStats.deleteToxicWasteTime = 0f;
         eatTimer = 0f;
         currentWasteTarget = null;
         canEatWaste = false;

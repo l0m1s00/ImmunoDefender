@@ -6,4 +6,5 @@ public class BLymphocyteTowerData : TargetingTowerData
     [Header("Investigate Enemy Settings")]
     public float investigationAmount;
     public float investigationInterval;
+    public float damageBonus;
 }
