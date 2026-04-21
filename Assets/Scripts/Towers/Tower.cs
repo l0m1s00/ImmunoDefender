@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 {
     [Header("Components")]
-    [SerializeField] private TowerUI towerUIRef;
+    [SerializeField] protected TowerUI towerUIRef;
 
     protected BasicTowerStats basicStats;
 

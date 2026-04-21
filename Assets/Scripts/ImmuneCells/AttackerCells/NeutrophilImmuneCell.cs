@@ -39,6 +39,6 @@ public class NeutrophilImmuneCell : AttackerCell
     {
         base.Reset();
 
-        neutrophilCellStats.remainingAttacks = 0f;
+        neutrophilCellStats.remainingAttacks = 0;
     }
 }

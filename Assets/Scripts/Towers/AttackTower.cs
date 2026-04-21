@@ -78,9 +78,9 @@ public abstract class AttackTower : TargetingTower
         attackStats.spawnSoldierCooldown = 0f;
     }
 
-    private void OnDrawGizmosSelected() //DEBUG
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackStats.range);
-    }
+    //private void OnDrawGizmosSelected() //DEBUG
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position, attackStats.range);
+    //}
 }

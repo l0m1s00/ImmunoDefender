@@ -10,7 +10,7 @@ public struct EntitiyStat
     public string statName;
     public string initialStatValue;
     public string currentStatValue;
-    public string extraStatValue;
+    public string extraInformation;
 }
 
 public class StatsMenuUI : BaseMenuPanelUI
@@ -42,7 +42,7 @@ public class StatsMenuUI : BaseMenuPanelUI
         foreach (EntitiyStat stat in stats)
         {
             GameObject newStatSlot = Instantiate(statSlotPrefab, statsContainer);
-            newStatSlot.GetComponent<EntityStatsSlotUI>().Initialize(stat.statName, stat.initialStatValue, stat.currentStatValue, stat.extraStatValue);
+            newStatSlot.GetComponent<EntityStatsSlotUI>().Initialize(stat.statName, stat.initialStatValue, stat.currentStatValue, stat.extraInformation);
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(statsContainer.GetComponent<RectTransform>());

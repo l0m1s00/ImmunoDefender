@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackTowerStats : TargetingTowerStats
@@ -17,5 +18,22 @@ public class AttackTowerStats : TargetingTowerStats
         spawnSoldierCooldown = data.spawnSoldierCooldown;
         totalSoldiers = baseMaxSoldiers;
         availableSoldiers = baseMaxSoldiers;
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = base.GetStats();
+
+        stats.Add(new EntitiyStat { 
+            statName = "Available Soldiers", 
+            currentStatValue = availableSoldiers.ToString() 
+        });
+
+        stats.Add(new EntitiyStat { 
+            statName = "Deployed Soldiers", 
+            currentStatValue = (totalSoldiers - availableSoldiers).ToString() 
+        });
+
+        return stats;
     }
 }

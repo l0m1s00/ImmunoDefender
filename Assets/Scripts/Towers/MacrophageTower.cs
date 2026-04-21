@@ -43,7 +43,7 @@ public class MacrophageTower : AttackTower
 
             float distanceToWaste = Vector2.Distance(transform.position, waste.transform.position);
 
-            if (distanceToWaste <= attackStats.range && distanceToWaste < shortestDistance)
+            if (distanceToWaste <= GetTowerRange() && distanceToWaste < shortestDistance)
             {
                 shortestDistance = distanceToWaste;
                 closestWaste = waste;

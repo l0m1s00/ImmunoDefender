@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8661538047031770263}
   - component: {fileID: 2824591911538869889}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: -7176186053464365137}
   - component: {fileID: 2658201044671764030}
   - component: {fileID: 8545736072764732607}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MacrophageCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -32,13 +32,22 @@ public class BLymphocyteTowerStats : TargetingTowerStats
         }
     }
 
-    public List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetStats()
     {
-        List<EntitiyStat> stats = new List<EntitiyStat>();
+        List<EntitiyStat> stats = base.GetStats();
 
-        stats.Add(new EntitiyStat { statName = "Range", initialStatValue = baseRange.ToString(), currentStatValue = range.ToString() });
-        stats.Add(new EntitiyStat { statName = "Investigation Interval", initialStatValue = baseInvestigationInterval.ToString() + " s", currentStatValue = investigationInterval.ToString() + " s"});
-        stats.Add(new EntitiyStat { statName = "Investigation Amount", initialStatValue = baseInvestigationAmount.ToString(), currentStatValue = investigationAmount.ToString() });
+        stats.Add(new EntitiyStat { 
+            statName = "Investigation Amount", 
+            initialStatValue = baseInvestigationAmount.ToString(), 
+            currentStatValue = investigationAmount.ToString()
+        });
+
+        stats.Add(new EntitiyStat { 
+            statName = "Investigation Interval", 
+            initialStatValue = (baseInvestigationAmount / baseInvestigationInterval).ToString() + " / s", 
+            currentStatValue = (investigationAmount / investigationInterval).ToString() + " / s",
+            extraInformation = "Amount of research per second"
+        });
 
         return stats;
     }

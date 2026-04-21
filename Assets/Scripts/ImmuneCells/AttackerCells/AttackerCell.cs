@@ -130,13 +130,14 @@ public abstract class AttackerCell : ImmuneCell
         return damageBonus;
     }
 
-    private List<float> CalculateDamageBuffsAgainstAllEnemies()
+    private Dictionary<EnemyData, float> CalculateDamageBuffsAgainstAllEnemies()
     {
-        List<float> damageBuffs = new List<float>();
+        //tomamos todos los bufos de daño de todas las torres linfocitosB al alcance y recordamos por cada grupo de bufos el enemigo al que afectan
+        Dictionary<EnemyData, float> totalBonuses = new Dictionary<EnemyData, float>();
 
         foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
         {
-            damageBuffs.Add(0f);
+            totalBonuses.Add(enemyType, 0f);
         }
 
         foreach (Tower tower in TowerManager.Instance.GetBuiltTowers())
@@ -144,25 +145,28 @@ public abstract class AttackerCell : ImmuneCell
             if (tower is BLymphocyteTower bLymphocyteTower)
             {
                 float distanceToTower = Vector2.Distance(headquarters.transform.position, bLymphocyteTower.transform.position);
+                //float sqrDistance = (headquarters.transform.position - bLymphocyteTower.transform.position).sqrMagnitude;
+                //float towerSqrRange = bLymphocyteTower.GetTowerRange() * bLymphocyteTower.GetTowerRange();
 
                 if (distanceToTower <= bLymphocyteTower.GetTowerRange())
                 {
-                    int i = 0;
-                    foreach (KeyValuePair<EnemyData, float> extraDamage in bLymphocyteTower.GetAllDamageBonuses())
+                    foreach (KeyValuePair<EnemyData, float> enemyKey in bLymphocyteTower.GetAllDamageBonuses())
                     {
-                        damageBuffs[i] += extraDamage.Value;
-                        i++;
+                        //if (totalBonuses.ContainsKey(enemyKey.Key)) totalBonuses[enemyKey.Key] += enemyKey.Value;
+                        //else totalBonuses[enemyKey.Key] = enemyKey.Value;
+                        totalBonuses[enemyKey.Key] += enemyKey.Value;
                     }
                 }
             }
         }
 
-        return damageBuffs;
+        return totalBonuses;
     }
 
     public override List<EntitiyStat> GetStats()
     {
-        List<float> damageBonuses = CalculateDamageBuffsAgainstAllEnemies();
+        Dictionary<EnemyData, float> damageBonuses = CalculateDamageBuffsAgainstAllEnemies();
+        Debug.Log(damageBonuses.Count);
         return attackerStats.GetStats(damageBonuses);
     }
 

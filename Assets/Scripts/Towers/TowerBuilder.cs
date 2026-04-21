@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class TowerBuilder : MonoBehaviour, IResettable
 {
     [Header("Components")]
-    [SerializeField] private TowerManagerUI towerManagerUIRef;
+    [SerializeField] private TowerBuilderUI towerManagerUIRef;
     [Header("Containers")]
     [SerializeField] private Transform towersContainer;
 
@@ -62,9 +62,17 @@ public class TowerBuilder : MonoBehaviour, IResettable
             //datos de la torre a construir
             this.towerCardToBuild = towerCardToBuild;
             towerToBuildData = this.towerCardToBuild.GetTowerCardData();
+
+            float towerRange = 0f;
+
+            if (towerToBuildData is TargetingTowerData targetingTowerToBuild)
+            {
+                towerRange = targetingTowerToBuild.range;
+            }
+
             //fantasma para visualizar construccion
             currentGhostTower = PoolManager.Instance.SpawnGhostTower(towerToBuildData);
-            towerManagerUIRef.SetupGhostRender(currentGhostTower);
+            towerManagerUIRef.SetupGhostRender(currentGhostTower, towerRange);
         }
         else
         {

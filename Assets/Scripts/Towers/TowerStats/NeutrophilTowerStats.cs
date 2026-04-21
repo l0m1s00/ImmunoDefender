@@ -13,14 +13,16 @@ public class NeutrophilTowerStats : AttackTowerStats
         refillCooldown = baseRefillCooldown;
     }
 
-    public List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetStats()
     {
-        List<EntitiyStat> stats = new List<EntitiyStat>();
+        List<EntitiyStat> stats = base.GetStats();
 
-        stats.Add(new EntitiyStat { statName = "Range", initialStatValue = baseRange.ToString(), currentStatValue = range.ToString() });
-        stats.Add(new EntitiyStat { statName = "Available Soldiers", currentStatValue = availableSoldiers.ToString() });
-        stats.Add(new EntitiyStat { statName = "Deployed Soldiers", currentStatValue = (totalSoldiers - availableSoldiers).ToString() });
-        stats.Add(new EntitiyStat { statName = "Reload Soldier", initialStatValue = baseRefillCooldown.ToString(), currentStatValue = refillCooldown.ToString()});
+        stats.Add(new EntitiyStat { 
+            statName = "Reload Soldier", 
+            initialStatValue = baseRefillCooldown.ToString() + " s", 
+            currentStatValue = refillCooldown.ToString() + " s",
+            extraInformation = "Time required to recover a soldier. The recruitment of new troops begins when a soldier dies"
+        });
 
         return stats;
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetingTowerStats : BasicTowerStats
@@ -9,5 +10,18 @@ public class TargetingTowerStats : BasicTowerStats
     {
         baseRange = data.range;
         range = baseRange;
+    }
+
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = base.GetStats();
+
+        stats.Add(new EntitiyStat { 
+            statName = "Range", 
+            initialStatValue = baseRange.ToString(), 
+            currentStatValue = range.ToString() 
+        });
+
+        return stats;
     }
 }

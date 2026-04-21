@@ -13,14 +13,15 @@ public class MacrophageCellStats : AttackerCellStats
         deleteToxicWasteTime = baseDeleteToxicWasteTime;
     }
 
-    public override List<EntitiyStat> GetStats(List<float> damageBonuses)
+    public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)
     {
         List<EntitiyStat> stats = base.GetStats(damageBonuses);
 
         stats.Add(new EntitiyStat { 
             statName = "Clean Waste", 
-            initialStatValue = baseDeleteToxicWasteTime.ToString() + " s", 
-            currentStatValue = deleteToxicWasteTime.ToString() + " s"
+            initialStatValue = baseDeleteToxicWasteTime.ToString("F2") + " s", 
+            currentStatValue = deleteToxicWasteTime.ToString("F2") + " s",
+            extraInformation = "The time it takes to eliminate a toxic waste"
         });
 
         return stats;

@@ -18,26 +18,32 @@ public class AttackerCellStats : BasicCellStats
         attackCooldown = baseAttackCooldown;
     }
 
-    public override List<EntitiyStat> GetStats(List<float> damageBonuses)
+    public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)
     {
         List<EntitiyStat> stats = base.GetStats(damageBonuses);
 
-        string extraDamageBonuses = "\n";
+        string extraDamageBonuses = "";
 
-        for (int i = 0; i < damageBonuses.Count; i++)
+        if (damageBonuses != null && damageBonuses.Count > 0)
         {
-            extraDamageBonuses += "(+" + damageBonuses[i].ToString();
+            List<string> convertedBonuses = new List<string>();
 
-            if (i == damageBonuses.Count - 1) extraDamageBonuses += ")";
-            else extraDamageBonuses += ") ";
+            foreach(KeyValuePair<EnemyData, float> key in damageBonuses)
+            {
+                convertedBonuses.Add(key.Key.enemyName + "(+" + key.Value.ToString("F2") + ")");
+            }
+
+            extraDamageBonuses = string.Join("\n", convertedBonuses);
         }
 
         stats.Add(new EntitiyStat { 
             statName = "Damage", 
-            initialStatValue = baseDamage.ToString(), 
-            currentStatValue = damage.ToString(), 
-            extraStatValue = extraDamageBonuses
+            initialStatValue = baseDamage.ToString("F2"), 
+            currentStatValue = damage.ToString("F2"), 
+            extraInformation = extraDamageBonuses
         });
+
+        
 
         return stats;
     }

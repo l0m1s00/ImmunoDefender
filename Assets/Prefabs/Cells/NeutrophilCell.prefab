@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 817663448737907588}
   - component: {fileID: 7695972157190882116}
   - component: {fileID: 2010518499693357031}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NeutrophilCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7341994172399334735}
   - component: {fileID: 8808826902331220518}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -26,7 +26,7 @@ public class SelectionManager : MonoBehaviour
     private void HandleSelection()
     {
         //ignorar click sobre elementos de la interfaz
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (IsPointerOverRealUI()) return;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Inputs.Instance.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
@@ -50,6 +50,29 @@ public class SelectionManager : MonoBehaviour
         {
             SelectNewEntity(null);
         }
+    }
+
+    private bool IsPointerOverRealUI()
+    {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Inputs.Instance.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void SelectNewEntity(ISelectable newEntity)

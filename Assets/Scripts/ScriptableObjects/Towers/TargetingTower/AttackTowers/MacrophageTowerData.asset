@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MacrophageTowerData
   towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  towerPrefab: {fileID: 1019132104359009757, guid: bcc180bc07afadd4cb31c09e989ba7ea, type: 3}
-  towerGhostPrefab: {fileID: 157075261884555399, guid: a201d29e4e850b147b4199304e64edac, type: 3}
+  towerPrefab: {fileID: 9014243030776261119, guid: bcc180bc07afadd4cb31c09e989ba7ea, type: 3}
+  towerGhostPrefab: {fileID: 7982956230142574035, guid: a201d29e4e850b147b4199304e64edac, type: 3}
   towerName: Macrophage
   description: Celulas grandes duraderas que comen residuos
   cost: 50
+  range: 1
   soldierDataSO: {fileID: 11400000, guid: e94e84e402247b44881230c0094db616, type: 2}
   nSoldiers: 2
-  range: 1.5
   spawnSoldierCooldown: 1.5

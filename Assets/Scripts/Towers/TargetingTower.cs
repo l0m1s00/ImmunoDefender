@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public abstract class TargetingTower : Tower
+public abstract class TargetingTower : Tower, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Optimization")]
     [SerializeField][Range(0.1f, 1f)] protected float scanInterval;
@@ -21,6 +22,8 @@ public abstract class TargetingTower : Tower
         {
             basicStats = new TargetingTowerStats(targetingData);
         }
+
+        towerUIRef.InitializeVisuals(targetingStats.range);
     }
 
     protected virtual void Update()
@@ -47,6 +50,10 @@ public abstract class TargetingTower : Tower
         Enemy closestEnemy = null;
         float shortestDistance = float.MaxValue;
 
+        //el rango de deteccion de la torre debe comenzar desde el limite de la casilla donde se construye
+        //NO desde el centro de la propia torre
+        float realDetectionRange = targetingStats.range + 0.5f;
+
         foreach (Enemy enemy in EnemyManager.Instance.GetEnemiesInBattlefield())
         {
             //enemigo a comparar desaparece por cualquier causa
@@ -54,7 +61,7 @@ public abstract class TargetingTower : Tower
 
             float distanceToEnemy = Vector2.Distance(this.transform.position, enemy.transform.position);
 
-            if (distanceToEnemy <= targetingStats.range && distanceToEnemy < shortestDistance)
+            if (distanceToEnemy <= realDetectionRange && distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
                 closestEnemy = enemy;
@@ -73,8 +80,10 @@ public abstract class TargetingTower : Tower
     {
         if (currentTarget != null)
         {
+            float realDetectionRange = targetingStats.range + 0.5f;
+
             //el enemigo fijado ha desaparecido, por muerte o salida de rango
-            if (!currentTarget.gameObject.activeInHierarchy || Vector2.Distance(transform.position, currentTarget.transform.position) > targetingStats.range)
+            if (!currentTarget.gameObject.activeInHierarchy || Vector2.Distance(transform.position, currentTarget.transform.position) > realDetectionRange)
             {
                 currentTarget = null;
             }
@@ -88,7 +97,17 @@ public abstract class TargetingTower : Tower
 
     public float GetTowerRange()
     {
-        return targetingStats.range;
+        return targetingStats.range + 0.5f; //rango real de la torre, desde el borde de la casilla, no desde el centro del objeto
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        towerUIRef.ShowVisualRange();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        towerUIRef.HideVisualRange();
     }
 
     public override void Reset()
@@ -99,5 +118,6 @@ public abstract class TargetingTower : Tower
         targetingStats.range = 0f;
         currentTarget = null;
         scanTimer = 0f;
+        towerUIRef.Reset();
     }
 }
