@@ -102,6 +102,10 @@ public class GridManager : MonoBehaviour
             Destroy(towerHolderTileContainerTransform.GetChild(i).gameObject);
         }
 
+        towerCells.Clear();
+        towerHolderCells.Clear();
+        pathCells.Clear();
+
         NewPath();
 
         while (pathSize < minPathLength)
@@ -142,9 +146,9 @@ public class GridManager : MonoBehaviour
     {
         GenerateObstacles();
         GetTowerCells();
-        StartCoroutine(PlaceScenaryTiles());
-        StartCoroutine(PlacePathTiles());
-        StartCoroutine(PlaceTowerHoldersTiles());
+        yield return StartCoroutine(PlaceScenaryTiles());
+        yield return StartCoroutine(PlacePathTiles());
+        yield return StartCoroutine(PlaceTowerHoldersTiles());
         OnMapGenerationCompleted?.Invoke();
         yield return null;
     }

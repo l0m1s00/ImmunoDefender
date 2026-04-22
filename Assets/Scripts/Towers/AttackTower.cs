@@ -27,7 +27,7 @@ public abstract class AttackTower : TargetingTower
         //aunque las cartas se creen empleando TowerDataSO, realmente lo que se pasa es el tipo de la torre, AttackerTowerDataSO
         //ese dataSO se enmascara como TowerDataSO pero internamente sigue siendo AttackerTowerDataSO
         //este if revela la verdadera identidad de TowerDataSO
-        if (data is AttackerTowerData attackerData)
+        if (data is CellGeneratorTowerData attackerData)
         {
             basicStats = new AttackTowerStats(attackerData);
         }

@@ -8,7 +8,7 @@ public class TowerUI : MonoBehaviour
 
     private void Awake()
     {
-        visualRangeRenderer.enabled = false;
+        if (visualRangeRenderer != null) visualRangeRenderer.enabled = false;
     }
 
     private void Start()
@@ -18,18 +18,22 @@ public class TowerUI : MonoBehaviour
 
     public void InitializeVisuals(float towerRange)
     {
-        Vector3 upscaledVisualRange = new Vector3(towerRange * 2 + 1, towerRange * 2 + 1, 1f);
-        visualRangeRenderer.transform.localScale = upscaledVisualRange;
+        if (towerRange > 0f) //algunas torres no tienen rango
+        {
+            Vector3 upscaledVisualRange = new Vector3(towerRange * 2 + 1, towerRange * 2 + 1, 1f);
+            visualRangeRenderer.transform.localScale = upscaledVisualRange;
+        }
+        else visualRangeRenderer = null;
     }
 
     public void ShowVisualRange()
     {
-        visualRangeRenderer.enabled = true;
+        if (visualRangeRenderer != null) visualRangeRenderer.enabled = true;
     }
 
     public void HideVisualRange()
     {
-        visualRangeRenderer.enabled = false;
+        if (visualRangeRenderer != null) visualRangeRenderer.enabled = false;
     }
 
     public void SelectTower()
@@ -44,6 +48,6 @@ public class TowerUI : MonoBehaviour
 
     public void Reset()
     {
-        visualRangeRenderer.transform.localScale = new Vector3( 1f, 1f, 1f );
+        if (visualRangeRenderer != null) visualRangeRenderer.transform.localScale = new Vector3( 1f, 1f, 1f );
     }
 }

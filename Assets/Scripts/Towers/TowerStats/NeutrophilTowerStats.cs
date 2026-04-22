@@ -19,8 +19,8 @@ public class NeutrophilTowerStats : AttackTowerStats
 
         stats.Add(new EntitiyStat { 
             statName = "Reload Soldier", 
-            initialStatValue = baseRefillCooldown.ToString() + " s", 
-            currentStatValue = refillCooldown.ToString() + " s",
+            initialStatValue = baseRefillCooldown.ToString("F2") + " s", 
+            currentStatValue = refillCooldown.ToString("F2") + " s",
             extraInformation = "Time required to recover a soldier. The recruitment of new troops begins when a soldier dies"
         });
 

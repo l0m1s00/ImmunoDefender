@@ -65,6 +65,13 @@ public abstract class AttackerCell : ImmuneCell
         }
     }
 
+    protected void MoveTowardsTarget(GameObject target)
+    {
+        if (target == null) return;
+
+        this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, basicStats.speed * Time.deltaTime);
+    }
+
     private void ChaseEnemyActions()
     {
         MoveTowardsTarget(currentTarget.gameObject);

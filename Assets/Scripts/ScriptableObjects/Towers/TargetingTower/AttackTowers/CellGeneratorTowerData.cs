@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public abstract class AttackerTowerData : TargetingTowerData
+public abstract class CellGeneratorTowerData : TargetingTowerData
 {
-    [Header("Combat Stats")]
+    [Header("Cell Soldiers Stats")]
     public ImmuneCellData soldierDataSO;
     public int nSoldiers;
     [Header("Deploy Soldiers Settings")]

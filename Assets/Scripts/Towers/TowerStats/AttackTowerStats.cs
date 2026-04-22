@@ -10,7 +10,7 @@ public class AttackTowerStats : TargetingTowerStats
     public int availableSoldiers; //soldados disponibles para mandar
     public int totalSoldiers; //cantidad de soldados de la torre, desplegados y dentro de la torre
 
-    public AttackTowerStats(AttackerTowerData data) : base(data)
+    public AttackTowerStats(CellGeneratorTowerData data) : base(data)
     {
         soldierData = data.soldierDataSO;
         baseMaxSoldiers = data.nSoldiers;

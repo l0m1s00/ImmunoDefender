@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c0a515e024bb24e880d11a1742b3a8, type: 3}
+  m_Name: CellularFarmTowerData
+  m_EditorClassIdentifier: Assembly-CSharp::CellularFarmTowerData
+  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerPrefab: {fileID: 84432226418481924, guid: 3ff672fc204ee6a40958df3a9bf7144b, type: 3}
+  towerGhostPrefab: {fileID: 9025853786560865416, guid: 03c4dd0d7e09a524d89b1d39225c3d9a, type: 3}
+  towerName: Cellular Farm
+  description: Generates Genetics over time
+  cost: 120
+  generatedCurrencyAmountPerCell: 2
+  generatedCurrencyInterval: 1
+  nStemCells: 3

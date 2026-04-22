@@ -47,13 +47,6 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
         OnEntityDestroyed?.Invoke(this);
     }
 
-    protected virtual void MoveTowardsTarget(GameObject target)
-    {
-        if (target == null) return;
-
-        this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, basicStats.speed * Time.deltaTime);
-    }
-
     public virtual void Reset()
     {
         headquarters = null;
