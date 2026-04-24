@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915b374e265e9ee4ea3301038df668bc, type: 3}
   m_Name: StemCellData
   m_EditorClassIdentifier: Assembly-CSharp::StemCellData
-  immuneCellPrefab: {fileID: 0}
-  cellName: 
-  speed: 0
+  immuneCellPrefab: {fileID: 7447732775804149025, guid: 844a2f0265501574a979e9ea01229557, type: 3}
+  cellName: Stem Cell
+  speed: 0.3
+  getInfectionCooldown: 30
+  resistanceToInfection: 5

@@ -173,7 +173,6 @@ public abstract class AttackerCell : ImmuneCell
     public override List<EntitiyStat> GetStats()
     {
         Dictionary<EnemyData, float> damageBonuses = CalculateDamageBuffsAgainstAllEnemies();
-        Debug.Log(damageBonuses.Count);
         return attackerStats.GetStats(damageBonuses);
     }
 
@@ -229,7 +228,8 @@ public abstract class AttackerCell : ImmuneCell
 
     private void EnterTower()
     {
-        if (headquarters is AttackTower attackTowerHome) attackTowerHome.SoldierReturn();
+        CellSpawnerModule spawnerModule = headquarters.GetComponent<CellSpawnerModule>();
+        spawnerModule.ReturnCell();
         NotifyEntityDestruction();
         PoolManager.Instance.DespawnImmuneCell(attackerStats.data, this.gameObject);
     }
@@ -237,11 +237,11 @@ public abstract class AttackerCell : ImmuneCell
     //comprueba si el enemigo sigue en los limites de la torre
     private bool IsTargetOutOfTowerRange()
     {
-        if (headquarters is AttackTower attackTower && currentTarget != null)
+        if (headquarters is TargetingTower targetingTower && currentTarget != null)
         {
-            float distanceToTower = Vector2.Distance(attackTower.transform.position, currentTarget.transform.position);
+            float distanceToTower = Vector2.Distance(targetingTower.transform.position, currentTarget.transform.position);
             
-            if (distanceToTower > attackTower.GetTowerRange())
+            if (distanceToTower > targetingTower.GetTowerRange())
             {
                 return true;
             }
@@ -263,9 +263,9 @@ public abstract class AttackerCell : ImmuneCell
     //solicitar a la torre padre un nuevo objetivo
     public void RequestNewTarget()
     {
-        if (headquarters is AttackTower attackTower)
+        if (headquarters is TargetingTower targetingTower)
         {
-            Enemy newTarget = attackTower.RequestTarget();
+            Enemy newTarget = targetingTower.RequestTarget();
             
             if (newTarget != null)
             {

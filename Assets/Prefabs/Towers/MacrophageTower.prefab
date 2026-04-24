@@ -5209,6 +5209,7 @@ GameObject:
   - component: {fileID: 1610337550250440733}
   - component: {fileID: 2298082499462132303}
   - component: {fileID: 4479135366313819897}
+  - component: {fileID: -195118719732439316}
   m_Layer: 0
   m_Name: MacrophageTower
   m_TagString: Untagged
@@ -5248,8 +5249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MacrophageTower
   towerUIRef: {fileID: 2298082499462132303}
   scanInterval: 0.2
-  soldiersSpawnPoint: {fileID: 865653331315281696}
-  spawnSoldierParticles: {fileID: 8400278520878370016}
 --- !u!114 &2298082499462132303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5310,3 +5309,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &-195118719732439316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9014243030776261119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f19bf0a3381f9249a37cd5a8bbabbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CellSpawnerModule
+  soldiersSpawnPoint: {fileID: 865653331315281696}
+  spawnSoldierParticles: {fileID: 8400278520878370016}

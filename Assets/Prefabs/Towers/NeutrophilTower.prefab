@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6979811636726427825}
   - component: {fileID: 912966837422191266}
   - component: {fileID: 4816657795874658740}
+  - component: {fileID: 2189232434298647315}
   m_Layer: 0
   m_Name: NeutrophilTower
   m_TagString: Untagged
@@ -51,8 +52,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NeutrophilTower
   towerUIRef: {fileID: 912966837422191266}
   scanInterval: 0.2
-  soldiersSpawnPoint: {fileID: 8020021722248819239}
-  spawnSoldierParticles: {fileID: 7113499941368726761}
 --- !u!114 &912966837422191266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +112,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &2189232434298647315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824966694110340585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f19bf0a3381f9249a37cd5a8bbabbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CellSpawnerModule
+  soldiersSpawnPoint: {fileID: 8020021722248819239}
+  spawnSoldierParticles: {fileID: 7113499941368726761}
 --- !u!1 &2628760542109570114
 GameObject:
   m_ObjectHideFlags: 0

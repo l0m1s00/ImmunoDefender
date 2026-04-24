@@ -107,6 +107,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StemCell
   immuneCellUIRef: {fileID: 4689973991195054672}
+  minWaitTime: 2
+  maxWaitTime: 4
+  moveInTileMargin: 0.3
 --- !u!114 &4689973991195054672
 MonoBehaviour:
   m_ObjectHideFlags: 0

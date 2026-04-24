@@ -1,9 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MacrophageTowerData", menuName = "Immuno Defender/Towers/Targeting Tower Data/Attacker Tower Data/Macrophage Tower Data")]
-public class MacrophageTowerData : CellGeneratorTowerData
+public class MacrophageTowerData : TargetingTowerData
 {
-    //[Header("Toxic Waste Settings")]
-    //public float refillCooldown;
-    //public float spawnSoldierCooldown;
+    [Header("Unit Generator Module Data")]
+    public CellSpawnerData spawnerData;
 }

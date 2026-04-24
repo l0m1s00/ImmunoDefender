@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MacrophageTower : AttackTower
+public class MacrophageTower : TargetingTower
 {
+    private CellSpawnerModule spawnerModule;
     protected MacrophageTowerStats macrophageStats => (MacrophageTowerStats)basicStats;
 
     public override void Initialize(TowerData data)
@@ -12,6 +13,8 @@ public class MacrophageTower : AttackTower
         if (data is MacrophageTowerData macrophageTowerData)
         {
             basicStats = new MacrophageTowerStats(macrophageTowerData);
+            spawnerModule = GetComponent<CellSpawnerModule>();
+            spawnerModule.Initialize(this, macrophageStats.spawnerStats);
         }
     }
 
@@ -19,17 +22,8 @@ public class MacrophageTower : AttackTower
     {
         base.Update();
 
-        if (currentTarget == null)
-        {
-            if (attackStats.availableSoldiers > 0f && spawnTimer <= 0f)
-            {
-                if (CheckForWasteInRange())
-                {
-                    DeploySoldier();
-                    spawnTimer = attackStats.spawnSoldierCooldown;
-                }
-            }
-        }
+        bool shouldSpawn = currentTarget != null || CheckForWasteInRange();
+        spawnerModule.HandleSpawning(shouldSpawn);
     }
 
     private ToxicWaste GetClosestAvailableWaste()

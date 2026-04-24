@@ -18,7 +18,6 @@ public class NeutrophilImmuneCell : AttackerCell
     protected override void Attack()
     {
         base.Attack();
-        //neutrophilCellStats.remainingAttacks -= neutrophilCellStats.damage;
         neutrophilCellStats.remainingAttacks --;
         NotifyStatsChanged();
 

@@ -20,7 +20,8 @@ MonoBehaviour:
   description: Celula de rapida respuesta y corta esperanza de vida
   cost: 30
   range: 1
-  soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
-  nSoldiers: 3
-  spawnSoldierCooldown: 1.5
+  spawnerData:
+    soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
+    nSoldiers: 3
+    spawnSoldierCooldown: 0.3
   refillCooldown: 5

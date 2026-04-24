@@ -18,3 +18,4 @@ MonoBehaviour:
   health: 1
   rewardDrop: 6
   enemyPrefab: {fileID: 2369984978527615394, guid: 4fd0c33b8ac1cc14f8fcd7f55ed5ca97, type: 3}
+  infectionProbability: 4

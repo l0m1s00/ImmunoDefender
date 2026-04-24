@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CellularFarmTower : Tower
 {
+    private CellSpawnerModule spawnerModule;
     private float generateCurrencyTimer;
 
     //Stats
@@ -15,13 +16,21 @@ public class CellularFarmTower : Tower
         if (data is CellularFarmTowerData cellularFarmData)
         {
             basicStats = new CellularFarmTowerStats(cellularFarmData);
+            spawnerModule = GetComponent<CellSpawnerModule>();
+            spawnerModule.Initialize(this, cellularFarmTowerStats.spawnerStats);
+            generateCurrencyTimer = cellularFarmTowerStats.generatedCurrencyInterval;
         }
 
-        generateCurrencyTimer = cellularFarmTowerStats.generatedCurrencyInterval;
         towerUIRef.InitializeVisuals(0f);
     }
 
     protected virtual void Update()
+    {
+        HandleEconomyGeneration();
+        spawnerModule.HandleSpawning(true);
+    }
+
+    private void HandleEconomyGeneration()
     {
         if (GameManager.Instance.GetCurrentGameState() != GameManager.GameState.Playing) return;
 

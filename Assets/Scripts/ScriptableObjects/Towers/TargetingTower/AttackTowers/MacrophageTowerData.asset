@@ -20,6 +20,7 @@ MonoBehaviour:
   description: Celulas grandes duraderas que comen residuos
   cost: 50
   range: 1
-  soldierDataSO: {fileID: 11400000, guid: e94e84e402247b44881230c0094db616, type: 2}
-  nSoldiers: 2
-  spawnSoldierCooldown: 1.5
+  spawnerData:
+    soldierDataSO: {fileID: 11400000, guid: e94e84e402247b44881230c0094db616, type: 2}
+    nSoldiers: 2
+    spawnSoldierCooldown: 0.7

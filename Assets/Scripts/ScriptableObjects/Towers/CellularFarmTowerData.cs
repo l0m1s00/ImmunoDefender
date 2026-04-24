@@ -8,4 +8,6 @@ public class CellularFarmTowerData : TowerData
     public int generatedCurrencyAmountPerCell;
     public float generatedCurrencyInterval;
     public int nStemCells;
+    [Header("'Cow' Cells Data")]
+    public CellSpawnerData spawnerData;
 }

@@ -2,16 +2,21 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MacrophageTowerStats : AttackTowerStats
+public class MacrophageTowerStats : TargetingTowerStats
 {
-    public MacrophageTowerStats(MacrophageTowerData data) : base(data) { }
+    public CellSpawnerStats spawnerStats;
 
-    //public override List<EntitiyStat> GetStats()
-    //{
-    //    List<EntitiyStat> stats = base.GetStats();
+    public MacrophageTowerStats(MacrophageTowerData data) : base(data)
+    {
+        spawnerStats = new CellSpawnerStats(data.spawnerData);
+    }
 
+    public override List<EntitiyStat> GetStats()
+    {
+        List<EntitiyStat> stats = base.GetStats();
 
+        stats.AddRange(spawnerStats.GetStats());
 
-    //    return stats;
-    //}
+        return stats;
+    }
 }

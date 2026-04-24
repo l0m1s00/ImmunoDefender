@@ -10,13 +10,19 @@ public class CellularFarmTowerStats : BasicTowerStats
     protected int baseStemCells;
     public int totalStemCells;
 
+    public CellSpawnerStats spawnerStats;
+
     public CellularFarmTowerStats(CellularFarmTowerData data) : base(data)
     {
         baseGeneratedCurrencyAmountPerCell = data.generatedCurrencyAmountPerCell;
         generatedCurrencyAmountPerCell = baseGeneratedCurrencyAmountPerCell;
         baseGeneratedCurrencyInterval = data.generatedCurrencyInterval;
         generatedCurrencyInterval = baseGeneratedCurrencyInterval;
-        baseStemCells = data.nStemCells;
+
+        spawnerStats = new CellSpawnerStats(data.spawnerData);
+
+        //baseStemCells = data.nStemCells;
+        baseStemCells = spawnerStats.totalSoldiers;
         totalStemCells = baseStemCells;
     }
 

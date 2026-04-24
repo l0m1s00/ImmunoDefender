@@ -18,7 +18,7 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
         basicStats = new BasicTowerStats(data);
     }
 
-    protected void NotifyStatsChanged()
+    public void NotifyStatsChanged()
     {
         OnStatsChanged?.Invoke();
     }

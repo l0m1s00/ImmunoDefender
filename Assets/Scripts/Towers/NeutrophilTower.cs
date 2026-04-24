@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NeutrophilTower : AttackTower
+public class NeutrophilTower : TargetingTower
 {
+    private CellSpawnerModule spawnerModule;
     private float refillTimer;
 
     protected NeutrophilTowerStats neutrophilTowerStats => (NeutrophilTowerStats)basicStats;
@@ -14,27 +15,30 @@ public class NeutrophilTower : AttackTower
         if (data is NeutrophilTowerData neutrophilTowerData)
         {
             basicStats = new NeutrophilTowerStats(neutrophilTowerData);
+            spawnerModule = GetComponent<CellSpawnerModule>();
+            spawnerModule.Initialize(this, neutrophilTowerStats.spawnerStats);
+            refillTimer = neutrophilTowerStats.refillCooldown;
         }
-
-        refillTimer = neutrophilTowerStats.refillCooldown;
     }
 
     protected override void Update()
     {
-        HandleSoldiersRefill();
         base.Update();
+        HandleSoldiersRefill();
+        bool shouldSpawn = currentTarget != null;
+        spawnerModule.HandleSpawning(shouldSpawn);
     }
 
     private void HandleSoldiersRefill()
     {
-        if (neutrophilTowerStats.totalSoldiers < neutrophilTowerStats.maxSoldiers)
+        if (neutrophilTowerStats.spawnerStats.totalSoldiers < neutrophilTowerStats.spawnerStats.maxSoldiers)
         {
             refillTimer -= Time.deltaTime;
 
             if (refillTimer <= 0f)
             {
-                neutrophilTowerStats.totalSoldiers++;
-                neutrophilTowerStats.availableSoldiers++;
+                neutrophilTowerStats.spawnerStats.totalSoldiers++;
+                neutrophilTowerStats.spawnerStats.availableSoldiers++;
                 NotifyStatsChanged();
                 refillTimer = neutrophilTowerStats.refillCooldown;
             }
@@ -43,7 +47,7 @@ public class NeutrophilTower : AttackTower
 
     public void OnNeutrophilSoldierDead()
     {
-        neutrophilTowerStats.totalSoldiers--;
+        neutrophilTowerStats.spawnerStats.totalSoldiers--;
         NotifyStatsChanged();
     }
 
@@ -57,6 +61,5 @@ public class NeutrophilTower : AttackTower
         base.Reset();
 
         refillTimer = 0f;
-        neutrophilTowerStats.refillCooldown = 0f;
     }
 }
