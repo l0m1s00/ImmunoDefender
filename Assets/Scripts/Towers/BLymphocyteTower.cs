@@ -74,11 +74,6 @@ public class BLymphocyteTower : TargetingTower
         return !enemy.IsBeingInvestigated();
     }
 
-    public override List<EntitiyStat> GetStats()
-    {
-        return bLymphocyteStats.GetStats();
-    }
-
     public float GetDamageBonusAgainstEnemy(EnemyData enemyData)
     {
         return bLymphocyteStats.damageBonuses[enemyData];

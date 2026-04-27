@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,11 @@ public class TowerManager : MonoBehaviour
 {
     public static TowerManager Instance;
 
-    private List<Tower> towers = new List<Tower>(); //torres construidas
+    private HashSet<Tower> towers = new HashSet<Tower>(); //torres construidas
+    private HashSet<CellularFarmTower> cellularFarmTowers = new HashSet<CellularFarmTower>();
+
+    //EVENTOS
+    public static event Action OnNewCellularFarmBuilt;
 
     private void Awake()
     {
@@ -26,15 +31,28 @@ public class TowerManager : MonoBehaviour
     private void AddTower(Tower newTower) 
     {
         towers.Add(newTower);
+
+        if (newTower is CellularFarmTower newCellularFarmTower)
+        {
+            cellularFarmTowers.Add(newCellularFarmTower);
+            OnNewCellularFarmBuilt?.Invoke();
+        }
     }
 
-    private void DeleteTower(Tower towerToEliminate)
+    public void DeleteTower(Tower towerToEliminate)
     {
         towers.Remove(towerToEliminate);
+
+        if (towerToEliminate is CellularFarmTower cellularFarmTowerToEliminate) cellularFarmTowers.Remove(cellularFarmTowerToEliminate);
     }
 
-    public List<Tower> GetBuiltTowers()
+    public HashSet<Tower> GetBuiltTowers()
     {
         return towers;
+    }
+
+    public HashSet<CellularFarmTower> GetBuiltCellularFarmTowers()
+    {
+        return cellularFarmTowers;
     }
 }

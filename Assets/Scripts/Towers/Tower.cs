@@ -42,7 +42,7 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 
     public virtual List<EntitiyStat> GetStats()
     {
-        return null;
+        return basicStats.GetStats();
     }
 
     public virtual void Reset() { }

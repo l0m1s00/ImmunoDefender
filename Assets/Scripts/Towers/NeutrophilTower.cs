@@ -51,11 +51,6 @@ public class NeutrophilTower : TargetingTower
         NotifyStatsChanged();
     }
 
-    public override List<EntitiyStat> GetStats()
-    {
-        return neutrophilTowerStats.GetStats();
-    }
-
     public override void Reset()
     {
         base.Reset();

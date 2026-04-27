@@ -23,20 +23,29 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     private Vector3 perpendicularVelocity;
 
     //STATS
-    private EnemyData data;
-    private float speed;
-    private float maxHealth;
-    private float currentHealth;
-    private float damage;
+    protected EnemyStats basicStats;
     private bool isBeingInvestigated = false;
-
     private List<Cell> route;
+
     private int i = 0;
 
     //EVENTOS
     public static event Action<Enemy> OnEnemyRemovedFromBattlefield;
     public event Action OnStatsChanged;
     public event Action<ISelectable> OnEntityDestroyed;
+
+    //preparar al enemigo para lanzarlo en la partida
+    public virtual void Initialize(List<Cell> newRoute, EnemyData enemyData)
+    {
+        //stats
+        basicStats = new EnemyStats(enemyData);
+        enemyUIRef.UpdateHealthBar(1f);
+        //movimiento
+        route = newRoute;
+        ghostPosition = transform.position;
+        randomMovementOffset = UnityEngine.Random.Range(0f, 100f);
+        currentPerpendicular = Vector3.up;
+    }
 
     protected virtual void Move()
     {
@@ -47,7 +56,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         //suavizar cambios de direccion
         currentPerpendicular = Vector3.SmoothDamp(currentPerpendicular, targetPerpendicular, ref perpendicularVelocity, turnSmoothTime);
         //falsa posicion que sigue el enemigo
-        ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, speed * Time.deltaTime);
+        ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, basicStats.speed * Time.deltaTime);
         //movimiento ondulatorio para el desplazamiento
         float wave = Mathf.Sin((Time.time * waveSpeed) + randomMovementOffset) * waveAmplitude;
         
@@ -65,43 +74,26 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         }
     }
 
-    //preparar al enemigo para lanzarlo en la partida
-    public void InitializeEnemy(List<Cell> newRoute, EnemyData enemyData)
-    {
-        //stats
-        data = enemyData;
-        damage = data.damage;
-        speed = data.speed;
-        maxHealth = data.health;
-        currentHealth = maxHealth;
-        enemyUIRef.UpdateHealthBar(1f);
-        //movimiento
-        route = newRoute;
-        ghostPosition = transform.position;
-        randomMovementOffset = UnityEngine.Random.Range(0f, 100f);
-        currentPerpendicular = Vector3.up;
-    }
-
     protected virtual void RemoveEnemy()
     {
         OnEntityDestroyed?.Invoke(this);
         OnEnemyRemovedFromBattlefield?.Invoke(this);
-        PoolManager.Instance.DespawnEnemy(data, this.gameObject);
+        PoolManager.Instance.DespawnEnemy(basicStats.data, this.gameObject);
     }
 
     public void TakeDamage(float damage)
     {
-        if (currentHealth <= 0f) return;
+        if (basicStats.currentHealth <= 0f) return;
 
-        if (currentHealth - damage <= 0f)
+        if (basicStats.currentHealth - damage <= 0f)
         {
-            EconomyManager.Instance.AddCurrency(data.rewardDrop);
+            EconomyManager.Instance.AddCurrency(basicStats.data.rewardDrop);
             RemoveEnemy();
         }
         else
         {
-            currentHealth -= damage;
-            enemyUIRef.UpdateHealthBar(currentHealth / maxHealth);
+            basicStats.currentHealth -= damage;
+            enemyUIRef.UpdateHealthBar(basicStats.currentHealth / basicStats.maxHealth);
             OnStatsChanged?.Invoke();
         }
     }
@@ -118,7 +110,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     public EnemyData GetData()
     {
-        return data;
+        return basicStats.data;
     }
 
     public bool IsBeingInvestigated()
@@ -129,16 +121,6 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     public void SetIsBeingInvestigated(bool investigating)
     {
         isBeingInvestigated = investigating;
-    }
-
-    public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso
-    {
-        perpendicularVelocity = Vector3.zero;
-        currentPerpendicular = Vector3.zero;
-        ghostPosition = Vector3.zero;
-        i = 0;
-        isBeingInvestigated = false;
-        DeactivateInvestigationBar();
     }
 
     public virtual void OnSelect()
@@ -153,17 +135,21 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     public virtual string GetEntityName()
     {
-        return data.enemyName;
+        return basicStats.enemyName;
     }
 
     public virtual List<EntitiyStat> GetStats()
     {
-        List<EntitiyStat> stats = new List<EntitiyStat>();
+        return basicStats.GetStats();
+    }
 
-        stats.Add(new EntitiyStat { statName = "Health", currentStatValue = currentHealth.ToString() });
-        stats.Add(new EntitiyStat { statName = "Speed", currentStatValue = speed.ToString() });
-        stats.Add(new EntitiyStat { statName = "Damage", currentStatValue = damage.ToString() });
-
-        return stats;
+    public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso
+    {
+        perpendicularVelocity = Vector3.zero;
+        currentPerpendicular = Vector3.zero;
+        ghostPosition = Vector3.zero;
+        i = 0;
+        isBeingInvestigated = false;
+        DeactivateInvestigationBar();
     }
 }

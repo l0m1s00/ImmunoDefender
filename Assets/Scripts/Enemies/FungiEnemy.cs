@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,21 +7,29 @@ public class FungiEnemy : Enemy
 {
     //[Header("Toxic Waste Settings")]
     private Transform wasteContainer;
-
-    private int minToxicWasteAmountOnDeath = 4;
-    private int maxToxicWasteAmountOnDeath = 8;
-    private float dropWasteTimer = 0f;
-    private float dropWasteCooldown;
     private Vector3 previousPosition;
+
+    //Stats
+    protected FungiEnemyStats fungiStats => (FungiEnemyStats)basicStats;
+    private float dropWasteTimer = 0f;
 
     //EVENTOS
     public static event Action<ToxicWaste> OnToxicWasteGenerated;
 
     private void Start()
     {
-        CalculateNextWasteDropTime();
-        dropWasteTimer = dropWasteCooldown;
         wasteContainer = GameObject.Find("InGameWaste").transform;
+    }
+
+    public override void Initialize(List<Cell> route, EnemyData data)
+    {
+        base.Initialize(route, data);
+
+        if (data is FungiEnemyData fungiData)
+        {
+            basicStats = new FungiEnemyStats(fungiData);
+            dropWasteTimer = fungiStats.dropWasteCooldown;
+        }
     }
 
     void Update()
@@ -38,15 +47,9 @@ public class FungiEnemy : Enemy
         if (dropWasteTimer <= 0f)
         {
             ShotToxicWaste();
-            CalculateNextWasteDropTime();
-            dropWasteTimer = dropWasteCooldown;
+            fungiStats.CalculateNextWasteDropTime();
+            dropWasteTimer = fungiStats.dropWasteCooldown;
         }
-    }
-
-    private void CalculateNextWasteDropTime()
-    {
-        //currentDropWasteTime = Random.Range(dropWasteMinCooldown, dropWasteMaxCooldown);
-        dropWasteCooldown = Random.Range(4f, 10f);
     }
 
     private void ShotToxicWaste()
@@ -62,13 +65,10 @@ public class FungiEnemy : Enemy
 
     private void SpawnToxicCloud()
     {
-        //tomar una direccion aleatoria alrededor del punto de muerte del fungi
-        int toxicWasteAmount = Random.Range(minToxicWasteAmountOnDeath, maxToxicWasteAmountOnDeath + 1);
-
-        for (int i = 0; i < toxicWasteAmount; i++)
+        for (int i = 0; i < fungiStats.toxicWasteAmountOnDeath; i++)
         {
+            //tomar una direccion aleatoria alrededor del punto de muerte del fungi
             Vector3 direction = (Vector3)Random.insideUnitCircle.normalized;
-
             CreateToxicWaste(direction);
         }
     }
@@ -85,7 +85,6 @@ public class FungiEnemy : Enemy
     protected override void RemoveEnemy()
     {
         SpawnToxicCloud();
-
         base.RemoveEnemy();
     }
 
@@ -94,6 +93,5 @@ public class FungiEnemy : Enemy
         base.Reset();
 
         dropWasteTimer = 0f;
-        CalculateNextWasteDropTime();
     }
 }

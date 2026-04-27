@@ -137,6 +137,7 @@ public class PoolManager : MonoBehaviour
 
     public void DespawnTower(TowerData towerData, GameObject towerObj)
     {
+        //no siempre que desaparece una torre la casilla del mapa debe liberarse, por lo que no informamos sobre la desaparicion de la torre
         towerPool[towerData].Restore(towerObj);
     }
 

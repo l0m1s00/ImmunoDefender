@@ -18,7 +18,7 @@ MonoBehaviour:
   health: 10
   rewardDrop: 8
   enemyPrefab: {fileID: 8862185737750109261, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
-  dropWasteMinCooldown: 8
-  dropWasteMaxCooldown: 12
-  minToxicWasteAmount: 4
-  maxToxicWasteAmount: 8
+  dropWasteMinCooldown: 10
+  dropWasteMaxCooldown: 15
+  minToxicWasteCloudAmount: 1
+  maxToxicWasteCloudAmount: 3

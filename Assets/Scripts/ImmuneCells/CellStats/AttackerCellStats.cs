@@ -30,7 +30,7 @@ public class AttackerCellStats : BasicCellStats
 
             foreach(KeyValuePair<EnemyData, float> key in damageBonuses)
             {
-                convertedBonuses.Add(key.Key.enemyName + "(+" + key.Value.ToString("F2") + ")");
+                convertedBonuses.Add(key.Key.enemyName + " (+" + key.Value.ToString("F2") + ")");
             }
 
             extraDamageBonuses = string.Join("\n", convertedBonuses);

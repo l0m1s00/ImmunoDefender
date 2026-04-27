@@ -4,5 +4,4 @@ using UnityEngine;
 public class StemCellData : ImmuneCellData
 {
     public float getInfectionCooldown;
-    public int resistanceToInfection;
 }

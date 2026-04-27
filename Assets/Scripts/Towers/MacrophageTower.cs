@@ -61,11 +61,6 @@ public class MacrophageTower : TargetingTower
         return target;
     }
 
-    public override List<EntitiyStat> GetStats()
-    {
-        return macrophageStats.GetStats();
-    }
-
     public override void Reset()
     {
         base.Reset();

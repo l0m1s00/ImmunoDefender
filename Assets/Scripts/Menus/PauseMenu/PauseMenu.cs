@@ -5,9 +5,10 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private Button pauseButton;
+    [SerializeField] private Button resumeGameButton;
+    //[SerializeField] private Button settingsButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button exitButton;
-    //private PauseMenuUI pauseMenuUIRef;
 
     //EVENTOS
     public static event Action OnPauseGame;
@@ -18,6 +19,7 @@ public class PauseMenu : MonoBehaviour
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
         mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
         exitButton.onClick.AddListener(OnExitButtonClicked);
+        resumeGameButton.onClick.AddListener(OnPauseButtonClicked);
     }
 
     private void OnEnable()

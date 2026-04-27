@@ -30,6 +30,8 @@ public class EnemySpawner : MonoBehaviour
     private float startTimer = 5f;
     /// 
 
+    public static EnemySpawner Instance;
+
     [Header("Spawner Settings")]
     [SerializeField] private Transform enemiesContainer;
     
@@ -45,6 +47,12 @@ public class EnemySpawner : MonoBehaviour
     //EVENTOS
     public static event Action<string> OnStartWave;
     public static event Action<Enemy> OnEnemySpawn;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     private void OnEnable()
     {
@@ -143,7 +151,12 @@ public class EnemySpawner : MonoBehaviour
         newEnemyObj.transform.position = spawnPoint;
         newEnemyObj.transform.SetParent(enemiesContainer);
         Enemy newEnemy = newEnemyObj.GetComponent<Enemy>();
-        newEnemy.InitializeEnemy(enemyPath, enemyData);
+        newEnemy.Initialize(enemyPath, enemyData);
         OnEnemySpawn?.Invoke(newEnemy); //notificar que ha aparecido un enemigo
+    }
+
+    public List<Cell> GetEnemyPath()
+    {
+        return enemyPath;
     }
 }

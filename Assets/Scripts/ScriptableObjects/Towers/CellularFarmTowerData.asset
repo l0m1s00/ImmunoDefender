@@ -26,3 +26,7 @@ MonoBehaviour:
     soldierDataSO: {fileID: 11400000, guid: cb167cf986a03bd4ca3784f2abb3bd79, type: 2}
     nSoldiers: 2
     spawnSoldierCooldown: 0.5
+  resistanceToInfection: 10
+  minGetInfectionProbability: 100
+  farmInfectionCooldown: 10
+  infectionSpawnerObj: {fileID: 3026206957732152367, guid: f9e8662d912beea4baa99fb9069ae62b, type: 3}

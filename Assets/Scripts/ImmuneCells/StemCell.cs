@@ -24,6 +24,8 @@ public class StemCell : ImmuneCell
             getInfectedTimer = stemCellStats.getInfectionCooldown;
         }
 
+        if (headquarters is CellularFarmTower farmHeadquarters) farmHeadquarters.AddNewHealthyStemCell(this);
+
         GetNewTargetPostion();
     }
 
@@ -79,9 +81,11 @@ public class StemCell : ImmuneCell
     {
         getInfectedTimer -= Time.deltaTime;
 
-        if (getInfectedTimer <= 0f) //tras un tiempo infectada la celula intentara infectar al resto de las celulas asociadas a la torre
+        if (getInfectedTimer <= 0f) //tras un tiempo infectada la celula intentara infectar a otra celula asociada a la torre
         {
-
+            if (headquarters is CellularFarmTower farmHeadquarters) farmHeadquarters.InfectHealthyStemCell();
+            getInfectedTimer = stemCellStats.getInfectionCooldown; //infectar a otra
+            Debug.Log("Infectando a otra vaca");
         }
     }
 
@@ -90,6 +94,10 @@ public class StemCell : ImmuneCell
         stemCellStats.infected = true;
     }
 
+    public BasicCellStats GetCellStats()
+    {
+        return basicStats;
+    }
 
     public override List<EntitiyStat> GetStats()
     {

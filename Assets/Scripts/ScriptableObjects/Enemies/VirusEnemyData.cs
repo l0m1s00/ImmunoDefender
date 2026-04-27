@@ -4,5 +4,5 @@ using UnityEngine;
 public class VirusEnemyData : EnemyData
 {
     [Header("Infection Settings")]
-    public int infectionProbability;
+    [Range(1, 100)] public int infectionProbability;
 }

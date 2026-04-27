@@ -31,6 +31,7 @@ public class GridManager : MonoBehaviour
 
     //EVENTOS
     public static event Action OnMapGenerationCompleted;
+    public static event Action OnCellUnblocked;
 
     private void Awake()
     {
@@ -311,6 +312,7 @@ public class GridManager : MonoBehaviour
     {
         Cell cell = gridGraph.GetCell(x, y);
         cell.isTowerInCell = false;
+        OnCellUnblocked?.Invoke();
     }
 
     public float GetMapHeight()
@@ -333,5 +335,8 @@ public class GridManager : MonoBehaviour
         return gridGraph.entryPoint;
     }
 
-
+    public GridGraph GetCompleteGraph()
+    {
+        return gridGraph;
+    }
 }
