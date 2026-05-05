@@ -56,7 +56,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
             if (towerToBuildData != null && currentGhostTower != null)
             {
                 towerManagerUIRef.ResetGhostRender();
-                PoolManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
+                PoolEntitiesManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
             }
 
             //datos de la torre a construir
@@ -71,13 +71,13 @@ public class TowerBuilder : MonoBehaviour, IResettable
             }
 
             //fantasma para visualizar construccion
-            currentGhostTower = PoolManager.Instance.SpawnGhostTower(towerToBuildData);
+            currentGhostTower = PoolEntitiesManager.Instance.SpawnGhostTower(towerToBuildData);
             towerManagerUIRef.SetupGhostRender(currentGhostTower, towerRange);
         }
         else
         {
             towerManagerUIRef.ResetGhostRender();
-            PoolManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
+            PoolEntitiesManager.Instance.DespawnGhostTower(towerToBuildData, currentGhostTower);
             this.towerCardToBuild = null;
             towerToBuildData = null;
             currentGhostTower = null;
@@ -111,7 +111,7 @@ public class TowerBuilder : MonoBehaviour, IResettable
             GameManager.Instance.GetCurrentGameState() != GameManager.GameState.Playing) return;
 
         EconomyManager.Instance.SpendCurrency(towerToBuildData.cost);
-        GameObject newTowerObj = PoolManager.Instance.SpawnTower(towerToBuildData);
+        GameObject newTowerObj = PoolEntitiesManager.Instance.SpawnTower(towerToBuildData);
         
         foreach (GameObject towerHolderObj in towerHolderCellObjects)
         {

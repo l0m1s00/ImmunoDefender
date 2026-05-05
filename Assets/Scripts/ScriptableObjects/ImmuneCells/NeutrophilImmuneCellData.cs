@@ -4,4 +4,5 @@ using UnityEngine;
 public class NeutrophilImmuneCellData : AttackerImmuneCellData
 {
     public int maxAttacksCapacity; //cantidad total de ataques que puede realizar antes de morir
+    public AudioEventData deadSounds;
 }

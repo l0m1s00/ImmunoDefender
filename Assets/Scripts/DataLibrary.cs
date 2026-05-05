@@ -15,6 +15,8 @@ public class DataLibrary : MonoBehaviour
     [SerializeField] private List<TowerData> towerTypes;
     [Header("Cell Types")]
     [SerializeField] private List<ImmuneCellData> cellTypes;
+    [Header("Vital Organ")]
+    [SerializeField] private List<VitalOrganData> vitalOrganTypes;
 
     private void Awake()
     {
@@ -25,5 +27,6 @@ public class DataLibrary : MonoBehaviour
     public List<EnemyData> GetEnemyTypes () { return enemyTypes; }
     public List<TowerData> GetTowerTypes() { return towerTypes; }
     public List<ImmuneCellData> GetCellTypes() { return cellTypes; }
+    public List<VitalOrganData> GetVitalOrgan() { return vitalOrganTypes; }
     public DifficultySettingsData GetSelectedDifficultyData() { return difficultySettingsData; }
 }

@@ -38,7 +38,7 @@ public class CellSpawnerModule : MonoBehaviour
         spawnerStats.availableSoldiers--;
         parentTower.NotifyStatsChanged();
 
-        GameObject newCellObj = PoolManager.Instance.SpawnImmuneCell(spawnerStats.soldierData);
+        GameObject newCellObj = PoolEntitiesManager.Instance.SpawnImmuneCell(spawnerStats.soldierData);
         newCellObj.transform.position = soldiersSpawnPoint.position;
         newCellObj.transform.SetParent(soldiersContainer);
 
@@ -48,6 +48,8 @@ public class CellSpawnerModule : MonoBehaviour
             cell.Initialize(parentTower, target, spawnerStats.soldierData);
 
         if (spawnSoldierParticles != null) spawnSoldierParticles.Play();
+
+        AudioManager.Instance.PlaySFX(spawnerStats.spawnerData.spawnCellSounds, transform.position);
     }
 
     public void ReturnCell()

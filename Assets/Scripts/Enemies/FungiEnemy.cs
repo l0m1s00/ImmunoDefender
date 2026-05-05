@@ -75,7 +75,7 @@ public class FungiEnemy : Enemy
 
     private void CreateToxicWaste(Vector3 direction)
     {
-        GameObject newWaste = PoolManager.Instance.SpawnWaste();
+        GameObject newWaste = PoolEntitiesManager.Instance.SpawnWaste();
         newWaste.transform.position = this.transform.position;
         newWaste.GetComponent<ToxicWaste>().Initialize(direction);
         newWaste.transform.SetParent(wasteContainer);

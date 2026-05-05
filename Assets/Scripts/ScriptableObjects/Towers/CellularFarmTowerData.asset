@@ -19,6 +19,7 @@ MonoBehaviour:
   towerName: Cellular Farm
   description: Generates Genetics over time
   cost: 120
+  buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   generatedCurrencyAmountPerCell: 2
   generatedCurrencyInterval: 1
   nStemCells: 3
@@ -26,6 +27,7 @@ MonoBehaviour:
     soldierDataSO: {fileID: 11400000, guid: cb167cf986a03bd4ca3784f2abb3bd79, type: 2}
     nSoldiers: 2
     spawnSoldierCooldown: 0.5
+    spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}
   resistanceToInfection: 10
   minGetInfectionProbability: 100
   farmInfectionCooldown: 10

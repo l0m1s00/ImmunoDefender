@@ -231,7 +231,7 @@ public abstract class AttackerCell : ImmuneCell
         CellSpawnerModule spawnerModule = headquarters.GetComponent<CellSpawnerModule>();
         spawnerModule.ReturnCell();
         NotifyEntityDestruction();
-        PoolManager.Instance.DespawnImmuneCell(attackerStats.data, this.gameObject);
+        PoolEntitiesManager.Instance.DespawnImmuneCell(attackerStats.data, this.gameObject);
     }
 
     //comprueba si el enemigo sigue en los limites de la torre

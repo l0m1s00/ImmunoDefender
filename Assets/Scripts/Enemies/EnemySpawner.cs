@@ -147,7 +147,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void InstantiateEnemy(EnemyData enemyData)
     {
-        GameObject newEnemyObj = PoolManager.Instance.SpawnEnemy(enemyData);
+        GameObject newEnemyObj = PoolEntitiesManager.Instance.SpawnEnemy(enemyData);
         newEnemyObj.transform.position = spawnPoint;
         newEnemyObj.transform.SetParent(enemiesContainer);
         Enemy newEnemy = newEnemyObj.GetComponent<Enemy>();

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 
 public class PathGenerator
 {
-    private int margin = 3;
+    private int margin = 5;
     private int pathOffset = 2;
     private int roll = 1; //1 == 100% probadilidad de rotonda, 2 == 50%, 3 == 33%
 
@@ -123,12 +123,12 @@ public class PathGenerator
                     x++;
                     validMove = true;
                 }
-                else if (move == 1 && IsCellFree(gridGraph.GetCell(x, y + 1)) && y < (gridGraph.height - margin)) //arriba
+                else if (move == 1 && IsCellFree(gridGraph.GetCell(x, y + 1)) && y < (gridGraph.height - margin+2)) //arriba
                 {
                     y++;
                     validMove = true;
                 }
-                else if (move == 2 && IsCellFree(gridGraph.GetCell(x, y - 1)) && y > margin-1) //abajo
+                else if (move == 2 && IsCellFree(gridGraph.GetCell(x, y - 1)) && y > margin-2) //abajo
                 {
                     y--;
                     validMove = true;

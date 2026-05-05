@@ -40,6 +40,11 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
         return basicStats.baseData.towerName;
     }
 
+    public BasicTowerStats GetTowerStats()
+    {
+        return basicStats;
+    }
+
     public virtual List<EntitiyStat> GetStats()
     {
         return basicStats.GetStats();

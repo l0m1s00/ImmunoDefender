@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class InfectionSpawner : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class InfectionSpawner : MonoBehaviour
 
     private List<Cell> enemiesSubRoute = new List<Cell>();
     private Cell initialCell; //celda en la que se posicionan los enemigos del enjambre infeccioso
+
+    //EVENTOS
+    public static event Action<Enemy> OnEnemySpawn;
 
     private void Start()
     {
@@ -72,13 +76,15 @@ public class InfectionSpawner : MonoBehaviour
 
         for (int i = 0; i < nVirion; i++)
         {
-            GameObject virionObj = PoolManager.Instance.SpawnEnemy(virionData);
+            GameObject virionObj = PoolEntitiesManager.Instance.SpawnEnemy(virionData);
             virionObj.transform.position = this.transform.position;
 
             if (virionObj.TryGetComponent<VirionEnemy>(out VirionEnemy virion))
             {
                 virion.Initialize(enemiesSubRoute, virionData);
             }
+
+            OnEnemySpawn?.Invoke(virion);
 
             yield return new WaitForSeconds(timeBetweenSpawns);
         }

@@ -17,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     private void OnEnable()
     {
         EnemySpawner.OnEnemySpawn += AddEnemy;
+        InfectionSpawner.OnEnemySpawn += AddEnemy;
         Enemy.OnEnemyRemovedFromBattlefield += RemoveEnemy;
         FungiEnemy.OnToxicWasteGenerated += AddToxicWaste;
         MacrophageImmuneCell.OnToxicWasteCleaned += RemoveToxicWaste;

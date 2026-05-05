@@ -7,4 +7,5 @@ public class NeutrophilTowerData : TargetingTowerData
     public CellSpawnerData spawnerData;
     [Header("Refill Soldiers Settings")]
     public float refillCooldown;
+    public AudioEventData reloadSoldierSounds;
 }

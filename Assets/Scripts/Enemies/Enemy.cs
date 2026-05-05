@@ -33,6 +33,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     public static event Action<Enemy> OnEnemyRemovedFromBattlefield;
     public event Action OnStatsChanged;
     public event Action<ISelectable> OnEntityDestroyed;
+    public static event Action<float> OnAttackVitalOrgan;
 
     //preparar al enemigo para lanzarlo en la partida
     public virtual void Initialize(List<Cell> newRoute, EnemyData enemyData)
@@ -66,19 +67,22 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         {
             if (i == route.Count - 1)
             {
+                OnAttackVitalOrgan?.Invoke(basicStats.damage);
                 RemoveEnemy();
                 return;
             }
 
             i++;
         }
+
+        //AudioManager.Instance.PlaySFX(basicStats.data.movementSounds, transform.position);
     }
 
     protected virtual void RemoveEnemy()
     {
         OnEntityDestroyed?.Invoke(this);
         OnEnemyRemovedFromBattlefield?.Invoke(this);
-        PoolManager.Instance.DespawnEnemy(basicStats.data, this.gameObject);
+        PoolEntitiesManager.Instance.DespawnEnemy(basicStats.data, this.gameObject);
     }
 
     public void TakeDamage(float damage)

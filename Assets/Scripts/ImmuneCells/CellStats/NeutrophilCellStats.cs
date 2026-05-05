@@ -5,12 +5,14 @@ public class NeutrophilCellStats : AttackerCellStats
     protected int baseMaxAttacksCapacity;
     public int attacksCapacity;
     public int remainingAttacks;
+    public NeutrophilImmuneCellData neutrophilData;
 
     public NeutrophilCellStats(NeutrophilImmuneCellData data) : base(data)
     {
         baseMaxAttacksCapacity = data.maxAttacksCapacity;
         attacksCapacity = baseMaxAttacksCapacity;
         remainingAttacks = attacksCapacity;
+        neutrophilData = data;
     }
 
     public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)

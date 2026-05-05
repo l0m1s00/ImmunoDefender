@@ -19,9 +19,12 @@ MonoBehaviour:
   towerName: Neutrophil
   description: Celula de rapida respuesta y corta esperanza de vida
   cost: 30
+  buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   range: 1
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
     nSoldiers: 3
-    spawnSoldierCooldown: 0.3
+    spawnSoldierCooldown: 0.5
+    spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}
   refillCooldown: 5
+  reloadSoldierSounds: {fileID: 11400000, guid: 0671d6db35fea1e4c90ea2fff5cce9a8, type: 2}

@@ -41,6 +41,7 @@ public class NeutrophilTower : TargetingTower
                 neutrophilTowerStats.spawnerStats.availableSoldiers++;
                 NotifyStatsChanged();
                 refillTimer = neutrophilTowerStats.refillCooldown;
+                AudioManager.Instance.PlaySFX(neutrophilTowerStats.data.reloadSoldierSounds, transform.position);
             }
         }
     }

@@ -47,7 +47,7 @@ public class TooltipUIManager : BaseMenuPanelUI
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 canvasParentRectTransform,
                 mousePos,
-                Camera.main,
+                null,
                 out Vector2 localPoint
                 );
 

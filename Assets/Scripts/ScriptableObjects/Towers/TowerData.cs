@@ -10,4 +10,5 @@ public abstract class TowerData : ScriptableObject
     public string towerName;
     public string description;
     public int cost;
+    public AudioEventData buildTowerSounds;
 }

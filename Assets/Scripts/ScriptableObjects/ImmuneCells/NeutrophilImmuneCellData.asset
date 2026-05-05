@@ -19,3 +19,4 @@ MonoBehaviour:
   attackRange: 0.3
   attackCooldown: 2
   maxAttacksCapacity: 3
+  deadSounds: {fileID: 11400000, guid: d8c3bceccfb21294f974dbe9c1c4ed9d, type: 2}

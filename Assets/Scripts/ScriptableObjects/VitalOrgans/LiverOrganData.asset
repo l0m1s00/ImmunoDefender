@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791c7dd6c31d5f34481ca8c9b25444c7, type: 3}
+  m_Name: LiverOrganData
+  m_EditorClassIdentifier: Assembly-CSharp::VitalOrganData
+  health: 120
+  vitalOrganName: Liver
+  vitalOrganPrefab: {fileID: 445708337958172064, guid: 551d9938888a85941aa76ee123256387, type: 3}

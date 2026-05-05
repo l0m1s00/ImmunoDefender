@@ -9,4 +9,5 @@ public class CellSpawnerData
     public ImmuneCellData soldierDataSO;
     public int nSoldiers; //cantidad maxima de soldados que tiene la torre
     public float spawnSoldierCooldown; //tiempo de espera entre la invocacion de un soldado y el siguiente
+    public AudioEventData spawnCellSounds;
 }

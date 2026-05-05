@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2854009749c97a241bf3680894765770, type: 3}
+  m_Name: PopAudioEvent
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEventData
+  audioClips:
+  - {fileID: 8300000, guid: 4dd59de74f511cd42a5a1ce57413d563, type: 3}
+  - {fileID: 8300000, guid: 47dc15ee0d39ba94cb63e81840d9a754, type: 3}
+  - {fileID: 8300000, guid: 1d9cb070e09e3ce479e5eb94b82e360b, type: 3}
+  - {fileID: 8300000, guid: f08bbf16ad7d73b499651cf8c36b4039, type: 3}
+  - {fileID: 8300000, guid: 36d7e0b1c85331245b49db9ab843110c, type: 3}
+  - {fileID: 8300000, guid: 4df874c486f4d744ab2ba1092b755b03, type: 3}
+  volume: 1
+  pitch: 1
+  pitchRandomness: 0.25
+  maxConcurrenceInstances: 0

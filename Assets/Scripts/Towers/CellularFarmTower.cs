@@ -126,11 +126,11 @@ public class CellularFarmTower : Tower
 
         foreach (StemCell stemCell in allStemCells)
         {
-            PoolManager.Instance.DespawnImmuneCell(stemCell.GetCellStats().data, stemCell.gameObject);
+            PoolEntitiesManager.Instance.DespawnImmuneCell(stemCell.GetCellStats().data, stemCell.gameObject);
         }
 
         TowerManager.Instance.DeleteTower(this);
-        PoolManager.Instance.DespawnTower(cellularFarmTowerStats.baseData, this.gameObject);
+        PoolEntitiesManager.Instance.DespawnTower(cellularFarmTowerStats.baseData, this.gameObject);
     }
 
     public override void Reset()

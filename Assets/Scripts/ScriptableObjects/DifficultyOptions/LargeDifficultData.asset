@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cc21a6706053749a4716d9ab512a3a, type: 3}
   m_Name: LargeDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
-  title: Grande
+  title: Big
   description: Experiencia de juego duradera
   features: '- Cantidad de recursos inicial ligeramente reducida\n- Mapa grande'
-  width: 31
+  width: 33
   height: 17
   groundPercentage: 60
   minPathSize: 110
-  initialCurrency: 150
+  initialCurrency: 1000

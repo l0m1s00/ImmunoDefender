@@ -49,6 +49,15 @@ public class BLymphocyteTowerStats : TargetingTowerStats
             extraInformation = "Amount of research per second"
         });
 
+        stats.Add(new EntitiyStat
+        {
+            statName = "Biological Description",
+            initialStatValue = "",
+            currentStatValue = "",
+            extraInformation =
+            "Part of the adaptive immune system.\nThey are the body's intelligence units. These units analyse the exact structure of the different strains of pathogens.\nOnce they have understood it, they produce antibodies that mark the enemy, providing offensive capabilities to nearby immune cells when facing that specific type of enemy"
+        });
+
         return stats;
     }
 }

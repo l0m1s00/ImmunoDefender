@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GridManager : MonoBehaviour
@@ -150,6 +150,7 @@ public class GridManager : MonoBehaviour
         yield return StartCoroutine(PlaceScenaryTiles());
         yield return StartCoroutine(PlacePathTiles());
         yield return StartCoroutine(PlaceTowerHoldersTiles());
+
         OnMapGenerationCompleted?.Invoke();
         yield return null;
     }

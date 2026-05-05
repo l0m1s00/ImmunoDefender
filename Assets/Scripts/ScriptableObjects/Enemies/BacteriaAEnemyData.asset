@@ -18,3 +18,4 @@ MonoBehaviour:
   health: 5
   rewardDrop: 4
   enemyPrefab: {fileID: 477026949784236985, guid: 3e4fc49a3fce1e940b69f3b2f28fdd97, type: 3}
+  movementSounds: {fileID: 11400000, guid: ad7faf9954fec134591257de1926394c, type: 2}

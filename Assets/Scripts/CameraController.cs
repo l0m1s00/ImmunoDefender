@@ -12,22 +12,55 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float minCamSize;
     [SerializeField] private float maxCamSize;
     [SerializeField] private float zoomSmooth; //menor = mas rapido
+    [Header("Shake Settings")]
+    [SerializeField] private float shakeDuration = 0.2f;
+    [SerializeField] private float shakeMagnitude = 0.15f;
+    private float shakeTimer = 0f;
 
     private Camera mainCamera;
     private float camSize;
     private float zoomVelocity;
+    private Vector3 logicalPos; //posicion real sin alteraciones visuales por efectos de camara
 
     private void Awake()
     {
         mainCamera = Camera.main;
         camSize = mainCamera.orthographicSize;
+        logicalPos = transform.position;
+    }
+
+    private void OnEnable()
+    {
+        VitalOrgan.OnVitalOrganDamaged += StartShake;
+    }
+
+    private void OnDisable()
+    {
+        VitalOrgan.OnVitalOrganDamaged -= StartShake;
     }
 
     void Update()
     {
+        transform.position = logicalPos; //establecer camara a la posicion logica real antes de hacer acciones
         CameraZoom();
         MoveCamera();
-        transform.position = ClampCameraPosition(transform.position);
+        logicalPos = ClampCameraPosition(transform.position);
+
+        Vector3 visualPos = logicalPos;
+        if (shakeTimer > 0f)
+        {
+            Vector2 shakeOffset = UnityEngine.Random.insideUnitCircle * shakeMagnitude; //tomar valor en un circulo de radio 1
+            visualPos += new Vector3(shakeOffset.x, shakeOffset.y, 0f);
+
+            shakeTimer -= Time.deltaTime;
+        }
+
+        transform.position = visualPos;
+    }
+
+    private void StartShake()
+    {
+        shakeTimer = shakeDuration;
     }
 
     private void CameraZoom()

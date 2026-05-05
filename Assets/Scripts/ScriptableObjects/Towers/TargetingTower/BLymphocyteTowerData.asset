@@ -19,6 +19,7 @@ MonoBehaviour:
   towerName: B Lymphocyte
   description: Celula especializada en el reconocimiento de amenazas
   cost: 100
+  buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   range: 2
   investigationAmount: 20
   investigationInterval: 0.4

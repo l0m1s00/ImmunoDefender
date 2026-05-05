@@ -4,6 +4,7 @@ using UnityEngine;
 public class CellSpawnerStats
 {
     public ImmuneCellData soldierData;
+    public CellSpawnerData spawnerData;
     protected int baseMaxSoldiers;
     public int maxSoldiers;
     public float spawnSoldierCooldown;
@@ -20,6 +21,7 @@ public class CellSpawnerStats
         spawnSoldierCooldown = data.spawnSoldierCooldown;
         totalSoldiers = baseMaxSoldiers;
         availableSoldiers = baseMaxSoldiers;
+        spawnerData = data;
     }
 
     public List<EntitiyStat> GetStats()

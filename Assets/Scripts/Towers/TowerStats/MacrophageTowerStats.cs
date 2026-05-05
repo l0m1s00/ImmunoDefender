@@ -17,6 +17,15 @@ public class MacrophageTowerStats : TargetingTowerStats
 
         stats.AddRange(spawnerStats.GetStats());
 
+        stats.Add(new EntitiyStat
+        {
+            statName = "Biological Description",
+            initialStatValue = "",
+            currentStatValue = "",
+            extraInformation =
+            "Part of the innate immune system.\nThey are the big eaters, heavy and very resistant units that patrol the tissues to keep the body clean.\nThey swallow up toxic waste and pathogens to prevent the area from becoming contaminated"
+        });
+
         return stats;
     }
 }

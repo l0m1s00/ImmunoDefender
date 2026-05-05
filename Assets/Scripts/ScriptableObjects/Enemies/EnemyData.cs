@@ -9,4 +9,5 @@ public abstract class EnemyData : ScriptableObject
     public float health;
     public int rewardDrop;
     public GameObject enemyPrefab;
+    //public AudioEventData movementSounds;
 }

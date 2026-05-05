@@ -1,11 +1,18 @@
+using System;
 using UnityEngine;
 
 public class NegativeStates : MonoBehaviour
 {
     [SerializeField] private NegativeStatesUI negativeStatesUIRef;
     [SerializeField] private float maxToxicity;
+    [SerializeField] private float attackToxicityDamage;
+    [SerializeField] private float attackToxicityCooldown;
     private float currentToxicity = 0f;
     private bool septicShockState = false;
+    private float attackToxicityTimer = 0f;
+
+    //EVENTOS
+    public static event Action<float> OnAttackVitalOrgan;
 
     private void OnEnable()
     {
@@ -19,6 +26,14 @@ public class NegativeStates : MonoBehaviour
         MacrophageImmuneCell.OnToxicWasteCleaned -= DecreaseToxicity;
     }
 
+    private void Update()
+    {
+        if (septicShockState)
+        {
+            ToxicityAttack();
+        }
+    }
+
     private void DecreaseToxicity(ToxicWaste waste)
     {
         float cleanAmount = waste.GetToxicityValue();
@@ -27,7 +42,10 @@ public class NegativeStates : MonoBehaviour
 
         if (currentToxicity < 0f) currentToxicity = 0f;
 
-        if (septicShockState && currentToxicity < maxToxicity) septicShockState = false;
+        if (septicShockState && currentToxicity < maxToxicity)
+        {
+            septicShockState = false;
+        }
 
         negativeStatesUIRef.UpdateToxicBar(currentToxicity / maxToxicity);
     }
@@ -42,8 +60,25 @@ public class NegativeStates : MonoBehaviour
         {
             currentToxicity = maxToxicity;
             septicShockState = true;
+            StartToxicityAttack();
         }
 
         negativeStatesUIRef.UpdateToxicBar(currentToxicity / maxToxicity);
+    }
+
+    private void StartToxicityAttack()
+    {
+        attackToxicityTimer = attackToxicityCooldown;
+    }
+
+    private void ToxicityAttack()
+    {
+        attackToxicityTimer -= Time.deltaTime;
+
+        if (attackToxicityTimer <= 0f)
+        {
+            OnAttackVitalOrgan?.Invoke(attackToxicityDamage);
+            attackToxicityTimer = attackToxicityCooldown;
+        }
     }
 }
