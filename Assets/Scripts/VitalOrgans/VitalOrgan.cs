@@ -23,6 +23,12 @@ public class VitalOrgan : MonoBehaviour, IResettable
     public void TakeDamage(float damage)
     {
         basicStats.currentHealth -= damage;
+
+        if (basicStats.currentHealth <= 0f) //fin de la partida
+        {
+            basicStats.currentHealth = 0f;
+        }
+
         vitalOrganUIRef.UpdateHealthBar(basicStats.currentHealth, basicStats.maxHealth);
         OnVitalOrganDamaged?.Invoke();
     }

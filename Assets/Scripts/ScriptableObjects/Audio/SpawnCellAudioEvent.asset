@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnCellAudioEvent
   m_EditorClassIdentifier: Assembly-CSharp::AudioEventData
   audioClips:
-  - {fileID: 8300000, guid: bb2ec919503a1de4cbe04748443463b0, type: 3}
+  - {fileID: 8300000, guid: 8a56a8a30ec7be34d9751a30d9ea8841, type: 3}
   volume: 1
   pitch: 1
   pitchRandomness: 0.5

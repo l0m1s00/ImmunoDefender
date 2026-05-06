@@ -14,6 +14,15 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     [SerializeField] private float waveSpeed;
     [SerializeField] private float turnSmoothTime;
 
+    //knockback settings
+    private float knockbackForce = 0.1f;
+    private float knockbackRecoveryTime = 0.5f;
+
+    //Knockback
+    private Vector3 knockbackOffset = Vector3.zero;
+    private Vector3 knockbackVelocity = Vector3.zero;
+    private Vector3 currentMoveDirection = Vector3.zero;
+
     //Wave
     private Vector3 ghostPosition;
     private float randomMovementOffset;
@@ -51,8 +60,8 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     protected virtual void Move()
     {
         Vector3 targetPosition = new Vector3(route[i].x, route[i].y, 0f);
-        Vector3 targetDirection = (targetPosition - ghostPosition).normalized;
-        Vector3 targetPerpendicular = new Vector3(-targetDirection.y, targetDirection.x, 0f);
+        currentMoveDirection = (targetPosition - ghostPosition).normalized;
+        Vector3 targetPerpendicular = new Vector3(-currentMoveDirection.y, currentMoveDirection.x, 0f);
 
         //suavizar cambios de direccion
         currentPerpendicular = Vector3.SmoothDamp(currentPerpendicular, targetPerpendicular, ref perpendicularVelocity, turnSmoothTime);
@@ -60,8 +69,11 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, basicStats.speed * Time.deltaTime);
         //movimiento ondulatorio para el desplazamiento
         float wave = Mathf.Sin((Time.time * waveSpeed) + randomMovementOffset) * waveAmplitude;
-        
-        transform.position = ghostPosition + (currentPerpendicular * wave);
+
+        //si ha recibido un impulso por un ataque de una celula nos recuperamos rapidamente
+        knockbackOffset = Vector3.SmoothDamp(knockbackOffset, Vector3.zero, ref knockbackVelocity, knockbackRecoveryTime);
+
+        transform.position = ghostPosition + (currentPerpendicular * wave) + knockbackOffset;
 
         if (Vector3.Distance(ghostPosition, targetPosition) <= 0.2f)
         {
@@ -85,9 +97,29 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         PoolEntitiesManager.Instance.DespawnEnemy(basicStats.data, this.gameObject);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 sourcePosition)
     {
         if (basicStats.currentHealth <= 0f) return;
+
+        //anulamos Z para evitar problemas con la camara
+        Vector3 flatPosition = new Vector3(transform.position.x, transform.position.y, 0f);
+        Vector3 flatSource = new Vector3(sourcePosition.x, sourcePosition.y, 0f);
+
+        //determir direccion del impacto
+        Vector3 hitDirection = (transform.position - sourcePosition).normalized;
+
+        //si el atacante esta justo encima del enemigo, por defecto se empuja en la direccion opuesta al movimiento
+        if (hitDirection.sqrMagnitude == 0)
+        {
+            hitDirection = -currentMoveDirection;
+        }
+
+        //aplicar impulso en la direccion contraria al movimiento
+        knockbackOffset = hitDirection * knockbackForce;
+        //evitar acumulacion de inercia de SmoothDamp
+        knockbackVelocity = Vector3.zero;
+
+        enemyUIRef.HitFlash();
 
         if (basicStats.currentHealth - damage <= 0f)
         {
@@ -152,8 +184,15 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         perpendicularVelocity = Vector3.zero;
         currentPerpendicular = Vector3.zero;
         ghostPosition = Vector3.zero;
+
+        knockbackOffset = Vector3.zero;
+        knockbackVelocity = Vector3.zero;
+        currentMoveDirection = Vector3.zero;
+
         i = 0;
         isBeingInvestigated = false;
         DeactivateInvestigationBar();
+
+        enemyUIRef.ResetUI();
     }
 }

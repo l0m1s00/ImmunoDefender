@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b5ba81055244b74094ebb6c72ade4d0, type: 3}
   m_Name: BLymphocyteTowerData
   m_EditorClassIdentifier: Assembly-CSharp::BLymphocyteTowerData
-  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerIcon: {fileID: 21300000, guid: 3743fcc8948324a419b8a146b5a7ffed, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   towerPrefab: {fileID: 7991199263807707623, guid: 722782dbb7447e3428dc7a081cf8c259, type: 3}
   towerGhostPrefab: {fileID: 5319633144796140492, guid: 46ee233c7249e464e99182e5d8c31f70, type: 3}

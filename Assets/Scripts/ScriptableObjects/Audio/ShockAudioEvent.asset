@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2854009749c97a241bf3680894765770, type: 3}
-  m_Name: EnemyMovementAudioEvent
+  m_Name: ShockAudioEvent
   m_EditorClassIdentifier: Assembly-CSharp::AudioEventData
   audioClips:
-  - {fileID: 8300000, guid: b387aa14c384a4c4cb73c5f92010ba0d, type: 3}
-  volume: 0.25
+  - {fileID: 8300000, guid: 12c66b3f395c50445b08ab2108b540b2, type: 3}
+  volume: 1
   pitch: 1
-  pitchRandomness: 0.5
-  maxConcurrenceInstances: 20
+  pitchRandomness: 0
+  maxConcurrenceInstances: 1

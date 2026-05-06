@@ -114,7 +114,7 @@ public abstract class AttackerCell : ImmuneCell
         if (currentTarget == null || !currentTarget.gameObject.activeInHierarchy) return;
 
         float totalDamage = attackerStats.damage + CalculateCurrentDamageBuffsAgainstEnemy();
-        currentTarget.TakeDamage(totalDamage);
+        currentTarget.TakeDamage(totalDamage, transform.position);
     }
 
     private float CalculateCurrentDamageBuffsAgainstEnemy()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd97c38a5e396d046a84af5d51d85853, type: 3}
   m_Name: NeutrophilTowerData
   m_EditorClassIdentifier: Assembly-CSharp::NeutrophilTowerDataSO
-  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerIcon: {fileID: 21300000, guid: 2c8e654802dcbaa4899d6982fcbd5a72, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   towerPrefab: {fileID: 824966694110340585, guid: cf42d40e4efbf424bbb42409970108db, type: 3}
   towerGhostPrefab: {fileID: 9214848417618869633, guid: bb48ca598d9325c43add5ca623c9964f, type: 3}

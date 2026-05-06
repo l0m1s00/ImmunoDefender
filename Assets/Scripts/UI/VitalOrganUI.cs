@@ -5,13 +5,41 @@ using UnityEngine.UI;
 public class VitalOrganUI : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Image healthBarFill;
+    [SerializeField] private Image healthBarValueFill;
+    [SerializeField] private Image healthBarShadowFill;
     [SerializeField] private TMP_Text healthBarText;
+    [Header("Settings")]
+    [SerializeField] private float shadowDelayCooldown;
+    [SerializeField] private float shadowShrinkSpeed;
+    private float shadowDelayTimer;
+
+    private void Start()
+    {
+        healthBarShadowFill.fillAmount = 1f;
+    }
+
+    private void Update()
+    {
+        if (healthBarShadowFill.fillAmount > healthBarValueFill.fillAmount)
+        {
+            shadowDelayTimer -= Time.deltaTime;
+
+            if (shadowDelayTimer <= 0f) //igualar valores
+            {
+                healthBarShadowFill.fillAmount = Mathf.MoveTowards(
+                    healthBarShadowFill.fillAmount,
+                    healthBarValueFill.fillAmount,
+                    shadowShrinkSpeed * Time.deltaTime
+                );
+            }
+        }
+    }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth)
     {
         float per = currentHealth / maxHealth;
-        healthBarFill.fillAmount = per;
-        healthBarText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        healthBarValueFill.fillAmount = per;
+        healthBarText.text = $"{currentHealth} / {maxHealth}";
+        shadowDelayTimer = shadowDelayCooldown;
     }
 }

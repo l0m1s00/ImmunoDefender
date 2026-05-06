@@ -21,6 +21,15 @@ public class VirusEnemyStats : EnemyStats
             extraInformation = "Determine the potential for infecting towers"
         });
 
-        return stats;
+        stats.Add(new EntitiyStat
+        {
+            statName = "Biological Description",
+            initialStatValue = "",
+            currentStatValue = "",
+            extraInformation =
+            "Infectious agents that are unable to survive or reproduce on their own.\nThey are very small and fast, using their speed to overwhelm the immune system.\nHave the ability to hijack healthy cells and use them as factories to produce new viruses"
+        });
+
+    return stats;
     }
 }

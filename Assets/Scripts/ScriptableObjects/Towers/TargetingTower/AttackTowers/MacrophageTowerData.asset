@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625b3c90953625846aaa8e2372645239, type: 3}
   m_Name: MacrophageTowerData
   m_EditorClassIdentifier: Assembly-CSharp::MacrophageTowerData
-  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerIcon: {fileID: 21300000, guid: fd5bd9218573c224687968fdd4698dc0, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   towerPrefab: {fileID: 9014243030776261119, guid: bcc180bc07afadd4cb31c09e989ba7ea, type: 3}
   towerGhostPrefab: {fileID: 7982956230142574035, guid: a201d29e4e850b147b4199304e64edac, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class NegativeStatesUI : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Image toxicBarFill;
+    [SerializeField] private Image toxicBarValueFill;
     [SerializeField] private Color septicShockLowAmountColor;
     [SerializeField] private Color septicShockMediumAmountColor;
     [SerializeField] private Color septicShockMaxAmountColor;
@@ -15,12 +15,10 @@ public class NegativeStatesUI : MonoBehaviour
     [SerializeField] private float popUpDuration;
     [SerializeField] private float toxicBarPulseSpeed;
 
-    private enum ToxicityLevel { Low, Medium, Max };
-    private ToxicityLevel currentToxicityLevel = ToxicityLevel.Low;
-
     private Vector3 originalToxicBarScale;
     private Coroutine activePopUpCoroutine;
     private Coroutine activeSepticShockCoroutine;
+    private ToxicityLevel currentToxicityLevel = ToxicityLevel.Low;
 
     private void Awake()
     {
@@ -30,44 +28,39 @@ public class NegativeStatesUI : MonoBehaviour
     private void InitializeNegativeStatesUI()
     {
         //toxicidad shock septico
-        toxicBarFill.color = septicShockLowAmountColor;
-        toxicBarFill.fillAmount = 0f;
-        originalToxicBarScale = toxicBarFill.transform.localScale;
+        toxicBarValueFill.color = septicShockLowAmountColor;
+        toxicBarValueFill.fillAmount = 0f;
+        originalToxicBarScale = toxicBarValueFill.transform.localScale;
     }
 
-    public void UpdateToxicBar(float normalizedToxicAmount)
+    public void UpdateToxicBar(float normalizedToxicAmount, ToxicityLevel toxicityLevel)
     {
-        toxicBarFill.fillAmount = normalizedToxicAmount;
-
-        ToxicityLevel newToxicityLevel;
-        if (toxicBarFill.fillAmount < 0.5f) newToxicityLevel = ToxicityLevel.Low;
-        else if (toxicBarFill.fillAmount >= 0.5f && toxicBarFill.fillAmount < 1f) newToxicityLevel = ToxicityLevel.Medium;
-        else newToxicityLevel = ToxicityLevel.Max;
+        toxicBarValueFill.fillAmount = normalizedToxicAmount;
+        ToxicityLevel newToxicityLevel = toxicityLevel;
 
         if (newToxicityLevel != currentToxicityLevel)
         {
-            HandleToxicityLevelChange(newToxicityLevel);
+            currentToxicityLevel = newToxicityLevel;
+            HandleToxicityLevelChange();
         }
-        else if (newToxicityLevel != ToxicityLevel.Max)
-        {
-            UpdateToxicBarColor(newToxicityLevel);
-        }
+        //else if (newToxicityLevel != ToxicityLevel.Max)
+        //{
+        //    UpdateToxicBarColor(newToxicityLevel);
+        //}
     }
 
-    private void HandleToxicityLevelChange(ToxicityLevel newToxicityLevel)
+    private void HandleToxicityLevelChange()
     {
-        currentToxicityLevel = newToxicityLevel;
-
         if (activeSepticShockCoroutine != null)
         {
             StopCoroutine(activeSepticShockCoroutine);
             activeSepticShockCoroutine = null;
-            toxicBarFill.transform.localScale = originalToxicBarScale;
+            toxicBarValueFill.transform.localScale = originalToxicBarScale;
         }
 
-        UpdateToxicBarColor(newToxicityLevel);
+        UpdateToxicBarColor(currentToxicityLevel);
 
-        if (newToxicityLevel == ToxicityLevel.Max)
+        if (currentToxicityLevel == ToxicityLevel.Max)
         {
             activeSepticShockCoroutine = StartCoroutine(SepticShockAnimationCoroutine());
         }
@@ -83,13 +76,13 @@ public class NegativeStatesUI : MonoBehaviour
         switch (toxicityLevel)
         {
             case ToxicityLevel.Low:
-                toxicBarFill.color = septicShockLowAmountColor;
+                toxicBarValueFill.color = septicShockLowAmountColor;
                 break;
             case ToxicityLevel.Medium:
-                toxicBarFill.color = septicShockMediumAmountColor;
+                toxicBarValueFill.color = septicShockMediumAmountColor;
                 break;
             case ToxicityLevel.Max:
-                toxicBarFill.color = septicShockMaxAmountColor;
+                toxicBarValueFill.color = septicShockMaxAmountColor;
                 break;
         }
     }
@@ -104,7 +97,7 @@ public class NegativeStatesUI : MonoBehaviour
         while (time < halfDuration)
         {
             time += Time.deltaTime;
-            toxicBarFill.transform.localScale = Vector3.Lerp(originalToxicBarScale, targetScale, time / halfDuration);
+            toxicBarValueFill.transform.localScale = Vector3.Lerp(originalToxicBarScale, targetScale, time / halfDuration);
             yield return null;
         }
 
@@ -114,11 +107,11 @@ public class NegativeStatesUI : MonoBehaviour
         while (time < halfDuration)
         {
             time += Time.deltaTime;
-            toxicBarFill.transform.localScale = Vector3.Lerp(targetScale, originalToxicBarScale, time / halfDuration);
+            toxicBarValueFill.transform.localScale = Vector3.Lerp(targetScale, originalToxicBarScale, time / halfDuration);
             yield return null;
         }
 
-        toxicBarFill.transform.localScale = originalToxicBarScale;
+        toxicBarValueFill.transform.localScale = originalToxicBarScale;
     }
 
     private IEnumerator SepticShockAnimationCoroutine()
@@ -130,9 +123,9 @@ public class NegativeStatesUI : MonoBehaviour
             //obtener valor entre 0 y 1 de forma suave
             float pingPongValue = Mathf.PingPong(Time.time * toxicBarPulseSpeed, 1f);
             //interpolar el color
-            toxicBarFill.color = Color.Lerp(septicShockMaxAmountColor, septicShockMaxAmountNeonColor, pingPongValue);
+            toxicBarValueFill.color = Color.Lerp(septicShockMaxAmountColor, septicShockMaxAmountNeonColor, pingPongValue);
             //interpolar escala
-            toxicBarFill.transform.localScale = Vector3.Lerp(originalToxicBarScale, targetScale, pingPongValue);
+            toxicBarValueFill.transform.localScale = Vector3.Lerp(originalToxicBarScale, targetScale, pingPongValue);
         
             yield return null;
         }

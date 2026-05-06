@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 048e37d6917c7a9438a323de48ec95ff, type: 3}
   m_Color: {r: 0.019978877, g: 0.7433963, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,6 +202,8 @@ MonoBehaviour:
   outline: {fileID: 2118989321820390911}
   investigationCircle: {fileID: 1019866591910029539}
   investigationFill: {fileID: 4468021125783499085}
+  sprite: {fileID: 1006944049394907386}
+  whiteFlashMaterial: {fileID: 2100000, guid: 22a91b9212672af4fb25ff32490096d8, type: 2}
 --- !u!61 &2823944995765942983
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -239,7 +241,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.21133333}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -705,7 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.9490196, g: 0.3137255, b: 0.25490198, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

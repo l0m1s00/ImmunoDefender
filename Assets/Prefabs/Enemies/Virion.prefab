@@ -145,6 +145,8 @@ MonoBehaviour:
   outline: {fileID: 6132360229711558089}
   investigationCircle: {fileID: 8569402545822131232}
   investigationFill: {fileID: 4245415468570017387}
+  sprite: {fileID: 7957520891337508586}
+  whiteFlashMaterial: {fileID: 2100000, guid: 22a91b9212672af4fb25ff32490096d8, type: 2}
 --- !u!1 &684332966358070128
 GameObject:
   m_ObjectHideFlags: 0
