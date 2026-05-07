@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LargeDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
   title: Big
-  description: Experiencia de juego duradera
-  features: '- Cantidad de recursos inicial ligeramente reducida\n- Mapa grande'
+  description: Long-lasting game experience
+  features: '- Slightly increased starting resources\n- Large map'
   width: 33
   height: 17
   groundPercentage: 60

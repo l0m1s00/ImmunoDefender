@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-public class TooltipUIManager : BaseMenuPanelUI
+public class TooltipPanelUI : BasePanelUI
 {
     //se encarga de mostrar un panel de informacion flotante cerca del raton cuando este se posiciona sobre algun elemento de la interfaz
     //que debe mostrar informacion extra al usuario
 
-    public static TooltipUIManager Instance;
+    public static TooltipPanelUI Instance;
 
     [Header("Components")]
     [SerializeField] private TextMeshProUGUI tooltipText;

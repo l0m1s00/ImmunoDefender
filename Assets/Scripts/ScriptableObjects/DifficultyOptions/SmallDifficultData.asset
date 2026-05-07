@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SmallDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
   title: Small
-  description: Establecer una defensa es dificil
-  features: "- Cantidad de recursos inicial aumentada\\n- Tama\xF1o de mapa muy reducido"
+  description: Setting up a defense is difficult
+  features: '- Reduced starting resources\n- Very small map size'
   width: 17
   height: 11
   groundPercentage: 85

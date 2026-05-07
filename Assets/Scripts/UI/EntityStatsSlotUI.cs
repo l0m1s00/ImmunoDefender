@@ -23,17 +23,17 @@ public class EntityStatsSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!string.IsNullOrEmpty(tooltipData) && TooltipUIManager.Instance != null)
+        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null)
         {
-            TooltipUIManager.Instance.OpenTooltipPanel(tooltipData);
+            TooltipPanelUI.Instance.OpenTooltipPanel(tooltipData);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!string.IsNullOrEmpty(tooltipData) && TooltipUIManager.Instance != null)
+        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null)
         {
-            TooltipUIManager.Instance.CloseTooltipPanel();
+            TooltipPanelUI.Instance.CloseTooltipPanel();
         }
     }
 }

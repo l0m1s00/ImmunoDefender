@@ -22,17 +22,17 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OnEnable()
     {
-        MainMenuManager.OnCloseMenu += Reset;
+        //MainMenuManager.OnCloseMenu += Reset;
     }
 
     private void OnDisable()
     {
-        MainMenuManager.OnCloseMenu -= Reset;
+        //MainMenuManager.OnCloseMenu -= Reset;
     }
 
     private void OnDifficultyPanelClicked()
     {
-        DifficultiesManager.Instance.SelectDifficulty(index);
+        DifficultiesMenu.Instance.SelectDifficulty(index);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -3066,11 +3066,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 733820086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f1a83f3066fb1b4fad128e6008fedd1, type: 3}
+  m_Script: {fileID: 11500000, guid: acf2607bebc16954fa0f8bf73bdc7a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipUI
   tooltipText: {fileID: 405651499}
-  offsetX: 30
+  offsetX: 40
   offsetY: -60
 --- !u!225 &733820089
 CanvasGroup:
@@ -3408,9 +3408,9 @@ RectTransform:
   - {fileID: 605631746}
   m_Father: {fileID: 1547099553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 160, y: 185}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 150, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!225 &1002083187

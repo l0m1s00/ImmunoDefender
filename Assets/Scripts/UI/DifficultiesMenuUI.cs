@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DifficultiesPanelUI : BaseMenuPanelUI
+public class DifficultiesMenuUI : BaseMenuUI
 {
     private GameObject selectedDifficultyPanelObj;
 
@@ -11,22 +11,21 @@ public class DifficultiesPanelUI : BaseMenuPanelUI
         selectedDifficultyPanelObj = this.gameObject;
     }
 
-    protected override void Close()
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    public override void Close()
     {
         base.Close();
         selectedDifficultyPanelObj.SetActive(false);
     }
 
-    protected override void Open()
+    public override void Open()
     {
         base.Open();
         selectedDifficultyPanelObj.SetActive(true);
-    }
-
-    public void DisplayDifficultyPanel(bool display)
-    {
-        if (display) Open();
-        else Close();
     }
 
     public void SetButtonColorAlpha(Image buttonImage, bool isEnable)
@@ -34,15 +33,5 @@ public class DifficultiesPanelUI : BaseMenuPanelUI
         Color newAlphaColor = buttonImage.color;
         newAlphaColor.a = isEnable ? 1f : 0.25f;
         buttonImage.color = newAlphaColor;
-    }
-
-    public void DisplaySelectDifficultyButton(GameObject buttonObj)
-    {
-        buttonObj.SetActive(true);
-    }
-
-    public void HideSelectDifficultyButton(GameObject buttonObj)
-    {
-        buttonObj.SetActive(false);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseMenuPanelUI : MonoBehaviour
+public abstract class BasePanelUI : MonoBehaviour
 {
     protected CanvasGroup canvasGroup;
 
@@ -27,10 +27,4 @@ public abstract class BaseMenuPanelUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0f;
     }
-
-    //public virtual void Toggle()
-    //{
-    //    if (canvasGroup.alpha > 0f) Close();
-    //    else Open();
-    //}
 }

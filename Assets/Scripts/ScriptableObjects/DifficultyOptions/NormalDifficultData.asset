@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: NormalDifficultData
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettingsData
   title: Normal
-  description: Experiencia de juego recomendada
-  features: "- Cantidad de recursos inicil perfecta para establecer una primera defensa\\n-
-    Tama\xF1o de mapa normal"
+  description: Recommended game experience
+  features: '- The perfect amount of starting resources to set up an initial defence\n-
+    Standard map size'
   width: 21
   height: 17
   groundPercentage: 75

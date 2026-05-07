@@ -13,7 +13,7 @@ public struct EntitiyStat
     public string extraInformation;
 }
 
-public class StatsMenuUI : BaseMenuPanelUI
+public class StatsPanelUI : BasePanelUI
 {
     [SerializeField] private TextMeshProUGUI entityNameText;
     [SerializeField] private Transform statsContainer;

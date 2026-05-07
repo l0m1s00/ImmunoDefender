@@ -1,20 +1,30 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class DifficultiesManager : MonoBehaviour
+public class DifficultiesMenu : BaseMenu
 {
-    public static DifficultiesManager Instance;
+    public static DifficultiesMenu Instance;
 
     [Header("Difficulty Types")]
     [SerializeField] private List<DifficultySettingsData> difficultyTypes;
+    [SerializeField] private DifficultySettingsData currentDifficultyData;
     [Header("UI References")]
     [SerializeField] private Transform difficultyPanelsContainer;
     [SerializeField] private List<Transform> difficultyPanelHolders;
     [SerializeField] private GameObject difficultyPanelPrefab;
+    [Header("Buttons")]
+    [SerializeField] private Button startGameButton;
+    [Header("Audios")]
+    [SerializeField] private AudioEventData startGameplayEventData;
 
+    private DifficultiesMenuUI difficultyMenuUI_Ref;
     private List<Difficulty> difficulties = new List<Difficulty>();
-
     private int currentSelectedDifficultyIndex = -1; //-1 nada seleccionado
+
+    //EVENTOS
+    public static event Action OnLoadGameplay;
 
     private void Awake()
     {
@@ -24,17 +34,39 @@ public class DifficultiesManager : MonoBehaviour
 
     private void OnEnable()
     {
-        MainMenuManager.OnCloseMenu += ResetDifficulty;
+        FormsMenu.OnSelectDifficulty += Open;
     }
 
     private void OnDisable()
     {
-        MainMenuManager.OnCloseMenu -= ResetDifficulty;
+        FormsMenu.OnSelectDifficulty -= Open;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         CreateDifficulties();
+        startGameButton.onClick.AddListener(StartGame);
+        difficultyMenuUI_Ref = (DifficultiesMenuUI)baseMenuUI_Ref;
+    }
+
+    protected override void Open()
+    {
+        base.Open();
+    }
+
+    protected override void Close()
+    {
+        base.Close();
+    }
+
+    private void StartGame()
+    {
+        if (currentSelectedDifficultyIndex != -1)
+        {
+            AudioManager.Instance.PlaySFX(startGameplayEventData, this.transform.position, 0f);
+            OnLoadGameplay?.Invoke();
+        }
     }
 
     private void CreateDifficulties()
@@ -52,6 +84,15 @@ public class DifficultiesManager : MonoBehaviour
         }
     }
 
+    private void ChangeDifficultyValuesSO(DifficultySettingsData newSettingsData)
+    {
+        currentDifficultyData.width = newSettingsData.width;
+        currentDifficultyData.height = newSettingsData.height;
+        currentDifficultyData.groundPercentage = newSettingsData.groundPercentage;
+        currentDifficultyData.minPathSize = newSettingsData.minPathSize;
+        currentDifficultyData.initialCurrency = newSettingsData.initialCurrency;
+    }
+
     public void SelectDifficulty(int index)
     {
         if (currentSelectedDifficultyIndex == index)
@@ -67,7 +108,7 @@ public class DifficultiesManager : MonoBehaviour
 
         currentSelectedDifficultyIndex = index;
         difficulties[currentSelectedDifficultyIndex].SetSelected(true);
-        MainMenuManager.Instance.SetNewSelectedDifficulty(difficulties[currentSelectedDifficultyIndex].GetDifficultyData());
+        ChangeDifficultyValuesSO(difficulties[currentSelectedDifficultyIndex].GetDifficultyData());
     }
 
     public void DeselectDifficulty()
@@ -76,7 +117,7 @@ public class DifficultiesManager : MonoBehaviour
         {
             difficulties[currentSelectedDifficultyIndex].SetSelected(false);
             currentSelectedDifficultyIndex = -1;
-            MainMenuManager.Instance.DeselectDifficulty();
+            //MainMenuManager.Instance.DeselectDifficulty();
         }
     }
 
@@ -85,7 +126,7 @@ public class DifficultiesManager : MonoBehaviour
         if (currentSelectedDifficultyIndex != -1)
         {
             currentSelectedDifficultyIndex = -1;
-            MainMenuManager.Instance.DeselectDifficulty();
+            //MainMenuManager.Instance.DeselectDifficulty();
         }
     }
 }

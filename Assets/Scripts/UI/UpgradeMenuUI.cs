@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class UpgradeMenuUI : BaseMenuPanelUI
+public class UpgradeMenuUI : BasePanelUI
 {
     [SerializeField] private TextMeshProUGUI towerTypeText;
 

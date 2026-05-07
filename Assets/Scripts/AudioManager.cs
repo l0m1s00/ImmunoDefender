@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("Mixers")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
+    [SerializeField] private AudioMixerGroup musicMixerGroup;
+
     [Header("Pool Settings")]
     [SerializeField] private GameObject audioSourcePrefab;
     [SerializeField] private int initialPoolSize;
@@ -17,13 +19,21 @@ public class AudioManager : MonoBehaviour
     //el propio manager gestiona la pool de sonidos mediante cola
     private Queue<AudioSource> audioPool = new Queue<AudioSource>();
 
+    private AudioSource bgmAudioSource;
+    private Coroutine bgmFadeRoutine; //para bajar la musica de fondo poco a poco
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            transform.SetParent(null); //dont destroy solo funciona si no tiene padre
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+
+            bgmAudioSource = gameObject.AddComponent<AudioSource>();
+            bgmAudioSource.playOnAwake = true;
+            bgmAudioSource.loop = true;
+
             InitializePool();
         }
         else Destroy(gameObject);
@@ -32,11 +42,18 @@ public class AudioManager : MonoBehaviour
     private void OnEnable()
     {
         TowerBuilder.OnTowerBuild += PlayBuildTowerSound;
+        DifficultiesMenu.OnLoadGameplay += StopBGMOnLoadGameplay;
     }
 
     private void OnDisable()
     {
         TowerBuilder.OnTowerBuild -= PlayBuildTowerSound;
+        DifficultiesMenu.OnLoadGameplay -= StopBGMOnLoadGameplay;
+    }
+
+    private void Start()
+    {
+        bgmAudioSource.outputAudioMixerGroup = musicMixerGroup;
     }
 
     private void InitializePool()
@@ -60,6 +77,8 @@ public class AudioManager : MonoBehaviour
         audioPool.Enqueue(audioSource);
         return audioSource;
     }
+
+    //SFX - EFECTOS DE SONIDO MOMENTANEOS
 
     public void PlaySFX(AudioEventData audioEvent, Vector3 position, float spatialBlend = 0.5f)
     {
@@ -112,5 +131,68 @@ public class AudioManager : MonoBehaviour
         {
             if (activeAudioCounts.ContainsKey(audioEvent)) activeAudioCounts[audioEvent]--;
         }
+    }
+
+    //BGM - MUSICA DE FONDO
+
+    public void PlayBGM(AudioEventData bgmEvent, float fadeDuration = 0.5f)
+    {
+        AudioClip clipToPlay = bgmEvent.GetRandomClip();
+
+        //seguridad
+        if (bgmAudioSource.clip == clipToPlay && bgmAudioSource.isPlaying) return;
+        if (bgmFadeRoutine != null)
+        {
+            StopCoroutine(bgmFadeRoutine);
+        }
+
+        bgmAudioSource.clip = clipToPlay;
+        bgmAudioSource.spatialBlend = 0f;
+        bgmAudioSource.pitch = 1f;
+
+        bgmAudioSource.Play();
+
+        if (fadeDuration > 0f)
+        {
+            bgmAudioSource.volume = 0f;
+            bgmFadeRoutine = StartCoroutine(FadeBGM_Volume(bgmEvent.volume, fadeDuration));
+        }
+        else
+        {
+            bgmAudioSource.volume = bgmEvent.volume;
+        }
+    }
+
+    public void StopBGMOnLoadGameplay()
+    {
+        StopBGM(1f);
+    }
+
+    public void StopBGM(float fadeDuration = 0.5f)
+    {
+        if (bgmFadeRoutine != null)
+        {
+            StopCoroutine(bgmFadeRoutine);
+        }
+
+        if (fadeDuration > 0f) bgmFadeRoutine = StartCoroutine(FadeBGM_Volume(0f, fadeDuration, true));
+        else bgmAudioSource.Stop();
+    }
+
+    private IEnumerator FadeBGM_Volume(float targetVolume, float duration, bool stopAtEnd = false)
+    {
+        float startVolume = bgmAudioSource.volume;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            bgmAudioSource.volume = Mathf.Lerp(startVolume, targetVolume, timer / duration);
+            yield return null;
+        }
+
+        bgmAudioSource.volume = targetVolume;
+
+        if (stopAtEnd) bgmAudioSource.Stop();
     }
 }

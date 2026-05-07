@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public enum GameState { MainMenu, Playing, Paused, Resume, GameOver, Victory }
     private GameState currentState;
 
+    //EVENTOS
+    public static event Action OnSceneTransition;
+
     private void Awake()
     {
         if (Instance == null)
@@ -25,14 +28,16 @@ public class GameManager : MonoBehaviour
     {
         PauseMenu.OnPauseGame += PauseGame;
         PauseMenu.OnReturnToMainMenu += LoadMainMenu;
-        MainMenuManager.OnLoadGameplay += LoadGameplay;
+        DifficultiesMenu.OnLoadGameplay += DoSceneTransition;
+        SceneTransition.OnTransitionCompleted += LoadGameplay;
     }
 
     private void OnDisable()
     {
         PauseMenu.OnPauseGame -= PauseGame;
         PauseMenu.OnReturnToMainMenu -= LoadMainMenu;
-        MainMenuManager.OnLoadGameplay -= LoadGameplay;
+        DifficultiesMenu.OnLoadGameplay -= DoSceneTransition;
+        SceneTransition.OnTransitionCompleted -= LoadGameplay;
     }
 
     private void ChangeGameState(GameState newState)
@@ -44,46 +49,46 @@ public class GameManager : MonoBehaviour
         //HandleStates();
     }
 
-    private void HandleStates()
-    {
-        switch (currentState)
-        {
-            case GameState.MainMenu:
-                MainMenuActions();
-                break;
-            case GameState.Playing:
-                PlayingActions();
-                break;
-            case GameState.Paused:
-                PausedActions();
-                break;
-            case GameState.GameOver:
-                GameOverActions();
-                break;
-            case GameState.Victory:
-                break;
-        }
-    }
+    //private void HandleStates()
+    //{
+    //    switch (currentState)
+    //    {
+    //        case GameState.MainMenu:
+    //            MainMenuActions();
+    //            break;
+    //        case GameState.Playing:
+    //            PlayingActions();
+    //            break;
+    //        case GameState.Paused:
+    //            PausedActions();
+    //            break;
+    //        case GameState.GameOver:
+    //            GameOverActions();
+    //            break;
+    //        case GameState.Victory:
+    //            break;
+    //    }
+    //}
 
-    private void MainMenuActions()
-    {
-        LoadMainMenu();
-    }
+    //private void MainMenuActions()
+    //{
+    //    LoadMainMenu();
+    //}
 
-    private void PlayingActions()
-    {
-        LoadGameplay();
-    }
+    //private void PlayingActions()
+    //{
+    //    LoadGameplay();
+    //}
 
-    private void PausedActions()
-    {
-        PauseGame();
-    }
+    //private void PausedActions()
+    //{
+    //    PauseGame();
+    //}
 
-    private void GameOverActions()
-    {
-        Time.timeScale = 0f;
-    }
+    //private void GameOverActions()
+    //{
+    //    Time.timeScale = 0f;
+    //}
 
     private void PauseGame()
     {
@@ -97,6 +102,11 @@ public class GameManager : MonoBehaviour
             ChangeGameState(GameState.Playing);
             Time.timeScale = 1f;
         }
+    }
+
+    private void DoSceneTransition()
+    {
+        OnSceneTransition?.Invoke();
     }
 
     private void LoadGameplay()

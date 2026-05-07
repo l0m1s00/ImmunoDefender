@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PauseMenuUI : BaseMenuPanelUI
+public class PauseMenuUI : BaseMenuUI
 {
     private void OnEnable()
     {
