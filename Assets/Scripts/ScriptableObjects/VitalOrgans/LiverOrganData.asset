@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LiverOrganData
   m_EditorClassIdentifier: Assembly-CSharp::VitalOrganData
   health: 120
-  vitalOrganName: Liver
+  vitalOrganName: The Liver
   vitalOrganPrefab: {fileID: 445708337958172064, guid: 551d9938888a85941aa76ee123256387, type: 3}

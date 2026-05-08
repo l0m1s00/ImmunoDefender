@@ -151,7 +151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -480, y: 0}
+  m_AnchoredPosition: {x: -500, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &10571053
@@ -506,7 +506,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 480, y: 0}
+  m_AnchoredPosition: {x: 500, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &183748844
@@ -980,7 +980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 240, y: 0}
+  m_AnchoredPosition: {x: 250, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &364653978
@@ -1455,10 +1455,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 227ab27c59e1f854793ea9cded22cfe6, type: 2}
   - {fileID: 11400000, guid: 3fe3f4de4e02eea4c805e6c509670514, type: 2}
   - {fileID: 11400000, guid: 3e823da7df31405408ef29e9b1a0a9a8, type: 2}
+  - {fileID: 11400000, guid: 1fda821e914a0fc4e8bd2bf5eb749c2f, type: 2}
   cellTypes:
   - {fileID: 11400000, guid: e94e84e402247b44881230c0094db616, type: 2}
   - {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
   - {fileID: 11400000, guid: cb167cf986a03bd4ca3784f2abb3bd79, type: 2}
+  - {fileID: 11400000, guid: 408ad4410af57d348826eb837866c0c4, type: 2}
   vitalOrganTypes:
   - {fileID: 11400000, guid: dbef10f2b9026934bbca8a2b46c6d9cb, type: 2}
 --- !u!114 &415935256
@@ -5167,7 +5169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240, y: 0}
+  m_AnchoredPosition: {x: -250, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1547099552

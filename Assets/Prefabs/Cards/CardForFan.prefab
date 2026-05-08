@@ -458,18 +458,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5973750a3729a4a966935548f93793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerCardUI
+  onMouseScaleFactor: 1.15
+  verticalOffset: 30
+  animationDuration: 0.1
+  selectedScaleFactor: 1.5
+  hardSelectedScaleFactor: 1
+  selectedUpOffset: 300
+  hardSelectedUpOffset: 0
+  selectedOrderInLayer: 20
   iconImage: {fileID: 8485218202158445168}
   cellImage: {fileID: 1028078896152553567}
   costText: {fileID: 4153672855640370324}
   cardNameText: {fileID: 6114129689525448834}
   cardDescriptionText: {fileID: 349848815084632979}
+  informationPanel: {fileID: 0}
   cardLocalCanvas: {fileID: 2470514625771922013}
-  onMouseScaleFactor: 1.15
-  verticalOffset: 30
-  animationDuration: 0.1
-  selectedScaleFactor: 1.5
-  selectedUpOffset: 300
-  selectedOrderInLayer: 20
+  selectedOutline: {fileID: 0}
 --- !u!114 &2281971781908943502
 MonoBehaviour:
   m_ObjectHideFlags: 0

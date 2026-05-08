@@ -17,7 +17,7 @@ public class VitalOrgan : MonoBehaviour, IResettable
     {
         //stats
         basicStats = new VitalOrganStats(vitalOrganData);
-        vitalOrganUIRef.UpdateHealthBar(basicStats.currentHealth, basicStats.maxHealth);
+        vitalOrganUIRef.InitializeVisuals(basicStats);
     }
 
     public void TakeDamage(float damage)

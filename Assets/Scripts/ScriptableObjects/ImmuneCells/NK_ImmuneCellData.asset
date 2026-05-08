@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f26aaed370f88408c7089b18743e43, type: 3}
+  m_Name: NK_ImmuneCellData
+  m_EditorClassIdentifier: Assembly-CSharp::NK_ImmuneCell
+  immuneCellPrefab: {fileID: 424120001547100183, guid: 35662cc3f0593d345811d31a44f21172, type: 3}
+  cellName: NK Cell
+  speed: 1.5
+  damage: 1.5
+  attackRange: 0.1
+  attackCooldown: 2

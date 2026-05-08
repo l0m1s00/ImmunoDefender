@@ -63,8 +63,6 @@ public class MacrophageTower : TargetingTower
 
     public override void Reset()
     {
-        base.Reset();
-
-        
+        base.Reset();  
     }
 }

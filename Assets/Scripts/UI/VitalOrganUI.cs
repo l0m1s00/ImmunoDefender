@@ -8,6 +8,7 @@ public class VitalOrganUI : MonoBehaviour
     [SerializeField] private Image healthBarValueFill;
     [SerializeField] private Image healthBarShadowFill;
     [SerializeField] private TMP_Text healthBarText;
+    [SerializeField] private TMP_Text nameText;
     [Header("Settings")]
     [SerializeField] private float shadowDelayCooldown;
     [SerializeField] private float shadowShrinkSpeed;
@@ -33,6 +34,12 @@ public class VitalOrganUI : MonoBehaviour
                 );
             }
         }
+    }
+
+    public void InitializeVisuals(VitalOrganStats stats)
+    {
+        healthBarValueFill.fillAmount = 1f;
+        nameText.text = stats.vitalOrganName;
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth)

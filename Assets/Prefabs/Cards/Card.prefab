@@ -709,10 +709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5973750a3729a4a966935548f93793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerCardUI
-  onMouseScaleFactor: 1.15
+  onMouseScaleFactor: 1.1
   verticalOffset: 10
   animationDuration: 0.1
-  selectedScaleFactor: 1.5
+  selectedScaleFactor: 1.3
   hardSelectedScaleFactor: 1
   selectedUpOffset: 15
   hardSelectedUpOffset: 0

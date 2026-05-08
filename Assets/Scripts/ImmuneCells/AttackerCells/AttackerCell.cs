@@ -211,7 +211,7 @@ public abstract class AttackerCell : ImmuneCell
         MoveTowardsTarget(headquarters.gameObject);
     }
 
-    private void HandleReturnState()
+    protected virtual void HandleReturnState()
     {
         RequestNewTarget();
 
@@ -226,7 +226,7 @@ public abstract class AttackerCell : ImmuneCell
         }
     }
 
-    private void EnterTower()
+    protected virtual void EnterTower()
     {
         CellSpawnerModule spawnerModule = headquarters.GetComponent<CellSpawnerModule>();
         spawnerModule.ReturnCell();
