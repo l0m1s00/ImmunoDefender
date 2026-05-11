@@ -6,6 +6,7 @@ public class VitalOrganUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Image healthBarValueFill;
+    [SerializeField] private Image healthBarValueBaseFill;
     [SerializeField] private Image healthBarShadowFill;
     [SerializeField] private TMP_Text healthBarText;
     [SerializeField] private TMP_Text nameText;
@@ -16,6 +17,8 @@ public class VitalOrganUI : MonoBehaviour
 
     private void Start()
     {
+        healthBarValueFill.fillAmount = 1f;
+        healthBarValueBaseFill.fillAmount = 1f;
         healthBarShadowFill.fillAmount = 1f;
     }
 
@@ -38,7 +41,6 @@ public class VitalOrganUI : MonoBehaviour
 
     public void InitializeVisuals(VitalOrganStats stats)
     {
-        healthBarValueFill.fillAmount = 1f;
         nameText.text = stats.vitalOrganName;
     }
 
@@ -46,6 +48,7 @@ public class VitalOrganUI : MonoBehaviour
     {
         float per = currentHealth / maxHealth;
         healthBarValueFill.fillAmount = per;
+        healthBarValueBaseFill.fillAmount = per;
         healthBarText.text = $"{currentHealth} / {maxHealth}";
         shadowDelayTimer = shadowDelayCooldown;
     }

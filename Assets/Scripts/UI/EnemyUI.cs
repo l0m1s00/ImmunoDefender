@@ -7,22 +7,31 @@ public class EnemyUI : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private Image healthBarFill;
     [SerializeField] private SpriteRenderer outline;
+
     [Header("BLymphocyte Investigation Components")]
     [SerializeField] private GameObject investigationCircle;
     [SerializeField] private Image investigationFill;
+
     [Header("Hit Flash Settings")]
-    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Transform visualRoot; //padre que contiene los distintos spriteRenderers que conforman el sprite
     [SerializeField] private Material whiteFlashMaterial;
     private float flashDuration = 0.1f;
 
-    private Material originalMaterial;
+    private SpriteRenderer[] allSprites;
+    private Material[] originalMaterials;
     private Coroutine flashCoroutine;
 
-    private void Start()
+    private void Awake()
     {
         investigationCircle.SetActive(false);
         outline.enabled = false;
-        originalMaterial = sprite.material;
+
+        allSprites = visualRoot.GetComponentsInChildren<SpriteRenderer>();
+        originalMaterials = new Material[allSprites.Length];
+        for (int i = 0; i < allSprites.Length; i++)
+        {
+            originalMaterials[i] = allSprites[i].material;
+        }
     }
 
     public void UpdateHealthBar(float healthPer)
@@ -56,20 +65,45 @@ public class EnemyUI : MonoBehaviour
     {
         if (flashCoroutine != null) StopCoroutine(flashCoroutine);
 
-        flashCoroutine = StartCoroutine(Flash());
+        if (gameObject.activeInHierarchy)
+        {
+            flashCoroutine = StartCoroutine(Flash());
+        }
     }
 
     private IEnumerator Flash()
     {
-        sprite.material = whiteFlashMaterial;
+        //cambiar el material de los sprites a blanco
+        for (int i = 0; i < allSprites.Length; i++)
+        {
+            if (allSprites[i] != null)
+            {
+                allSprites[i].material = whiteFlashMaterial;
+            }
+        }
+
         yield return new WaitForSeconds(flashDuration);
-        sprite.material = originalMaterial;
+
+        //restaurar el sprite
+        for (int i = 0; i < allSprites.Length; i++)
+        {
+            if (allSprites[i] != null)
+            {
+                allSprites[i].material = originalMaterials[i];
+            }
+        }
     }
 
     public void ResetUI()
     {
         if (flashCoroutine != null) StopCoroutine(flashCoroutine);
 
-        sprite.material = originalMaterial;
+        for (int i = 0; i < allSprites.Length; i++)
+        {
+            if (allSprites[i] != null)
+            {
+                allSprites[i].material = originalMaterials[i];
+            }
+        }
     }
 }

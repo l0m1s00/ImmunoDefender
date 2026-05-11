@@ -13,6 +13,9 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     [SerializeField] private float waveAmplitude;
     [SerializeField] private float waveSpeed;
     [SerializeField] private float turnSmoothTime;
+    [SerializeField] private Transform visualsPivotTransform; //lo que realmente gira es la carpeta que contiene los huesos y los renderers, para no interferir con las transformaciones locales de los huesos
+    [SerializeField][Range(0f, 1f)] private float rotationSmoothTime;
+    private float rotationVelocity;
 
     //knockback settings
     private float knockbackForce = 0.1f;
@@ -27,7 +30,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     private Vector3 ghostPosition;
     private float randomMovementOffset;
 
-    //Suavizado de curvas
+    //Suavizado de curvas para el movimiento ondulatorio
     private Vector3 currentPerpendicular;
     private Vector3 perpendicularVelocity;
 
@@ -61,9 +64,21 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
     {
         Vector3 targetPosition = new Vector3(route[i].x, route[i].y, 0f);
         currentMoveDirection = (targetPosition - ghostPosition).normalized;
-        Vector3 targetPerpendicular = new Vector3(-currentMoveDirection.y, currentMoveDirection.x, 0f);
 
-        //suavizar cambios de direccion
+        if (currentMoveDirection != Vector3.zero)
+        {
+            //radianes a grados
+            //-90 grados porque los enemigos son dibujados en vertical pero realmente su diseño es de lado
+            float targetAngle = (Mathf.Atan2(currentMoveDirection.y, currentMoveDirection.x) * Mathf.Rad2Deg) + 90f;
+            //interpolacion entre el angulo actual y el objetivo
+            float currentAngle = visualsPivotTransform.eulerAngles.z;
+            float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref rotationVelocity, rotationSmoothTime);
+
+            visualsPivotTransform.rotation = Quaternion.Euler(0f, 0f, smoothAngle);
+        }
+
+        //suavizar cambios de direccion para la onda
+        Vector3 targetPerpendicular = new Vector3(-currentMoveDirection.y, currentMoveDirection.x, 0f);
         currentPerpendicular = Vector3.SmoothDamp(currentPerpendicular, targetPerpendicular, ref perpendicularVelocity, turnSmoothTime);
         //falsa posicion que sigue el enemigo
         ghostPosition = Vector3.MoveTowards(ghostPosition, targetPosition, basicStats.speed * Time.deltaTime);
@@ -188,6 +203,9 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         knockbackOffset = Vector3.zero;
         knockbackVelocity = Vector3.zero;
         currentMoveDirection = Vector3.zero;
+
+        rotationVelocity = 0f;
+        visualsPivotTransform.rotation = Quaternion.identity;
 
         i = 0;
         isBeingInvestigated = false;

@@ -17,6 +17,5 @@ MonoBehaviour:
   speed: 0.8
   health: 2
   rewardDrop: 5
-  enemyPrefab: {fileID: 1769715054376363537, guid: 07a9cb1961292cc40b2af7c905013be4, type: 3}
-  movementSounds: {fileID: 11400000, guid: ad7faf9954fec134591257de1926394c, type: 2}
+  enemyPrefab: {fileID: 5181915020970182304, guid: 4beb886c880cd9a4eb1e58924ac95a27, type: 3}
   infectionProbability: 40
