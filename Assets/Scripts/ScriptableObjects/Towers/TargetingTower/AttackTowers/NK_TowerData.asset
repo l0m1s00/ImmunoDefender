@@ -23,6 +23,6 @@ MonoBehaviour:
   range: 1.5
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: 408ad4410af57d348826eb837866c0c4, type: 2}
-    nSoldiers: 1
+    nSoldiers: 2
     spawnSoldierCooldown: 0.7
     spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}

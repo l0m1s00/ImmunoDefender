@@ -24,7 +24,6 @@ public class NeutrophilImmuneCell : AttackerCell
         if (neutrophilCellStats.remainingAttacks <= 0)
         {
             if (headquarters is NeutrophilTower neutrophilHeadquarters) neutrophilHeadquarters.OnNeutrophilSoldierDead();
-            NotifyEntityDestruction();
             PoolEntitiesManager.Instance.DespawnImmuneCell(neutrophilCellStats.data, this.gameObject);
             AudioManager.Instance.PlaySFX(neutrophilCellStats.neutrophilData.deadSounds, transform.position);
         }

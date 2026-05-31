@@ -9,18 +9,44 @@ public class SelectionManager : MonoBehaviour
 
     //EVENTOS
     public static event Action<string, List<EntitiyStat>> OnEntitySelectedForInfo;
+    public static event Action<ISelectable> OnEntitySelected;
     public static event Action OnEntityDeselected;
 
     private void OnEnable()
     {
         Inputs.OnLeftClickPerformed += HandleSelection;
+        Inputs.OnRightClickPerformed += HandleCommand;
         BLymphocyteTower.OnBuffGenerated += RefreshUI;
     }
 
     private void OnDisable()
     {
         Inputs.OnLeftClickPerformed -= HandleSelection;
+        Inputs.OnRightClickPerformed -= HandleCommand;
         BLymphocyteTower.OnBuffGenerated -= RefreshUI;
+    }
+
+    private void HandleCommand() //manejar la orden de click derecho para la entidad seleccionada
+    {
+        if (IsPointerOverRealUI()) return;
+
+        //determinar si el click derecho "ha sido realizado" por una NK
+        if (currentSelectedElement is NK_ImmuneCell nkCell && !nkCell.IsInvestigating())
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Inputs.Instance.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                if (hit.collider.TryGetComponent<CellularFarmTower>(out CellularFarmTower targetFarm))
+                {
+                    if (!TowerManager.Instance.IsFarmInvestigated(targetFarm))
+                    {
+                        nkCell.SetInvestigation(targetFarm);
+                    }
+                }
+            }
+        }
     }
 
     private void HandleSelection()
@@ -92,6 +118,8 @@ public class SelectionManager : MonoBehaviour
             currentSelectedElement.OnEntityDestroyed += HandleEntityDestroyed;
             currentSelectedElement.OnSelect();
             RefreshUI();
+
+            OnEntitySelected?.Invoke(currentSelectedElement);
         }
         else
         {
@@ -104,7 +132,7 @@ public class SelectionManager : MonoBehaviour
         if (currentSelectedElement != null)
         {
             //tomamos la informacion de la entidad para mostrar en el panel de estadisticas
-            OnEntitySelectedForInfo?.Invoke(currentSelectedElement.GetEntityName(), currentSelectedElement.GetStats());
+            OnEntitySelectedForInfo?.Invoke(currentSelectedElement.GetEntityName(), currentSelectedElement.GetEntityStatsToDisplay());
         }
     }
 

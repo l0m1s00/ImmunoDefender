@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class BLymphocyteTowerStats : TargetingTowerStats
 {
-    protected float baseInvestigationAmount;
+    private float baseInvestigationAmount;
     public float investigationAmount;
-    protected float baseInvestigationInterval;
+    private float baseInvestigationInterval;
     public float investigationInterval;
     public float maxInvestigationAmount;
-    protected float baseDamageBonus;
+    private float baseDamageBonus;
     public float damageBonus;
     public Dictionary<EnemyData, float> currentInvestigation;
     public Dictionary<EnemyData, float> damageBonuses;
@@ -32,9 +32,9 @@ public class BLymphocyteTowerStats : TargetingTowerStats
         }
     }
 
-    public override List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetStatsToDisplay()
     {
-        List<EntitiyStat> stats = base.GetStats();
+        List<EntitiyStat> stats = base.GetStatsToDisplay();
 
         stats.Add(new EntitiyStat { 
             statName = "Investigation Amount", 

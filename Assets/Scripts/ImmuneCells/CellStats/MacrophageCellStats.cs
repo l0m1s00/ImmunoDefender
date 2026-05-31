@@ -13,9 +13,9 @@ public class MacrophageCellStats : AttackerCellStats
         deleteToxicWasteTime = baseDeleteToxicWasteTime;
     }
 
-    public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)
+    public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)
     {
-        List<EntitiyStat> stats = base.GetStats(damageBonuses);
+        List<EntitiyStat> stats = base.GetStatsToDisplay(damageBonuses);
 
         stats.Add(new EntitiyStat { 
             statName = "Clean Waste", 

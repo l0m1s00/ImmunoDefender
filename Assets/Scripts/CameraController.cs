@@ -32,11 +32,13 @@ public class CameraController : MonoBehaviour
     private void OnEnable()
     {
         VitalOrgan.OnVitalOrganDamaged += StartShake;
+        GridManager.OnMapGenerationRequiredSize += SetCameraMainPosition;
     }
 
     private void OnDisable()
     {
         VitalOrgan.OnVitalOrganDamaged -= StartShake;
+        GridManager.OnMapGenerationRequiredSize -= SetCameraMainPosition;
     }
 
     void Update()
@@ -56,6 +58,12 @@ public class CameraController : MonoBehaviour
         }
 
         transform.position = visualPos;
+    }
+
+    private void SetCameraMainPosition(int width, int height)
+    {
+        Vector3 newPos = new Vector3(0f, height/2, this.transform.position.z);
+        logicalPos = newPos;
     }
 
     private void StartShake()

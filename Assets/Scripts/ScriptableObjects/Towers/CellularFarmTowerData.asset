@@ -32,3 +32,5 @@ MonoBehaviour:
   minGetInfectionProbability: 100
   farmInfectionCooldown: 10
   infectionSpawnerObj: {fileID: 3026206957732152367, guid: f9e8662d912beea4baa99fb9069ae62b, type: 3}
+  noInfection: There is no risk of infection
+  possibleInfection: Possible infection on the farm

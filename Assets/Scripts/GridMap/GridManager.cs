@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,6 +33,7 @@ public class GridManager : MonoBehaviour
     //EVENTOS
     public static event Action OnMapGenerationCompleted;
     public static event Action OnCellUnblocked;
+    public static event Action<int, int> OnMapGenerationRequiredSize;
 
     private void Awake()
     {
@@ -152,6 +154,7 @@ public class GridManager : MonoBehaviour
         yield return StartCoroutine(PlaceTowerHoldersTiles());
 
         OnMapGenerationCompleted?.Invoke();
+        OnMapGenerationRequiredSize?.Invoke(width, height);
         yield return null;
     }
 

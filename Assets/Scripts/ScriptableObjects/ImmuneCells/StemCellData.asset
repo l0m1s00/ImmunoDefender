@@ -15,4 +15,4 @@ MonoBehaviour:
   immuneCellPrefab: {fileID: 7447732775804149025, guid: 844a2f0265501574a979e9ea01229557, type: 3}
   cellName: Stem Cell
   speed: 0.3
-  getInfectionCooldown: 5
+  getInfectionCooldown: 10

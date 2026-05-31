@@ -24,7 +24,7 @@ public class CellSpawnerStats
         spawnerData = data;
     }
 
-    public List<EntitiyStat> GetStats()
+    public List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();
 

@@ -54,6 +54,8 @@ public class NeutrophilTower : TargetingTower
 
     public override void Reset()
     {
+        spawnerModule.ResetInMapTowerCells();
+
         base.Reset();
 
         refillTimer = 0f;

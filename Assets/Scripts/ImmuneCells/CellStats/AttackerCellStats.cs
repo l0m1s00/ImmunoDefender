@@ -18,9 +18,9 @@ public class AttackerCellStats : BasicCellStats
         attackCooldown = baseAttackCooldown;
     }
 
-    public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)
+    public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)
     {
-        List<EntitiyStat> stats = base.GetStats(damageBonuses);
+        List<EntitiyStat> stats = base.GetStatsToDisplay(damageBonuses);
 
         string extraDamageBonuses = "";
 

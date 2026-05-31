@@ -15,6 +15,13 @@ MonoBehaviour:
   immuneCellPrefab: {fileID: 424120001547100183, guid: 35662cc3f0593d345811d31a44f21172, type: 3}
   cellName: NK Cell
   speed: 1.5
-  damage: 1.5
+  damage: 2
   attackRange: 0.1
   attackCooldown: 2
+  analysisAmount: 20
+  analysisInterval: 0.4
+  noCommandText: Ready to receive a command
+  movingToFarmText: On my way to the farm
+  analizingFarmText: Analysing the farm
+  goodAnalysisIcon: {fileID: 21300000, guid: ac421a8c618a3d742b3bdaed13f3925a, type: 3}
+  badAnalysisIcon: {fileID: 21300000, guid: b74118850def5724a80148892952a496, type: 3}

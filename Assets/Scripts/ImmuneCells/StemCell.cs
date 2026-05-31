@@ -35,7 +35,7 @@ public class StemCell : ImmuneCell
 
         if (stemCellStats.infected)
         {
-            BecomeInfected();
+            InfectNewStemCell();
         }
 
         HandleMovement();
@@ -77,7 +77,7 @@ public class StemCell : ImmuneCell
         targetPosition = headquarters.transform.position + new Vector3(rX, rY, 0f);
     }
 
-    private void BecomeInfected()
+    private void InfectNewStemCell()
     {
         getInfectedTimer -= Time.deltaTime;
 
@@ -85,7 +85,6 @@ public class StemCell : ImmuneCell
         {
             if (headquarters is CellularFarmTower farmHeadquarters) farmHeadquarters.InfectHealthyStemCell();
             getInfectedTimer = stemCellStats.getInfectionCooldown; //infectar a otra
-            Debug.Log("Infectando a otra vaca");
         }
     }
 
@@ -94,14 +93,19 @@ public class StemCell : ImmuneCell
         stemCellStats.infected = true;
     }
 
-    public BasicCellStats GetCellStats()
+    public void CureInfection()
     {
-        return basicStats;
+        stemCellStats.infected = false;
     }
 
-    public override List<EntitiyStat> GetStats()
+    public StemCellStats GetCellStats()
     {
-        return stemCellStats.GetStats();
+        return stemCellStats;
+    }
+
+    public override List<EntitiyStat> GetEntityStatsToDisplay()
+    {
+        return stemCellStats.GetStatsToDisplay();
     }
 
     public override void Reset()

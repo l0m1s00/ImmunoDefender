@@ -170,10 +170,10 @@ public abstract class AttackerCell : ImmuneCell
         return totalBonuses;
     }
 
-    public override List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetEntityStatsToDisplay()
     {
         Dictionary<EnemyData, float> damageBonuses = CalculateDamageBuffsAgainstAllEnemies();
-        return attackerStats.GetStats(damageBonuses);
+        return attackerStats.GetStatsToDisplay(damageBonuses);
     }
 
     private void HandleAttackState()
@@ -229,8 +229,7 @@ public abstract class AttackerCell : ImmuneCell
     protected virtual void EnterTower()
     {
         CellSpawnerModule spawnerModule = headquarters.GetComponent<CellSpawnerModule>();
-        spawnerModule.ReturnCell();
-        NotifyEntityDestruction();
+        spawnerModule.ReturnCell(this);
         PoolEntitiesManager.Instance.DespawnImmuneCell(attackerStats.data, this.gameObject);
     }
 

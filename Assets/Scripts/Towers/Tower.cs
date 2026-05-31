@@ -25,7 +25,7 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 
     public virtual void OnSelect()
     {
-        TowerUpgradeManager.Instance.InitializeUpgradeMenu(basicStats);
+        TowerUpgradeManager.Instance.InitializeUpgradeMenu(this);
         towerUIRef.SelectTower();
     }
 
@@ -45,11 +45,13 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
         return basicStats;
     }
 
-    public virtual List<EntitiyStat> GetStats()
+    public virtual List<EntitiyStat> GetEntityStatsToDisplay()
     {
-        return basicStats.GetStats();
+        return basicStats.GetStatsToDisplay();
     }
 
-    public virtual void Reset() { }
-
+    public virtual void Reset()
+    {
+        OnEntityDestroyed?.Invoke(this);
+    }
 }

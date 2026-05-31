@@ -11,7 +11,7 @@ public class BasicTowerStats
         baseData = data;
     }
 
-    public virtual List<EntitiyStat> GetStats()
+    public virtual List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();
         return stats;

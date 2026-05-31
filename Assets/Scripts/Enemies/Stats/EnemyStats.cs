@@ -22,7 +22,7 @@ public class EnemyStats
         rewardDrop = data.rewardDrop;
     }
 
-    public virtual List<EntitiyStat> GetStats()
+    public virtual List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();
 

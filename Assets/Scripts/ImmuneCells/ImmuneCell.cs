@@ -6,16 +6,17 @@ using System.Collections.Generic;
 public enum State
 {
     None,
-    Chase,
-    Attack,
-    Return,
+    Chase, //Exclusivo de las Attacker
+    Attack, //Exclusivo de las Attacker
+    Return, //Exclusivo de las Attacker
     Clean, //Exclusivo de los macrofagos
+    InvestigateFarm, //Exclusivo de las NK
 }
 
 public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
 {
     [Header("Components")]
-    [SerializeField] private ImmuneCellUI immuneCellUIRef;
+    [SerializeField] protected ImmuneCellUI immuneCellUIRef;
 
     protected BasicCellStats basicStats;
     protected Tower headquarters; //torre que ha generado la celula
@@ -42,13 +43,14 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
         OnStatsChanged?.Invoke();
     }
 
-    protected void NotifyEntityDestruction()
-    {
-        OnEntityDestroyed?.Invoke(this);
-    }
+    //protected void NotifyEntityDestruction()
+    //{
+    //    OnEntityDestroyed?.Invoke(this);
+    //}
 
     public virtual void Reset()
     {
+        OnEntityDestroyed?.Invoke(this);
         headquarters = null;
         currentTarget = null;
     }
@@ -68,7 +70,12 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
         return basicStats.cellName;
     }
 
-    public virtual List<EntitiyStat> GetStats()
+    public BasicCellStats GetStats()
+    {
+        return basicStats;
+    }
+
+    public virtual List<EntitiyStat> GetEntityStatsToDisplay()
     {
         return null;
     }

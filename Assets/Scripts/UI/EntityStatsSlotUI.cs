@@ -7,12 +7,12 @@ public class EntityStatsSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private TextMeshProUGUI statName;
     [SerializeField] private TextMeshProUGUI values;
 
-    private string tooltipData;
+    private string tooltipData; //el tooltipo muestra explicaciones, si las hubiera, sobre la estadistica
 
-    public void Initialize(string name, string initialValue, string value, string extraValues)
+    public void Initialize(string name, string initialValue, string value, string statExplanation)
     {
         statName.text = name;
-        tooltipData = extraValues;
+        tooltipData = statExplanation;
 
         string valuesString = ""; //se recoge en una cadena el valor base de la estadistica + valor actual + cantidad extra por buffos (mejoras no aplica)
         if (!string.IsNullOrEmpty(initialValue)) valuesString += "(" + initialValue + ") base | ";
@@ -23,7 +23,7 @@ public class EntityStatsSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null)
+        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null) //no todas las estadisticas tienen explicacion
         {
             TooltipPanelUI.Instance.OpenTooltipPanel(tooltipData);
         }

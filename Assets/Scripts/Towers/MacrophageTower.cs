@@ -63,6 +63,8 @@ public class MacrophageTower : TargetingTower
 
     public override void Reset()
     {
+        spawnerModule.ResetInMapTowerCells();
+
         base.Reset();  
     }
 }

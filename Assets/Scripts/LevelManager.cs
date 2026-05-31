@@ -20,10 +20,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        Initialize();
+        InitializeVitalOrgan();
     }
 
-    private void Initialize()
+    private void InitializeVitalOrgan()
     {
         //tomar un organo vital para posicionarlo en el mapa
         float x = DataLibrary.Instance.GetSelectedDifficultyData().width - 2.5f;

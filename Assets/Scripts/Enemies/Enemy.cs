@@ -189,9 +189,9 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         return basicStats.enemyName;
     }
 
-    public virtual List<EntitiyStat> GetStats()
+    public virtual List<EntitiyStat> GetEntityStatsToDisplay()
     {
-        return basicStats.GetStats();
+        return basicStats.GetStatsToDisplay();
     }
 
     public virtual void Reset() //dejar al enemigo en estado neutro antes de ponerlo en espera para su siguiente uso

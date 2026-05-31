@@ -5,7 +5,7 @@ public class ImmuneCellUI : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private SpriteRenderer outline;
 
-    private void Start()
+    protected virtual void Start()
     {
         outline.enabled = false;
     }

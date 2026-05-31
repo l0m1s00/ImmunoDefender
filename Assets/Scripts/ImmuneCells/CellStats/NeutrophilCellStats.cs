@@ -15,9 +15,9 @@ public class NeutrophilCellStats : AttackerCellStats
         neutrophilData = data;
     }
 
-    public override List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses)
+    public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)
     {
-        List<EntitiyStat> stats = base.GetStats(damageBonuses);
+        List<EntitiyStat> stats = base.GetStatsToDisplay(damageBonuses);
 
         stats.Add(new EntitiyStat { 
             statName = "Remaining Attacks", 

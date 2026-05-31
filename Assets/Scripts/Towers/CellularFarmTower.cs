@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CellularFarmTower : Tower
+public class CellularFarmTower : Tower, IStateInfoProvider
 {
     private CellSpawnerModule spawnerModule;
     private float generateCurrencyTimer;
+
+    //Informacion para el provider
+    private string currentStateText;
+    private float possibleInfectionTextTimer = 0f;
+    private int maxCorruptionTime = 0; //tiempo maximo posible ante una posible infeccion
 
     //Infection Settings
     private List<StemCell> healthyStemCells = new List<StemCell>();
@@ -12,6 +18,10 @@ public class CellularFarmTower : Tower
     private bool isTotallyInfected = false; //cuando todas las celulas madre estan infectadas la granja se corrompe
     private float corruptionTimer;
 
+    //EVENTOS
+    public event Action<string> OnStateInfoChanged;
+
+    private CellularFarmTowerData towerData;
     //Stats
     protected CellularFarmTowerStats cellularFarmTowerStats => (CellularFarmTowerStats)basicStats;
 
@@ -26,7 +36,10 @@ public class CellularFarmTower : Tower
             spawnerModule.Initialize(this, cellularFarmTowerStats.spawnerStats);
             generateCurrencyTimer = cellularFarmTowerStats.generatedCurrencyInterval;
             corruptionTimer = cellularFarmTowerStats.infectionCooldown;
+            towerData = cellularFarmData;
         }
+
+        currentStateText = towerData.noInfection;
 
         towerUIRef.InitializeVisuals(0f);
     }
@@ -40,6 +53,15 @@ public class CellularFarmTower : Tower
         {
             HandleEconomyGeneration();
             spawnerModule.HandleSpawning(true);
+        }
+
+        if (possibleInfectionTextTimer > 0f)
+        {
+            possibleInfectionTextTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if (currentStateText != towerData.noInfection) currentStateText = towerData.noInfection;
         }
     }
 
@@ -69,12 +91,14 @@ public class CellularFarmTower : Tower
         }
     }
 
-    public bool ResolveInfectionAttempt(int virusInfectionPower)
+    public bool ResolveInfectionAttempt(int virusInfectionPower) //virus intenta infectar la granja
     {
         if (isTotallyInfected) return false;
 
+        ProviderTextSettings();
+
         int infectionProbability = Mathf.Clamp(virusInfectionPower - cellularFarmTowerStats.resistanceToInfection,cellularFarmTowerStats.minGetInfectionProbability, 100);
-        int roll = Random.Range(1, 101);
+        int roll = UnityEngine.Random.Range(1, 101);
         bool success = roll < infectionProbability;
 
         if (success)
@@ -85,11 +109,37 @@ public class CellularFarmTower : Tower
         return success;
     }
 
+    private void ProviderTextSettings() //la informacion extra "posible infeccion" debido a la deteccion de un virus hace poco, el ultimo, se mantiene un determinado tiempo
+    {
+        float infectionTime = 0f;
+
+        //tomar el tiempo que tarda una celula madre en infectar a otra, culquiera
+        if (healthyStemCells.Count > 0)
+        {
+            infectionTime = healthyStemCells[0].GetCellStats().getInfectionCooldown;
+        }
+        else
+        {
+            foreach (StemCell cell in infectedStemCells)
+            {
+                infectionTime = cell.GetCellStats().getInfectionCooldown;
+                break;
+            }
+        }
+
+        maxCorruptionTime = Mathf.CeilToInt(Mathf.Log(cellularFarmTowerStats.totalStemCells, 2f)) * Mathf.CeilToInt(infectionTime);
+        possibleInfectionTextTimer = maxCorruptionTime;
+        
+        if (currentStateText != towerData.possibleInfection) currentStateText = towerData.possibleInfection;
+
+        OnStateInfoChanged?.Invoke(currentStateText);
+    }
+
     public void InfectHealthyStemCell()
     {
         if (healthyStemCells.Count > 0)
         {
-            int r = Random.Range(0, healthyStemCells.Count);
+            int r = UnityEngine.Random.Range(0, healthyStemCells.Count);
             StemCell newInfectedCell = healthyStemCells[r];
             newInfectedCell.GetInfection();
             healthyStemCells.Remove(newInfectedCell);
@@ -97,6 +147,29 @@ public class CellularFarmTower : Tower
 
             CheckCellularFarmCorruption();
         }
+    }
+
+    public bool CureInfectedStemCells() //la celula NK cura a las celulas madre infectadas
+    {
+        currentStateText = towerData.noInfection;
+        OnStateInfoChanged?.Invoke(currentStateText);
+
+        if (infectedStemCells.Count > 0)
+        {
+            foreach (StemCell cell in infectedStemCells)
+            {
+                cell.CureInfection();
+                healthyStemCells.Add(cell);
+            }
+
+            isTotallyInfected = false;
+            corruptionTimer = cellularFarmTowerStats.infectionCooldown;
+            infectedStemCells.Clear();
+
+            return true;
+        }
+
+        return false;
     }
 
     private void CheckCellularFarmCorruption()
@@ -120,21 +193,18 @@ public class CellularFarmTower : Tower
             Instantiate(data.infectionSpawnerObj, transform.position, Quaternion.identity); //CAMBIAR PARA QUE LO GESTIONE EL POOL
         }
 
-        List<StemCell> allStemCells = new List<StemCell>();
-        allStemCells.AddRange(healthyStemCells);
-        allStemCells.AddRange(infectedStemCells);
+        TowerManager.Instance.DeleteTower(this, false);
+    }
 
-        foreach (StemCell stemCell in allStemCells)
-        {
-            PoolEntitiesManager.Instance.DespawnImmuneCell(stemCell.GetCellStats().data, stemCell.gameObject);
-        }
-
-        TowerManager.Instance.DeleteTower(this);
-        PoolEntitiesManager.Instance.DespawnTower(cellularFarmTowerStats.baseData, this.gameObject);
+    public string GetCurrentStateInfo()
+    {
+        return currentStateText;
     }
 
     public override void Reset()
     {
+        spawnerModule.ResetInMapTowerCells();
+
         base.Reset();
 
         healthyStemCells.Clear();
@@ -142,5 +212,9 @@ public class CellularFarmTower : Tower
         corruptionTimer = 0f;
         isTotallyInfected = false;
         generateCurrencyTimer = 0f;
+
+        currentStateText = towerData.noInfection;
+        possibleInfectionTextTimer = 0f;
+        maxCorruptionTime = 0;
     }
 }

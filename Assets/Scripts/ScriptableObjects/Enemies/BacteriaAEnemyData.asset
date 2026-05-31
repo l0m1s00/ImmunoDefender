@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BacteriaAEnemyData
   m_EditorClassIdentifier: Assembly-CSharp::BacteriaEnemyData
   enemyName: Bacteria A
-  damage: 3
+  damage: 4
   speed: 0.4
   health: 5
   rewardDrop: 4

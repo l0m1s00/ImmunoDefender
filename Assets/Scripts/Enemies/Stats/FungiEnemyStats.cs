@@ -30,9 +30,9 @@ public class FungiEnemyStats : EnemyStats
         toxicWasteAmountOnDeath = Random.Range(minToxicWasteAmountOnDeath, maxToxicWasteAmountOnDeath);
     }
 
-    public override List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetStatsToDisplay()
     {
-        List<EntitiyStat> stats = base.GetStats();
+        List<EntitiyStat> stats = base.GetStatsToDisplay();
 
         stats.Add(new EntitiyStat
         {

@@ -127,6 +127,8 @@ MonoBehaviour:
   waveAmplitude: 0.1
   waveSpeed: 3
   turnSmoothTime: 0.8
+  visualsPivotTransform: {fileID: 5618065986807650032}
+  rotationSmoothTime: 0
   spinSpeed: 360
   spriteRenderer: {fileID: 7957520891337508586}
 --- !u!114 &5943371522366822192
@@ -142,10 +144,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUI
   healthBarFill: {fileID: 3961180015724311510}
-  outline: {fileID: 6132360229711558089}
+  outline: {fileID: 5507408893938164602}
   investigationCircle: {fileID: 8569402545822131232}
   investigationFill: {fileID: 4245415468570017387}
-  sprite: {fileID: 7957520891337508586}
+  visualRoot: {fileID: 5618065986807650032}
   whiteFlashMaterial: {fileID: 2100000, guid: 22a91b9212672af4fb25ff32490096d8, type: 2}
 --- !u!1 &684332966358070128
 GameObject:

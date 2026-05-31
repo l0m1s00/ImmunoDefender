@@ -15,7 +15,7 @@ public class BasicCellStats
         this.data = data;
     }
 
-    public virtual List<EntitiyStat> GetStats(Dictionary<EnemyData, float> damageBonuses) //CAMBIR EXTRA DAMAGE PARA QUE SEA UNA ESTRUCTURA DE DATOS QUE ALMACENE TODOS LOS BUFFOS
+    public virtual List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses) //CAMBIR EXTRA DAMAGE PARA QUE SEA UNA ESTRUCTURA DE DATOS QUE ALMACENE TODOS LOS BUFFOS
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();
 

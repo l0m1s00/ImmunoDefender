@@ -5,9 +5,9 @@ public class VirionEnemyStats : EnemyStats
 {
     public VirionEnemyStats(VirionEnemyData data) : base(data) { }
 
-    public override List<EntitiyStat> GetStats()
+    public override List<EntitiyStat> GetStatsToDisplay()
     {
-        List<EntitiyStat> stats = base.GetStats();
+        List<EntitiyStat> stats = base.GetStatsToDisplay();
 
         stats.Add(new EntitiyStat
         {

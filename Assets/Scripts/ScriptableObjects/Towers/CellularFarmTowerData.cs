@@ -16,4 +16,7 @@ public class CellularFarmTowerData : TowerData
     [Range(0, 100)] public int minGetInfectionProbability;
     public float farmInfectionCooldown;
     public GameObject infectionSpawnerObj; //CAMBIAR POR DATA AL IGUAL QUE EN EL RESTO DE ENTIDADES
+    [Header("Provider State Texts")]
+    public string noInfection;
+    public string possibleInfection;
 }

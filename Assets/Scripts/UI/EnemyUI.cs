@@ -6,7 +6,8 @@ public class EnemyUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Image healthBarFill;
-    [SerializeField] private SpriteRenderer outline;
+    //[SerializeField] private SpriteRenderer outline;
+    [SerializeField] private GameObject outline;
 
     [Header("BLymphocyte Investigation Components")]
     [SerializeField] private GameObject investigationCircle;
@@ -24,7 +25,7 @@ public class EnemyUI : MonoBehaviour
     private void Awake()
     {
         investigationCircle.SetActive(false);
-        outline.enabled = false;
+        outline.SetActive(false);
 
         allSprites = visualRoot.GetComponentsInChildren<SpriteRenderer>();
         originalMaterials = new Material[allSprites.Length];
@@ -53,12 +54,12 @@ public class EnemyUI : MonoBehaviour
 
     public void SelectEnemy()
     {
-        outline.enabled = true;
+        outline.SetActive(true);
     }
 
     public void DeselectEnemy()
     {
-        outline.enabled = false;
+        outline.SetActive(false);
     }
 
     public void HitFlash()

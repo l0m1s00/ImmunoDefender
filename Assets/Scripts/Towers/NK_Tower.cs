@@ -21,12 +21,13 @@ public class NK_Tower : TargetingTower
     protected override void Update()
     {
         base.Update();
-        //bool shouldSpawn = currentTarget != null;
         spawnerModule.HandleSpawning(true);
     }
 
     public override void Reset()
     {
+        spawnerModule.ResetInMapTowerCells();
+
         base.Reset();
     }
 }

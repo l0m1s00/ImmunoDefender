@@ -27,13 +27,9 @@ public class InfectionSpawner : MonoBehaviour
             CalculateSubRoute();
             StartCoroutine(SpawnEnemy());
         }
-        else
-        {
-            Debug.Log("No se ha encontrado ninguna celda adyacente a la infeccion, revisa el codigo gil");
-        }
     }
 
-    private void FindInitialCell()
+    private void FindInitialCell() //prioriza la casilla mas cercana al final del camino
     {
         GridGraph graph = GridManager.Instance.GetCompleteGraph();
         if (graph == null) return;
