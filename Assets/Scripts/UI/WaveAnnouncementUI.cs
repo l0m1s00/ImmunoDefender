@@ -19,16 +19,17 @@ public class WaveAnnouncementUI : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemySpawner.OnStartWave += WaveAnnouncement;
+        LevelManager.OnStartWave += WaveAnnouncement;
     }
 
     private void OnDisable()
     {
-        EnemySpawner.OnStartWave -= WaveAnnouncement;
+        LevelManager.OnStartWave -= WaveAnnouncement;
     }
 
-    private void WaveAnnouncement(string waveIndex)
+    private void WaveAnnouncement()
     {
+        string waveIndex = (LevelManager.Instance.GetCurrentWaveIndex()+1).ToString();
         waveAnnouncementText.text = "Wave - " + waveIndex;
         StartCoroutine(WaveAnnouncementAnimation());
     }

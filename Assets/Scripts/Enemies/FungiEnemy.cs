@@ -36,7 +36,7 @@ public class FungiEnemy : Enemy
     {
         previousPosition = transform.position;
 
-        Move();
+        Move(true);
         DropWaste();
     }
 

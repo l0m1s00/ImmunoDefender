@@ -18,6 +18,11 @@ public class NK_CellStats : AttackerCellStats
         maxAnalysisAmount = 100f;
     }
 
+    public override void ApplyUpgrade(UpgradeType upgradeType, float amount)
+    {
+        base.ApplyUpgrade(upgradeType, amount);
+    }
+
     public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)
     {
         List<EntitiyStat> stats = base.GetStatsToDisplay(damageBonuses);

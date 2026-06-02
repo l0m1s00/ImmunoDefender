@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MacrophageImmuneCellData
   immuneCellPrefab: {fileID: 8921595548247017375, guid: e9c13d92796314d4093ea7b49140aaf8, type: 3}
   cellName: Macrophage Cell
-  speed: 1.2
+  speed: 1.3
   damage: 1
   attackRange: 0.1
-  attackCooldown: 2
+  attackCooldown: 1
   deleteToxicWasteCooldown: 0.8

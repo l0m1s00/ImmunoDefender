@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class TowerData : ScriptableObject
@@ -11,4 +12,7 @@ public abstract class TowerData : ScriptableObject
     public string description;
     public int cost;
     public AudioEventData buildTowerSounds;
+
+    [Header("Upgrades")]
+    public List<TowerUpgradeData> towerUpgrades;
 }

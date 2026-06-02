@@ -28,9 +28,13 @@ public class CellularFarmTowerStats : BasicTowerStats
         infectionCooldown = data.farmInfectionCooldown;
 
         spawnerStats = new CellSpawnerStats(data.spawnerData);
-        //baseStemCells = data.nStemCells;
         baseStemCells = spawnerStats.totalSoldiers;
         totalStemCells = baseStemCells;
+    }
+
+    public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
+    {
+        base.ApplyUpgrade(upgradeData, upgradeLevel);
     }
 
     public override List<EntitiyStat> GetStatsToDisplay()

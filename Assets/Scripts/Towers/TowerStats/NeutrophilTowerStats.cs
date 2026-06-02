@@ -17,6 +17,11 @@ public class NeutrophilTowerStats : TargetingTowerStats
         this.data = data;
     }
 
+    public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
+    {
+        base.ApplyUpgrade(upgradeData, upgradeLevel);
+    }
+
     public override List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = base.GetStatsToDisplay();

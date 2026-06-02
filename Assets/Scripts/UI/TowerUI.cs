@@ -16,14 +16,17 @@ public class TowerUI : MonoBehaviour
         outline.enabled = false;
     }
 
-    public void InitializeVisuals(float towerRange)
+    public void InitializeVisualRange(float towerRange)
     {
         if (towerRange > 0f) //algunas torres no tienen rango
         {
-            Vector3 upscaledVisualRange = new Vector3(towerRange * 2 + 1, towerRange * 2 + 1, 1f);
+            Vector3 upscaledVisualRange = new Vector3(towerRange * 2f, towerRange * 2f, 1f);
             visualRangeRenderer.transform.localScale = upscaledVisualRange;
         }
-        else visualRangeRenderer = null;
+        else
+        {
+            if (visualRangeRenderer != null) visualRangeRenderer.enabled = false;
+        }
     }
 
     public void ShowVisualRange()

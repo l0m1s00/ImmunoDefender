@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class EntityStatsSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EntityStatsSlotUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI statName;
     [SerializeField] private TextMeshProUGUI values;
@@ -19,21 +19,16 @@ public class EntityStatsSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerEx
         valuesString += value;
 
         values.text = valuesString;
-    }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null) //no todas las estadisticas tienen explicacion
+        //no todas las estadisticas deben mostrar una descripcion
+        if (!string.IsNullOrEmpty(tooltipData))
         {
-            TooltipPanelUI.Instance.OpenTooltipPanel(tooltipData);
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!string.IsNullOrEmpty(tooltipData) && TooltipPanelUI.Instance != null)
-        {
-            TooltipPanelUI.Instance.CloseTooltipPanel();
+            TooltipTrigger tooltip = this.GetComponent<TooltipTrigger>();
+            if (tooltip == null)
+            {
+                tooltip = this.gameObject.AddComponent<TooltipTrigger>();
+            }
+            tooltip.content = tooltipData;
         }
     }
 }

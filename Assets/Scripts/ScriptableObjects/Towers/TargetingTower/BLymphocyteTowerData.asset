@@ -20,7 +20,11 @@ MonoBehaviour:
   description: Celula especializada en el reconocimiento de amenazas
   cost: 100
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
+  towerUpgrades:
+  - {fileID: 11400000, guid: 648e119b9cdbc874abd0d753fb026c60, type: 2}
+  - {fileID: 11400000, guid: 54c743b5edaf30c46855452d1c246c97, type: 2}
+  - {fileID: 11400000, guid: b41ba33c34d36a146bd9edfb4cbbd029, type: 2}
   range: 2
   investigationAmount: 20
-  investigationInterval: 0.4
+  investigationInterval: 0.5
   damageBonus: 0.01

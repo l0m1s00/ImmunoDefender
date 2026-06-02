@@ -18,6 +18,6 @@ public class BacteriaEnemy : Enemy
 
     void Update()
     {
-        Move();
+        Move(false);
     }
 }

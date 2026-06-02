@@ -12,6 +12,17 @@ public class TargetingTowerStats : BasicTowerStats
         range = baseRange;
     }
 
+    public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
+    {
+        base.ApplyUpgrade(upgradeData, upgradeLevel);
+
+        //determinar tipo de mejora
+        if (upgradeData.upgradeType == UpgradeType.Range)
+        {
+            range += upgradeData.statIncrements[upgradeLevel];
+        }
+    }
+
     public override List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = base.GetStatsToDisplay();

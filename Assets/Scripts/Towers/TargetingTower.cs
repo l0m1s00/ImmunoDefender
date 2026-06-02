@@ -23,7 +23,7 @@ public abstract class TargetingTower : Tower, IPointerEnterHandler, IPointerExit
             basicStats = new TargetingTowerStats(targetingData);
         }
 
-        towerUIRef.InitializeVisuals(targetingStats.range);
+        towerUIRef.InitializeVisualRange(GetTowerRange());
     }
 
     protected virtual void Update()

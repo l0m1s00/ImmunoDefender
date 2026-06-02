@@ -8,9 +8,6 @@ public class CellSpawnerModule : MonoBehaviour
     [SerializeField] private Transform soldiersSpawnPoint;
     [SerializeField] private ParticleSystem spawnSoldierParticles;
 
-    //total de celulas del modulo de generacion
-    HashSet<ImmuneCell> immuneCellsInMap = new HashSet<ImmuneCell>();
-
     private Transform soldiersContainer;
     public CellSpawnerStats spawnerStats;
     private Tower parentTower;
@@ -51,9 +48,15 @@ public class CellSpawnerModule : MonoBehaviour
         if (newCellObj.TryGetComponent<ImmuneCell>(out ImmuneCell cell))
         {
             cell.Initialize(parentTower, target, spawnerStats.soldierData);
-            immuneCellsInMap.Add(cell);
+
+            //aplicar los bonus procedentes de las mejoras compradas
+            foreach (KeyValuePair<UpgradeType, float> bonus in spawnerStats.currentCellBonuses)
+            {
+                cell.ApplyUpgrade(bonus.Key, bonus.Value);
+            }
+
+            spawnerStats.immuneCellsInBattlefield.Add(cell);
         }
-            
 
         if (spawnSoldierParticles != null) spawnSoldierParticles.Play();
 
@@ -62,7 +65,7 @@ public class CellSpawnerModule : MonoBehaviour
 
     public void ReturnCell(ImmuneCell cell)
     {
-        immuneCellsInMap.Remove(cell);
+        spawnerStats.immuneCellsInBattlefield.Remove(cell);
         spawnerStats.availableSoldiers++;
         parentTower.NotifyStatsChanged();
     }
@@ -70,11 +73,11 @@ public class CellSpawnerModule : MonoBehaviour
     //eliminar las celulas en juego asociadas a una torre
     public void ResetInMapTowerCells()
     {
-        foreach (ImmuneCell cell in immuneCellsInMap)
+        foreach (ImmuneCell cell in spawnerStats.immuneCellsInBattlefield)
         {
             PoolEntitiesManager.Instance.DespawnImmuneCell(cell.GetStats().data, cell.gameObject);
         }
 
-        immuneCellsInMap.Clear();
+        spawnerStats.immuneCellsInBattlefield.Clear();
     }
 }

@@ -38,6 +38,12 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
         basicStats = new BasicCellStats(data);
     }
 
+    public virtual void ApplyUpgrade(UpgradeType upgradeType, float amount)
+    {
+        basicStats.ApplyUpgrade(upgradeType, amount);
+        NotifyStatsChanged();
+    }
+
     protected void NotifyStatsChanged()
     {
         OnStatsChanged?.Invoke();

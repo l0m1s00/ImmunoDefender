@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CellularFarmTower : Tower, IStateInfoProvider
 {
     private CellSpawnerModule spawnerModule;
     private float generateCurrencyTimer;
+    private bool canGenerate = false;
 
     //Informacion para el provider
     private string currentStateText;
@@ -25,6 +27,18 @@ public class CellularFarmTower : Tower, IStateInfoProvider
     //Stats
     protected CellularFarmTowerStats cellularFarmTowerStats => (CellularFarmTowerStats)basicStats;
 
+    private void OnEnable()
+    {
+        LevelManager.OnStartWave += StartGeneticsGeneration;
+        EnemySpawner.OnWaveEnded += StopGeneticsGeneration;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnStartWave -= StartGeneticsGeneration;
+        EnemySpawner.OnWaveEnded -= StopGeneticsGeneration;
+    }
+
     public override void Initialize(TowerData data)
     {
         base.Initialize(data);
@@ -39,9 +53,10 @@ public class CellularFarmTower : Tower, IStateInfoProvider
             towerData = cellularFarmData;
         }
 
-        currentStateText = towerData.noInfection;
+        canGenerate = LevelManager.Instance.HasWaveStarted();
 
-        towerUIRef.InitializeVisuals(0f);
+        currentStateText = towerData.noInfection;
+        towerUIRef.InitializeVisualRange(0f);
     }
 
     protected virtual void Update()
@@ -51,7 +66,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
         if (isTotallyInfected) HandleCorruption();
         else
         {
-            HandleEconomyGeneration();
+            if (canGenerate) HandleEconomyGeneration();
             spawnerModule.HandleSpawning(true);
         }
 
@@ -63,6 +78,17 @@ public class CellularFarmTower : Tower, IStateInfoProvider
         {
             if (currentStateText != towerData.noInfection) currentStateText = towerData.noInfection;
         }
+    }
+
+    private void StartGeneticsGeneration()
+    {
+        canGenerate = true;
+    }
+
+    private void StopGeneticsGeneration()
+    {
+        canGenerate = false;
+        generateCurrencyTimer = cellularFarmTowerStats.generatedCurrencyInterval;
     }
 
     public void AddNewHealthyStemCell(StemCell newStemCell)
@@ -212,6 +238,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
         corruptionTimer = 0f;
         isTotallyInfected = false;
         generateCurrencyTimer = 0f;
+        canGenerate = false;
 
         currentStateText = towerData.noInfection;
         possibleInfectionTextTimer = 0f;

@@ -15,6 +15,14 @@ public class BasicCellStats
         this.data = data;
     }
 
+    public virtual void ApplyUpgrade(UpgradeType upgradeType, float amount)
+    {
+        if (upgradeType == UpgradeType.Speed)
+        {
+            speed += amount;
+        }
+    }
+
     public virtual List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses) //CAMBIR EXTRA DAMAGE PARA QUE SEA UNA ESTRUCTURA DE DATOS QUE ALMACENE TODOS LOS BUFFOS
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();

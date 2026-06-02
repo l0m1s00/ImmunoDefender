@@ -14,6 +14,11 @@ public class StemCellStats : BasicCellStats
         infected = false; 
     }
 
+    public override void ApplyUpgrade(UpgradeType upgradeType, float amount)
+    {
+        base.ApplyUpgrade(upgradeType, amount);
+    }
+
     public List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = new List<EntitiyStat>();

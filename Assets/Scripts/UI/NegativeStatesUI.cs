@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class NegativeStatesUI : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] private CanvasGroup toxicityBarCanvasGroup;
     [Header("UI References")]
     [SerializeField] private Image toxicBarValueFill;
     [SerializeField] private Color septicShockLowAmountColor;
@@ -25,6 +27,21 @@ public class NegativeStatesUI : MonoBehaviour
         InitializeNegativeStatesUI();
     }
 
+    private void OnEnable()
+    {
+        StartGameButtons.OnStartGame += DisplayToxicityBar;
+    }
+
+    private void OnDisable()
+    {
+        StartGameButtons.OnStartGame -= DisplayToxicityBar;
+    }
+
+    private void Start()
+    {
+        HideToxicityBar();
+    }
+
     private void InitializeNegativeStatesUI()
     {
         //toxicidad shock septico
@@ -32,6 +49,18 @@ public class NegativeStatesUI : MonoBehaviour
         toxicBarValueFill.fillAmount = 0f;
         originalToxicBarScale = toxicBarValueFill.transform.localScale;
     }
+
+    private void HideToxicityBar()
+    {
+        toxicityBarCanvasGroup.alpha = 0f;
+        toxicityBarCanvasGroup.blocksRaycasts = false;
+    }
+
+    private void DisplayToxicityBar()
+    {
+        toxicityBarCanvasGroup.alpha = 1f;
+        toxicityBarCanvasGroup.blocksRaycasts = true;
+    } 
 
     public void UpdateToxicBar(float normalizedToxicAmount, ToxicityLevel toxicityLevel)
     {

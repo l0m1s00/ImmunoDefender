@@ -22,7 +22,7 @@ public class VirionEnemy : Enemy
 
     private void Update()
     {
-        Move();
+        Move(false);
         spriteRenderer.transform.Rotate(0f, 0f, -spinSpeed * Time.deltaTime);
     }
 

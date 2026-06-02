@@ -20,6 +20,11 @@ MonoBehaviour:
   description: Celula de rapida respuesta y corta esperanza de vida
   cost: 30
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
+  towerUpgrades:
+  - {fileID: 11400000, guid: 648e119b9cdbc874abd0d753fb026c60, type: 2}
+  - {fileID: 11400000, guid: 0c0f51c973512064782f8fe57fc2bd48, type: 2}
+  - {fileID: 11400000, guid: 3bae4c2f7227f8045a45798cdb09f90e, type: 2}
+  - {fileID: 11400000, guid: 98b44415170155f45b24fb71e904a7f8, type: 2}
   range: 1
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}

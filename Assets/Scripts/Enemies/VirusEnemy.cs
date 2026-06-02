@@ -32,7 +32,7 @@ public class VirusEnemy : Enemy
 
     private void Update()
     {
-        Move();
+        Move(true);
         HandleInfection();
     }
 

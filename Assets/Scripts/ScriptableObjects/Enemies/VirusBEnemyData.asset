@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VirusEnemyData
   enemyName: Virus B
   damage: 3
-  speed: 1
+  speed: 1.2
   health: 1
   rewardDrop: 6
   enemyPrefab: {fileID: 696298456887118199, guid: 4b0cbc114ca04b644b1b423a6954669e, type: 3}

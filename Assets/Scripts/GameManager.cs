@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public enum GameState { MainMenu, Playing, Paused, Resume, GameOver, Victory }
+    public enum GameState { MainMenu, Playing, Paused, Resume, GameOver }
     private GameState currentState;
 
     //EVENTOS
     public static event Action OnSceneTransition;
+    public static event Action OnEndGame;
 
     private void Awake()
     {
@@ -45,50 +46,7 @@ public class GameManager : MonoBehaviour
         if (currentState == newState) return;
 
         currentState = newState;
-
-        //HandleStates();
     }
-
-    //private void HandleStates()
-    //{
-    //    switch (currentState)
-    //    {
-    //        case GameState.MainMenu:
-    //            MainMenuActions();
-    //            break;
-    //        case GameState.Playing:
-    //            PlayingActions();
-    //            break;
-    //        case GameState.Paused:
-    //            PausedActions();
-    //            break;
-    //        case GameState.GameOver:
-    //            GameOverActions();
-    //            break;
-    //        case GameState.Victory:
-    //            break;
-    //    }
-    //}
-
-    //private void MainMenuActions()
-    //{
-    //    LoadMainMenu();
-    //}
-
-    //private void PlayingActions()
-    //{
-    //    LoadGameplay();
-    //}
-
-    //private void PausedActions()
-    //{
-    //    PauseGame();
-    //}
-
-    //private void GameOverActions()
-    //{
-    //    Time.timeScale = 0f;
-    //}
 
     private void PauseGame()
     {
@@ -123,13 +81,14 @@ public class GameManager : MonoBehaviour
         GameSceneManager.Instance.LoadMainMenu();
     }
 
+    public void EndGame()
+    {
+        currentState = GameState.GameOver;
+        OnEndGame?.Invoke();
+    }
+
     public GameState GetCurrentGameState()
     {
         return currentState;
     }
-
-    //public void SetGameState(GameState newState)
-    //{
-    //    ChangeGameState(newState);
-    //}
 }

@@ -17,9 +17,9 @@ MonoBehaviour:
   speed: 1.5
   damage: 2
   attackRange: 0.1
-  attackCooldown: 2
+  attackCooldown: 1.5
   analysisAmount: 20
-  analysisInterval: 0.4
+  analysisInterval: 1
   noCommandText: Ready to receive a command
   movingToFarmText: On my way to the farm
   analizingFarmText: Analysing the farm

@@ -4,49 +4,22 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-
-///////////////////////////////  ENEMIES WAVE SYSTEM ///////////////////////////////////////////////
-[System.Serializable]
-public struct EnemyGroup
-{
-    public EnemyData enemyData; //tipo de enemigo del grupo
-    public int count; //numero de enemigos del grupo
-    public float timeBetweenEnemies; //delay entre enemigos del mismo grupo
-    public float delayAfterGroup; //descanso al terminar de mandar al grupo
-}
-
-[System.Serializable]
-public struct WaveConfig
-{
-    public List<EnemyGroup> enemyGroups; //gruppos de enemigos que componen una oleada
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 public class EnemySpawner : MonoBehaviour
 {
-    //DEBUG
-    private bool start = false;
-    [SerializeField] private bool nextWave = false;
-    private float startTimer = 5f;
-    /// 
-
     public static EnemySpawner Instance;
 
     [Header("Spawner Settings")]
     [SerializeField] private Transform enemiesContainer;
-    
-    [Header("Wave Configuration")]
-    [SerializeField] private List<WaveConfig> waves;
     [SerializeField] private float delayBeforeWaveStarts;
 
     private List<Cell> enemyPath;
     private Vector2 spawnPoint;
-    private int currentWave = 0;
     private Cell entryPoint;
 
+
     //EVENTOS
-    public static event Action<string> OnStartWave;
     public static event Action<Enemy> OnEnemySpawn;
+    public static event Action OnWaveEnded;
 
     private void Awake()
     {
@@ -57,30 +30,18 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnable()
     {
         GridManager.OnMapGenerationCompleted += InitializeSpawner;
-        StartGameButtons.OnStartGame += StartThis; //DEBUG
+        LevelManager.OnStartWaveCurrentWaveData += StartWave;
     }
 
     private void OnDisable()
     {
         GridManager.OnMapGenerationCompleted -= InitializeSpawner;
-        StartGameButtons.OnStartGame -= StartThis; //DEBUG
+        LevelManager.OnStartWaveCurrentWaveData -= StartWave;
     }
 
     private void Update()
     {
-        //DEBUG
-        if (start)
-        {
-            startTimer -= Time.deltaTime;
-            if (startTimer <= 0f || nextWave) StartWave();
-        }
-        ///////
-    }
 
-    //DEBUG
-    private void StartThis()
-    {
-        start = true;
     }
 
     private void InitializeSpawner()
@@ -114,18 +75,13 @@ public class EnemySpawner : MonoBehaviour
         CalculatePathDFS(entryPoint, visitedCells);
     }
 
-    private void StartWave()
+    private void StartWave(WaveConfig currentWave)
     {
-        OnStartWave?.Invoke((currentWave+1).ToString()); //avisar del inicio de la oleada
-        StartCoroutine(SpawnWave(waves[currentWave])); //soltar enemigos
+        StartCoroutine(SpawnWave(currentWave)); //soltar enemigos
     }
 
     private IEnumerator SpawnWave(WaveConfig wave)
     {
-        startTimer = float.MaxValue;
-        nextWave = false; //DEBUG
-        ////////////////
-
         yield return new WaitForSeconds(delayBeforeWaveStarts); //tiempo de espera antes de empezar la oleada
 
         foreach (EnemyGroup enemyGroup in wave.enemyGroups)
@@ -142,7 +98,9 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(enemyGroup.delayAfterGroup);
         }
 
-        currentWave++;
+        while (EnemyManager.Instance.GetEnemiesInBattlefield().Count > 0) { yield return new WaitForSeconds(0.5f); } //2 comprobaciones por segundo 
+
+        OnWaveEnded?.Invoke();
     }
 
     private void InstantiateEnemy(EnemyData enemyData)

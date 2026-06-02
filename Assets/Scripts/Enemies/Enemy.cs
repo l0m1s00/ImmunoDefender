@@ -60,12 +60,12 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
         currentPerpendicular = Vector3.up;
     }
 
-    protected virtual void Move()
+    protected virtual void Move(bool mustRotate)
     {
         Vector3 targetPosition = new Vector3(route[i].x, route[i].y, 0f);
         currentMoveDirection = (targetPosition - ghostPosition).normalized;
 
-        if (currentMoveDirection != Vector3.zero)
+        if (currentMoveDirection != Vector3.zero && mustRotate)
         {
             //radianes a grados
             //-90 grados porque los enemigos son dibujados en vertical pero realmente su diseño es de lado

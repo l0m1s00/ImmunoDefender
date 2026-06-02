@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(wasteInBattlefield.Count);
+        
     }
 
     private void OnDisable()

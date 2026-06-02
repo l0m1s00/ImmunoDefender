@@ -7,7 +7,6 @@ public class CellularFarmTowerData : TowerData
     [Header("La cantidad de recursos generada por segundo NO debe dar decimales, debe ser una cantidad entera")]
     public int generatedCurrencyAmountPerCell;
     public float generatedCurrencyInterval;
-    public int nStemCells;
     [Header("'Cow' Cells Data")]
     public CellSpawnerData spawnerData;
     [Header("Infection Settings")]

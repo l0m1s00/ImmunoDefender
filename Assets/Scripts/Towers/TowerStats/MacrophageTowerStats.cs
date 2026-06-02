@@ -11,6 +11,11 @@ public class MacrophageTowerStats : TargetingTowerStats
         spawnerStats = new CellSpawnerStats(data.spawnerData);
     }
 
+    public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
+    {
+        base.ApplyUpgrade(upgradeData, upgradeLevel);
+    }
+
     public override List<EntitiyStat> GetStatsToDisplay()
     {
         List<EntitiyStat> stats = base.GetStatsToDisplay();
