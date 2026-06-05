@@ -15,10 +15,14 @@ public enum UpgradeType
     Refill,
     AnalysisNumber,
     AnalysisSpeed,
+    FarmResistance,
+    FarmAmountGeneration,
 
     //DE LOS SOLDADOS
     Damage,
+    //DamageCooldown,
     Speed,
+    FarmAnalysis,
     //AttackCooldown,
 }
 

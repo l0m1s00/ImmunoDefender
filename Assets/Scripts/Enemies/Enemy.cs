@@ -43,8 +43,8 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     //EVENTOS
     public static event Action<Enemy> OnEnemyRemovedFromBattlefield;
-    public event Action OnStatsChanged;
-    public event Action<ISelectable> OnEntityDestroyed;
+    public event Action OnSelectedEntityStatsChanged;
+    public event Action<ISelectable> OnSelectedEntityDestroyed;
     public static event Action<float> OnAttackVitalOrgan;
 
     //preparar al enemigo para lanzarlo en la partida
@@ -107,7 +107,7 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
     protected virtual void RemoveEnemy()
     {
-        OnEntityDestroyed?.Invoke(this);
+        OnSelectedEntityDestroyed?.Invoke(this);
         OnEnemyRemovedFromBattlefield?.Invoke(this);
         PoolEntitiesManager.Instance.DespawnEnemy(basicStats.data, this.gameObject);
     }
@@ -138,14 +138,14 @@ public abstract class Enemy : MonoBehaviour, IResettable, ISelectable
 
         if (basicStats.currentHealth - damage <= 0f)
         {
-            EconomyManager.Instance.AddCurrency(basicStats.data.rewardDrop);
+            EconomyManager.Instance.AddCurrencyByEnemyDefeat(basicStats.data.rewardDrop);
             RemoveEnemy();
         }
         else
         {
             basicStats.currentHealth -= damage;
             enemyUIRef.UpdateHealthBar(basicStats.currentHealth / basicStats.maxHealth);
-            OnStatsChanged?.Invoke();
+            OnSelectedEntityStatsChanged?.Invoke();
         }
     }
 

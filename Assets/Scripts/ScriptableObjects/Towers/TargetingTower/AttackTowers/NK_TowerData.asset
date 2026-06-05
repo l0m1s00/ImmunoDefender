@@ -18,15 +18,17 @@ MonoBehaviour:
   towerGhostPrefab: {fileID: 910845906535534910, guid: 60b7346cbac55ce44be4bbb9c89a85d2, type: 3}
   towerName: Natural Killer
   description: Ataca a las celulas aliadas infectadas para evitar una infeccion masiva
-  cost: 200
+  cost: 300
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:
   - {fileID: 11400000, guid: 648e119b9cdbc874abd0d753fb026c60, type: 2}
   - {fileID: 11400000, guid: 0c0f51c973512064782f8fe57fc2bd48, type: 2}
   - {fileID: 11400000, guid: 3bae4c2f7227f8045a45798cdb09f90e, type: 2}
-  range: 1.5
+  - {fileID: 11400000, guid: d3b48044f812d794f94fca5610c7cbb9, type: 2}
+  - {fileID: 11400000, guid: 73692413ff31ef349833d8403cb7ec27, type: 2}
+  range: 1
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: 408ad4410af57d348826eb837866c0c4, type: 2}
-    nSoldiers: 2
+    nSoldiers: 1
     spawnSoldierCooldown: 0.5
     spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}

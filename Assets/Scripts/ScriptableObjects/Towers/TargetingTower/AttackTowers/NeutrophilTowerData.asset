@@ -25,6 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c0f51c973512064782f8fe57fc2bd48, type: 2}
   - {fileID: 11400000, guid: 3bae4c2f7227f8045a45798cdb09f90e, type: 2}
   - {fileID: 11400000, guid: 98b44415170155f45b24fb71e904a7f8, type: 2}
+  - {fileID: 11400000, guid: d3b48044f812d794f94fca5610c7cbb9, type: 2}
   range: 1
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: bf72de0f83b6db547a14bfe9e8e08bd1, type: 2}
@@ -33,3 +34,5 @@ MonoBehaviour:
     spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}
   refillCooldown: 5
   reloadSoldierSounds: {fileID: 11400000, guid: 0671d6db35fea1e4c90ea2fff5cce9a8, type: 2}
+  reloadSoldierText: Refilling cell
+  allSoldiersGeneratedText: All cells ready

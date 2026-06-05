@@ -21,6 +21,8 @@ public class AttackerCellStats : BasicCellStats
     public override void ApplyUpgrade(UpgradeType upgradeType, float amount)
     {
         base.ApplyUpgrade(upgradeType, amount);
+
+        if (upgradeType == UpgradeType.Damage) damage += amount;
     }
 
     public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)

@@ -48,6 +48,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
             basicStats = new CellularFarmTowerStats(cellularFarmData);
             spawnerModule = GetComponent<CellSpawnerModule>();
             spawnerModule.Initialize(this, cellularFarmTowerStats.spawnerStats);
+            spawnerModule.OnNewCellGenerated += NotifyStatsChanged;
             generateCurrencyTimer = cellularFarmTowerStats.generatedCurrencyInterval;
             corruptionTimer = cellularFarmTowerStats.infectionCooldown;
             towerData = cellularFarmData;
@@ -113,7 +114,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
 
         if (totalGeneticsToGenerate > 0)
         {
-            EconomyManager.Instance.AddCurrency(totalGeneticsToGenerate);
+            EconomyManager.Instance.AddImmediateCurrency(totalGeneticsToGenerate);
         }
     }
 
@@ -123,8 +124,9 @@ public class CellularFarmTower : Tower, IStateInfoProvider
 
         ProviderTextSettings();
 
+        //realmente es una probabilidad, probabilidad de infectar - resistencia (probabilidad negativa) de la granja
         int infectionProbability = Mathf.Clamp(virusInfectionPower - cellularFarmTowerStats.resistanceToInfection,cellularFarmTowerStats.minGetInfectionProbability, 100);
-        int roll = UnityEngine.Random.Range(1, 101);
+        int roll = UnityEngine.Random.Range(1, 101); //si sale el valor se infecta
         bool success = roll < infectionProbability;
 
         if (success)
@@ -153,7 +155,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
             }
         }
 
-        maxCorruptionTime = Mathf.CeilToInt(Mathf.Log(cellularFarmTowerStats.totalStemCells, 2f)) * Mathf.CeilToInt(infectionTime);
+        maxCorruptionTime = Mathf.CeilToInt(Mathf.Log(cellularFarmTowerStats.spawnerStats.maxSoldiers, 2f)) * Mathf.CeilToInt(infectionTime);
         possibleInfectionTextTimer = maxCorruptionTime;
         
         if (currentStateText != towerData.possibleInfection) currentStateText = towerData.possibleInfection;
@@ -200,7 +202,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
 
     private void CheckCellularFarmCorruption()
     {
-        if (healthyStemCells.Count == 0 && infectedStemCells.Count == cellularFarmTowerStats.totalStemCells)
+        if (healthyStemCells.Count == 0 && infectedStemCells.Count == cellularFarmTowerStats.spawnerStats.maxSoldiers)
         {
             isTotallyInfected = true;
         }
@@ -229,6 +231,7 @@ public class CellularFarmTower : Tower, IStateInfoProvider
 
     public override void Reset()
     {
+        spawnerModule.OnNewCellGenerated -= NotifyStatsChanged;
         spawnerModule.ResetInMapTowerCells();
 
         base.Reset();

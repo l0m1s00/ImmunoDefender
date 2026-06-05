@@ -23,8 +23,8 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
     protected Enemy currentTarget;
 
     //EVENTOS
-    public event Action OnStatsChanged;
-    public event Action<ISelectable> OnEntityDestroyed;
+    public event Action OnSelectedEntityStatsChanged;
+    public event Action<ISelectable> OnSelectedEntityDestroyed;
 
     protected virtual void Update()
     {
@@ -46,7 +46,7 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
 
     protected void NotifyStatsChanged()
     {
-        OnStatsChanged?.Invoke();
+        OnSelectedEntityStatsChanged?.Invoke();
     }
 
     //protected void NotifyEntityDestruction()
@@ -56,7 +56,7 @@ public abstract class ImmuneCell : MonoBehaviour, IResettable, ISelectable
 
     public virtual void Reset()
     {
-        OnEntityDestroyed?.Invoke(this);
+        OnSelectedEntityDestroyed?.Invoke(this);
         headquarters = null;
         currentTarget = null;
     }

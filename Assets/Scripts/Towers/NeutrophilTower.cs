@@ -1,10 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NeutrophilTower : TargetingTower
+public class NeutrophilTower : TargetingTower, IStateInfoProvider
 {
     private CellSpawnerModule spawnerModule;
     private float refillTimer;
+
+    //Info provider
+    private string currentProviderText;
+
+    //EVENTOS
+    public event Action<string> OnStateInfoChanged;
 
     protected NeutrophilTowerStats neutrophilTowerStats => (NeutrophilTowerStats)basicStats;
 
@@ -17,7 +24,9 @@ public class NeutrophilTower : TargetingTower
             basicStats = new NeutrophilTowerStats(neutrophilTowerData);
             spawnerModule = GetComponent<CellSpawnerModule>();
             spawnerModule.Initialize(this, neutrophilTowerStats.spawnerStats);
+            spawnerModule.OnNewCellGenerated += NotifyStatsChanged;
             refillTimer = neutrophilTowerStats.refillCooldown;
+            currentProviderText = neutrophilTowerData.allSoldiersGeneratedText;
         }
     }
 
@@ -35,6 +44,9 @@ public class NeutrophilTower : TargetingTower
         {
             refillTimer -= Time.deltaTime;
 
+            currentProviderText = neutrophilTowerStats.data.reloadSoldierText + " (" + Mathf.RoundToInt(refillTimer) + " s)";
+            OnStateInfoChanged?.Invoke(currentProviderText);
+
             if (refillTimer <= 0f)
             {
                 neutrophilTowerStats.spawnerStats.totalSoldiers++;
@@ -42,6 +54,15 @@ public class NeutrophilTower : TargetingTower
                 NotifyStatsChanged();
                 refillTimer = neutrophilTowerStats.refillCooldown;
                 AudioManager.Instance.PlaySFX(neutrophilTowerStats.data.reloadSoldierSounds, transform.position);
+            }
+        }
+        else
+        {
+            if (refillTimer != neutrophilTowerStats.refillCooldown) refillTimer = neutrophilTowerStats.refillCooldown;
+            if (currentProviderText != neutrophilTowerStats.data.allSoldiersGeneratedText)
+            {
+                currentProviderText = neutrophilTowerStats.data.allSoldiersGeneratedText;
+                OnStateInfoChanged?.Invoke(currentProviderText);
             }
         }
     }
@@ -54,10 +75,16 @@ public class NeutrophilTower : TargetingTower
 
     public override void Reset()
     {
+        spawnerModule.OnNewCellGenerated -= NotifyStatsChanged;
         spawnerModule.ResetInMapTowerCells();
 
         base.Reset();
 
         refillTimer = 0f;
+    }
+
+    public string GetCurrentStateInfo()
+    {
+        return currentProviderText;
     }
 }

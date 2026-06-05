@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class TooltipPanelUI : BasePanelUI
+public class TooltipPanelUI : MonoBehaviour
 {
     //se encarga de mostrar un panel de informacion flotante cerca del raton cuando este se posiciona sobre algun elemento de la interfaz
     //que debe mostrar informacion extra al usuario
@@ -10,6 +10,7 @@ public class TooltipPanelUI : BasePanelUI
 
     [Header("Components")]
     [SerializeField] private TextMeshProUGUI tooltipText;
+    [SerializeField] private CanvasGroup canvasGroup;
     [Header("Settings")]
     [SerializeField] private float offsetX;
     [SerializeField] private float offsetY;
@@ -19,20 +20,18 @@ public class TooltipPanelUI : BasePanelUI
     private RectTransform rectTransform;
     private RectTransform canvasParentRectTransform;
 
-    protected override void Awake()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
 
         rectTransform = GetComponent<RectTransform>();
         canvasParentRectTransform = transform.parent.GetComponent<RectTransform>();
-
-        base.Awake();
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
+        CloseTooltipPanel();
         offset = new Vector2(offsetX, offsetY);
     }
 
@@ -55,23 +54,20 @@ public class TooltipPanelUI : BasePanelUI
         }
     }
 
-    protected override void Open()
+    public void OpenTooltipPanel(string content)
     {
+        tooltipText.text = content;
+        opened = true;
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void OpenTooltipPanel(string content)
-    {
-        tooltipText.text = content;
-        opened = true;
-        Open();
-    }
-
     public void CloseTooltipPanel()
     {
-        Close();
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0f;
         opened = false;
         tooltipText.text = "";
     }

@@ -18,15 +18,16 @@ MonoBehaviour:
   towerGhostPrefab: {fileID: 7982956230142574035, guid: a201d29e4e850b147b4199304e64edac, type: 3}
   towerName: Macrophage
   description: Celulas grandes duraderas que comen residuos
-  cost: 50
+  cost: 100
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:
   - {fileID: 11400000, guid: 648e119b9cdbc874abd0d753fb026c60, type: 2}
   - {fileID: 11400000, guid: 0c0f51c973512064782f8fe57fc2bd48, type: 2}
   - {fileID: 11400000, guid: 3bae4c2f7227f8045a45798cdb09f90e, type: 2}
+  - {fileID: 11400000, guid: d3b48044f812d794f94fca5610c7cbb9, type: 2}
   range: 1
   spawnerData:
     soldierDataSO: {fileID: 11400000, guid: e94e84e402247b44881230c0094db616, type: 2}
-    nSoldiers: 2
+    nSoldiers: 1
     spawnSoldierCooldown: 0.7
     spawnCellSounds: {fileID: 11400000, guid: d5c1d25a3ed7f584dba975578a32ed16, type: 2}

@@ -5,7 +5,6 @@ public class NK_Tower : TargetingTower
     private CellSpawnerModule spawnerModule;
     protected NK_TowerStats NK_Stats => (NK_TowerStats)basicStats;
 
-
     public override void Initialize(TowerData data)
     {
         base.Initialize(data);
@@ -15,6 +14,7 @@ public class NK_Tower : TargetingTower
             basicStats = new NK_TowerStats(NK_TowerData);
             spawnerModule = GetComponent<CellSpawnerModule>();
             spawnerModule.Initialize(this, NK_Stats.spawnerStats);
+            spawnerModule.OnNewCellGenerated += NotifyStatsChanged;
         }
     }
 
@@ -26,8 +26,8 @@ public class NK_Tower : TargetingTower
 
     public override void Reset()
     {
+        spawnerModule.OnNewCellGenerated -= NotifyStatsChanged;
         spawnerModule.ResetInMapTowerCells();
-
         base.Reset();
     }
 }

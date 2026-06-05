@@ -16,9 +16,9 @@ MonoBehaviour:
   damage: 7
   speed: 0.2
   health: 10
-  rewardDrop: 8
+  rewardDrop: 15
   enemyPrefab: {fileID: 8862185737750109261, guid: 18d96536a7a2f6c4f8c8fe2a1f4d2ff9, type: 3}
-  dropWasteMinCooldown: 10
-  dropWasteMaxCooldown: 15
-  minToxicWasteCloudAmount: 1
-  maxToxicWasteCloudAmount: 3
+  dropWasteMinCooldown: 6
+  dropWasteMaxCooldown: 10
+  minToxicWasteCloudAmount: 3
+  maxToxicWasteCloudAmount: 6

@@ -18,7 +18,7 @@ MonoBehaviour:
   towerGhostPrefab: {fileID: 5319633144796140492, guid: 46ee233c7249e464e99182e5d8c31f70, type: 3}
   towerName: B Lymphocyte
   description: Celula especializada en el reconocimiento de amenazas
-  cost: 100
+  cost: 180
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:
   - {fileID: 11400000, guid: 648e119b9cdbc874abd0d753fb026c60, type: 2}

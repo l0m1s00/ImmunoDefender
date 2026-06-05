@@ -29,12 +29,12 @@ public class NegativeStatesUI : MonoBehaviour
 
     private void OnEnable()
     {
-        StartGameButtons.OnStartGame += DisplayToxicityBar;
+        LevelManager.OnStartGame += DisplayToxicityBar;
     }
 
     private void OnDisable()
     {
-        StartGameButtons.OnStartGame -= DisplayToxicityBar;
+        LevelManager.OnStartGame -= DisplayToxicityBar;
     }
 
     private void Start()

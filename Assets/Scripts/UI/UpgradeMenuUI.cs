@@ -7,7 +7,7 @@ public class UpgradeMenuUI : BasePanelUI
     [SerializeField] private TextMeshProUGUI towerTypeText;
 
     [Header("Upgrades Elements")]
-    [SerializeField] private Transform upgradesContainer; //verticallayout
+    [SerializeField] private Transform upgradesContainer; //vertical layout
     [SerializeField] private GameObject upgradeSlotPrefab;
 
     public void InitializePanelElements(TowerData data, Dictionary<TowerUpgradeData, int> towerUpgrades)

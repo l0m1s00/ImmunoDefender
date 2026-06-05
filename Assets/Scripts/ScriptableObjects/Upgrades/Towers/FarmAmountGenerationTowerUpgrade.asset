@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: RefillTowerUpgrade
+  m_Name: FarmAmountGenerationTowerUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Accelerated Mitosis
+  upgradeName: Granulation
   upgradeTarget: 0
-  upgradeType: 2
-  description: New cells are created faster
-  costPerLevel: 1e00000046000000c8000000
+  upgradeType: 6
+  description: Increases the number of generated Genetics
+  costPerLevel: 50000000a0000000dc0000005e010000
   statIncrements:
-  - 0.5
-  - 0.5
-  - 0.8
+  - 1
+  - 1
+  - 2
+  - 3

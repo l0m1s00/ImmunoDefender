@@ -25,7 +25,7 @@ public class BLymphocyteTowerStats : TargetingTowerStats
         currentInvestigation = new Dictionary<EnemyData, float>();
         damageBonuses = new Dictionary<EnemyData, float>();
 
-        foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
+        foreach (EnemyData enemyType in EntitiesLibrary.Instance.GetEnemyTypes())
         {
             currentInvestigation.Add(enemyType, 0f);
             damageBonuses.Add(enemyType, 0f);

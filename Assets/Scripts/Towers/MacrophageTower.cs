@@ -15,6 +15,7 @@ public class MacrophageTower : TargetingTower
             basicStats = new MacrophageTowerStats(macrophageTowerData);
             spawnerModule = GetComponent<CellSpawnerModule>();
             spawnerModule.Initialize(this, macrophageStats.spawnerStats);
+            spawnerModule.OnNewCellGenerated += NotifyStatsChanged;
         }
     }
 
@@ -63,6 +64,7 @@ public class MacrophageTower : TargetingTower
 
     public override void Reset()
     {
+        spawnerModule.OnNewCellGenerated -= NotifyStatsChanged;
         spawnerModule.ResetInMapTowerCells();
 
         base.Reset();  

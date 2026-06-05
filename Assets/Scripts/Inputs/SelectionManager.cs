@@ -8,7 +8,7 @@ public class SelectionManager : MonoBehaviour
     private ISelectable currentSelectedElement;
 
     //EVENTOS
-    public static event Action<string, List<EntitiyStat>> OnEntitySelectedForInfo;
+    public static event Action<string, List<EntitiyStat>> OnRefreshSelectedEntityInfo;
     public static event Action<ISelectable> OnEntitySelected;
     public static event Action OnEntityDeselected;
 
@@ -105,8 +105,8 @@ public class SelectionManager : MonoBehaviour
     {
         if (currentSelectedElement != null)
         {
-            currentSelectedElement.OnStatsChanged -= RefreshUI;
-            currentSelectedElement.OnEntityDestroyed -= HandleEntityDestroyed;
+            currentSelectedElement.OnSelectedEntityStatsChanged -= RefreshUI;
+            currentSelectedElement.OnSelectedEntityDestroyed -= HandleEntityDestroyed;
             currentSelectedElement.OnDeselect();
         }
 
@@ -114,8 +114,8 @@ public class SelectionManager : MonoBehaviour
 
         if (currentSelectedElement != null)
         {
-            currentSelectedElement.OnStatsChanged += RefreshUI;
-            currentSelectedElement.OnEntityDestroyed += HandleEntityDestroyed;
+            currentSelectedElement.OnSelectedEntityStatsChanged += RefreshUI;
+            currentSelectedElement.OnSelectedEntityDestroyed += HandleEntityDestroyed;
             currentSelectedElement.OnSelect();
             RefreshUI();
 
@@ -132,7 +132,7 @@ public class SelectionManager : MonoBehaviour
         if (currentSelectedElement != null)
         {
             //tomamos la informacion de la entidad para mostrar en el panel de estadisticas
-            OnEntitySelectedForInfo?.Invoke(currentSelectedElement.GetEntityName(), currentSelectedElement.GetEntityStatsToDisplay());
+            OnRefreshSelectedEntityInfo?.Invoke(currentSelectedElement.GetEntityName(), currentSelectedElement.GetEntityStatsToDisplay());
         }
     }
 

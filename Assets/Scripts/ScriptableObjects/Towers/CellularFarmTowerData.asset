@@ -22,6 +22,8 @@ MonoBehaviour:
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:
   - {fileID: 11400000, guid: 3bae4c2f7227f8045a45798cdb09f90e, type: 2}
+  - {fileID: 11400000, guid: fb897e7bc9604b642ac89618011bd5ed, type: 2}
+  - {fileID: 11400000, guid: 142245b159203c7448a282fba467aeab, type: 2}
   generatedCurrencyAmountPerCell: 1
   generatedCurrencyInterval: 2
   spawnerData:

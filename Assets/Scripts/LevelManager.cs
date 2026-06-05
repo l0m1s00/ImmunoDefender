@@ -4,24 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-///////////////////////////////  ENEMIES WAVE SYSTEM ///////////////////////////////////////////////
-[System.Serializable]
-public struct EnemyGroup
-{
-    public EnemyData enemyData; //tipo de enemigo del grupo
-    public int count; //numero de enemigos del grupo
-    public float timeBetweenEnemies; //delay entre enemigos del mismo grupo
-    public float delayAfterGroup; //descanso al terminar de mandar al grupo
-}
-
-[System.Serializable]
-public struct WaveConfig
-{
-    public List<EnemyGroup> enemyGroups; //grupos de enemigos que componen una oleada
-    public float restWaitTime; //tiempo de espera tras finalizar la oleada
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
@@ -29,22 +11,31 @@ public class LevelManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] private LevelManagerUI levelManagerUIref;
     [SerializeField] private Button startWaveButton;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button resetMapButton;
     private bool hasWaveStarted = false;
     private Coroutine waveRestTimeCoroutine;
-    [Header("First Rest Wave Settings")]
-    [SerializeField] private float initialRestTime;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioEventData startWaveAudioEvent;
+    [SerializeField] private AudioEventData endWaveAudioEvent;
+
+    [Header("Start Game Screen")] //MOVER A UI
+    [SerializeField] private GameObject startGameScreen;
+
+    [Header("Waves Library")]
+    [SerializeField] private WavesLibrary wavesLibrary;
     private float waveRestTimer;
+
     [Header("Vital Organ")]
     [SerializeField] private VitalOrganData liverVitalOrganData;
     private VitalOrgan vitalOrganOnScene;
-    [Header("Wave Configuration")]
-    [SerializeField] private List<WaveConfig> waves;
-    [SerializeField] private float delayBeforeWaveStarts;
-    private int currentWaveIndex = 0;
 
     //EVENTOS
     public static event Action OnStartWave;
     public static event Action<WaveConfig> OnStartWaveCurrentWaveData;
+    public static event Action OnStartGame;
+    public static event Action OnResetGameMap;
 
     private void Awake()
     {
@@ -52,22 +43,22 @@ public class LevelManager : MonoBehaviour
         else Destroy(gameObject);
 
         startWaveButton.onClick.AddListener(ForceWaveStart);
+        startButton.onClick.AddListener(StartGame);
+        resetMapButton.onClick.AddListener(ResetMap);
     }
 
     private void OnEnable()
     {
         Enemy.OnAttackVitalOrgan += AttackVitalOrgan;
         NegativeStates.OnAttackVitalOrgan += AttackVitalOrgan;
-        StartGameButtons.OnStartGame += StartInitialRest;
-        EnemySpawner.OnWaveEnded += WaveRest;
+        EnemySpawner.OnWaveEnded += EndWave;
     }
 
     private void OnDisable()
     {
         Enemy.OnAttackVitalOrgan -= AttackVitalOrgan;
         NegativeStates.OnAttackVitalOrgan -= AttackVitalOrgan;
-        StartGameButtons.OnStartGame -= StartInitialRest;
-        EnemySpawner.OnWaveEnded -= WaveRest;
+        EnemySpawner.OnWaveEnded -= EndWave;
     }
 
     private void Start()
@@ -78,8 +69,8 @@ public class LevelManager : MonoBehaviour
     private void InitializeVitalOrgan()
     {
         //tomar un organo vital para posicionarlo en el mapa
-        float x = DataLibrary.Instance.GetSelectedDifficultyData().width - 2.5f;
-        float y = DataLibrary.Instance.GetSelectedDifficultyData().height / 2;
+        float x = EntitiesLibrary.Instance.GetSelectedDifficultyData().width - 2.5f;
+        float y = EntitiesLibrary.Instance.GetSelectedDifficultyData().height / 2;
         Vector2 pos = new Vector2(x, y);
         GameObject newVitalOrgan = PoolEntitiesManager.Instance.SpawnVitalOrgan(liverVitalOrganData);
         newVitalOrgan.transform.position = pos;
@@ -100,17 +91,25 @@ public class LevelManager : MonoBehaviour
         StopCoroutine(waveRestTimeCoroutine);
     }
 
+    private void EndWave()
+    {
+        hasWaveStarted = false;
+        EconomyManager.Instance.WaveEndedAddBonus(wavesLibrary.GetCurrentWaveBonus());
+        AudioManager.Instance.PlaySFX(endWaveAudioEvent, transform.position, 0f);
+        WaveRest();
+    }
+
     private void WaveRest()
     {
-        waveRestTimer = Mathf.RoundToInt(waves[currentWaveIndex].restWaitTime);
-        currentWaveIndex++;
+        waveRestTimer = Mathf.RoundToInt(wavesLibrary.GetCurrentWaveRestTime());
+        wavesLibrary.IncreaseWaveIndex();
         levelManagerUIref.DisplayRestWaveTimer(Mathf.RoundToInt(waveRestTimer));
         waveRestTimeCoroutine = StartCoroutine(StartRest());
     }
 
     private void StartInitialRest()
     {
-        waveRestTimer = Mathf.RoundToInt(initialRestTime);
+        waveRestTimer = Mathf.RoundToInt(wavesLibrary.GetInitialRest());
         levelManagerUIref.DisplayRestWaveTimer(Mathf.RoundToInt(waveRestTimer));
         waveRestTimeCoroutine = StartCoroutine(StartRest());
     }
@@ -123,8 +122,9 @@ public class LevelManager : MonoBehaviour
 
     private void StartWave()
     {
+        OnStartWaveCurrentWaveData?.Invoke(wavesLibrary.GetCurrentWave());
         OnStartWave?.Invoke();
-        OnStartWaveCurrentWaveData?.Invoke(waves[currentWaveIndex]);
+        AudioManager.Instance.PlaySFX(startWaveAudioEvent, transform.position, 0f);
         hasWaveStarted = true;
         ResetWaveRestTimer();
     }
@@ -148,14 +148,26 @@ public class LevelManager : MonoBehaviour
         return hasWaveStarted;
     }
 
-    public int GetCurrentWaveIndex()
+    public string GetCurrentWaveIndexString()
     {
-        return currentWaveIndex;
+        return wavesLibrary.GetCurrentWaveIndexString();
     }
 
     private void ResetWaveRestTimer()
     {
         waveRestTimer = 0f;
         levelManagerUIref.HideRestWaveTimer();
+    }
+
+    private void StartGame()
+    {
+        OnStartGame?.Invoke();
+        StartInitialRest();
+        startGameScreen.SetActive(false);
+    }
+
+    private void ResetMap()
+    {
+        OnResetGameMap?.Invoke();
     }
 }

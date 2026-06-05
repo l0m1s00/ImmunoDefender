@@ -36,7 +36,7 @@ public class ToxicWaste : MonoBehaviour, IResettable
 
     public void EliminateWaste()
     {
-        EconomyManager.Instance.AddCurrency(reward);
+        EconomyManager.Instance.AddImmediateCurrency(reward);
         PoolEntitiesManager.Instance.DespawnWaste(this.gameObject);
     }
 

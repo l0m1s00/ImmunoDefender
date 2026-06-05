@@ -7,8 +7,6 @@ public class CellularFarmTowerStats : BasicTowerStats
     public int generatedCurrencyAmountPerCell;
     protected float baseGeneratedCurrencyInterval;
     public float generatedCurrencyInterval;
-    protected int baseStemCells;
-    public int totalStemCells;
     private int baseResistanceToInfection;
     public int resistanceToInfection;
     public int minGetInfectionProbability;
@@ -28,13 +26,20 @@ public class CellularFarmTowerStats : BasicTowerStats
         infectionCooldown = data.farmInfectionCooldown;
 
         spawnerStats = new CellSpawnerStats(data.spawnerData);
-        baseStemCells = spawnerStats.totalSoldiers;
-        totalStemCells = baseStemCells;
     }
 
     public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
     {
         base.ApplyUpgrade(upgradeData, upgradeLevel);
+
+        if (upgradeData.upgradeType == UpgradeType.FarmResistance)
+        {
+            resistanceToInfection += (int)upgradeData.statIncrements[upgradeLevel];
+        }
+        else if (upgradeData.upgradeType == UpgradeType.FarmAmountGeneration)
+        {
+            generatedCurrencyAmountPerCell += (int)upgradeData.statIncrements[upgradeLevel];
+        }
     }
 
     public override List<EntitiyStat> GetStatsToDisplay()
@@ -44,8 +49,8 @@ public class CellularFarmTowerStats : BasicTowerStats
         stats.Add(new EntitiyStat
         {
             statName = "Stem Cells",
-            initialStatValue = baseStemCells.ToString(),
-            currentStatValue = totalStemCells.ToString(),
+            initialStatValue = spawnerStats.baseMaxSoldiers.ToString(),
+            currentStatValue = spawnerStats.maxSoldiers.ToString(),
             extraInformation = ""
         });
         stats.Add(new EntitiyStat
@@ -58,8 +63,8 @@ public class CellularFarmTowerStats : BasicTowerStats
         stats.Add(new EntitiyStat
         {
             statName = "Total Generated Genetics",
-            initialStatValue = ((baseGeneratedCurrencyAmountPerCell * baseStemCells) / baseGeneratedCurrencyInterval).ToString() + " / s",
-            currentStatValue = ((generatedCurrencyAmountPerCell * totalStemCells) / generatedCurrencyInterval).ToString() + " / s",
+            initialStatValue = ((baseGeneratedCurrencyAmountPerCell / baseGeneratedCurrencyInterval) * spawnerStats.baseMaxSoldiers).ToString() + " / s",
+            currentStatValue = ((generatedCurrencyAmountPerCell / generatedCurrencyInterval) * spawnerStats.maxSoldiers).ToString() + " / s",
             extraInformation = "Total amount of Genetics generated per second"
         });
         stats.Add(new EntitiyStat

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: CellSpeedTowerUpgrade
+  m_Name: FarmResistanceTowerUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Cellular Motility
-  upgradeTarget: 1
-  upgradeType: 6
-  description: Increases the cells speed movement
-  costPerLevel: 0a0000001e00000050000000
+  upgradeName: Reinforced Membrane
+  upgradeTarget: 0
+  upgradeType: 5
+  description: Increases resistance to infection
+  costPerLevel: 1e0000006e000000c80000002c010000
   statIncrements:
-  - 0.1
-  - 0.2
-  - 0.4
+  - 5
+  - 8
+  - 10
+  - 12

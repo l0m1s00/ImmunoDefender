@@ -5,7 +5,7 @@ public class CellSpawnerStats
 {
     public ImmuneCellData soldierData;
     public CellSpawnerData spawnerData;
-    protected int baseMaxSoldiers;
+    public int baseMaxSoldiers;
     public int maxSoldiers;
     public float spawnSoldierCooldown;
     public int availableSoldiers;
@@ -37,6 +37,8 @@ public class CellSpawnerStats
         if (upgradeData.upgradeType == UpgradeType.MaxSoldiers)
         {
             maxSoldiers += (int)amount;
+            totalSoldiers += (int)amount;
+            availableSoldiers += (int)amount;
         }
         else //mejoras que deben aplicarse directamente a las celulas, almacenar para las nuevas celulas creadas y propagar el beneficio a todas las activas
         {

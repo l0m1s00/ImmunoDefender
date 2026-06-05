@@ -20,6 +20,11 @@ public class NeutrophilTowerStats : TargetingTowerStats
     public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
     {
         base.ApplyUpgrade(upgradeData, upgradeLevel);
+
+        if (upgradeData.upgradeType == UpgradeType.Refill)
+        {
+            refillCooldown -= upgradeData.statIncrements[upgradeLevel];
+        }
     }
 
     public override List<EntitiyStat> GetStatsToDisplay()

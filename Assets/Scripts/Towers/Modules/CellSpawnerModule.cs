@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,12 +14,25 @@ public class CellSpawnerModule : MonoBehaviour
     private Tower parentTower;
     private float spawnTimer;
 
+    //EVENTOS
+    public event Action OnNewCellGenerated;
+
     public void Initialize(Tower tower, CellSpawnerStats stats)
     {
         parentTower = tower;
         spawnerStats = stats;
         spawnTimer = spawnerStats.spawnSoldierCooldown;
         soldiersContainer = GameObject.Find("InGameCells").transform;
+    }
+
+    public void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
+    {
+        spawnerStats.ApplyUpgrade(upgradeData, upgradeLevel);
+
+        if (upgradeData.upgradeType == UpgradeType.MaxSoldiers)
+        {
+            OnNewCellGenerated?.Invoke();
+        }
     }
 
     public void HandleSpawning(bool canSpawn)

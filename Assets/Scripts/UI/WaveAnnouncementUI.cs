@@ -15,6 +15,7 @@ public class WaveAnnouncementUI : MonoBehaviour
     private void Awake()
     {
         waveAnnouncementCanvasGroup.alpha = 0f;
+        waveAnnouncementCanvasGroup.blocksRaycasts = false;
     }
 
     private void OnEnable()
@@ -29,7 +30,7 @@ public class WaveAnnouncementUI : MonoBehaviour
 
     private void WaveAnnouncement()
     {
-        string waveIndex = (LevelManager.Instance.GetCurrentWaveIndex()+1).ToString();
+        string waveIndex = LevelManager.Instance.GetCurrentWaveIndexString();
         waveAnnouncementText.text = "Wave - " + waveIndex;
         StartCoroutine(WaveAnnouncementAnimation());
     }
@@ -37,6 +38,7 @@ public class WaveAnnouncementUI : MonoBehaviour
     private IEnumerator WaveAnnouncementAnimation()
     {
         waveAnnouncementCanvasGroup.alpha = 1f;
+        waveAnnouncementCanvasGroup.blocksRaycasts = true;
         float elapsedTime = 0f;
 
         //rebote
@@ -65,5 +67,6 @@ public class WaveAnnouncementUI : MonoBehaviour
         }
 
         waveAnnouncementCanvasGroup.alpha = 0f; //completamente invisible al terminar
+        waveAnnouncementCanvasGroup.blocksRaycasts = false;
     }
 }

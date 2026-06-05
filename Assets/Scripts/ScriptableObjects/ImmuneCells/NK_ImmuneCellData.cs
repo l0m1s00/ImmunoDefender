@@ -4,8 +4,9 @@ using UnityEngine;
 public class NK_ImmuneCellData : AttackerImmuneCellData
 {
     [Header("Farm Analysis")]
-    public float analysisAmount;
-    public float analysisInterval;
+    //public float analysisAmount;
+    //public float analysisInterval;
+    public float analysisTime;
     [Header("Info Panel State Texts")]
     public string noCommandText;
     public string movingToFarmText;

@@ -21,19 +21,19 @@ public class StatsPanelUI : BasePanelUI
 
     private void OnEnable()
     {
-        SelectionManager.OnEntitySelectedForInfo += DisplayEntityStats;
+        SelectionManager.OnRefreshSelectedEntityInfo += UpdateStatsUI;
         SelectionManager.OnEntityDeselected += HideEntityStats;
-
-        //eventos de modificacion de estadisticas de entidades
+        SelectionManager.OnEntitySelected += DisplayEntityStats;
     }
 
     private void OnDisable()
     {
-        SelectionManager.OnEntitySelectedForInfo -= DisplayEntityStats;
+        SelectionManager.OnRefreshSelectedEntityInfo -= UpdateStatsUI;
         SelectionManager.OnEntityDeselected -= HideEntityStats;
+        SelectionManager.OnEntitySelected -= DisplayEntityStats;
     }
 
-    private void UpdateStats(string entityName, List<EntitiyStat> stats)
+    private void UpdateStatsUI(string entityName, List<EntitiyStat> stats)
     {
         entityNameText.text = entityName;
 
@@ -48,9 +48,8 @@ public class StatsPanelUI : BasePanelUI
         LayoutRebuilder.ForceRebuildLayoutImmediate(statsContainer.GetComponent<RectTransform>());
     }
 
-    private void DisplayEntityStats(string entityName, List<EntitiyStat> stats)
+    private void DisplayEntityStats(ISelectable Is)
     {
-        UpdateStats(entityName, stats);
         Open();
     }
 

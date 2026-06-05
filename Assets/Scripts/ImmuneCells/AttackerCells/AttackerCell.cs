@@ -142,7 +142,7 @@ public abstract class AttackerCell : ImmuneCell
         //tomamos todos los bufos de daño de todas las torres linfocitosB al alcance y recordamos por cada grupo de bufos el enemigo al que afectan
         Dictionary<EnemyData, float> totalBonuses = new Dictionary<EnemyData, float>();
 
-        foreach (EnemyData enemyType in DataLibrary.Instance.GetEnemyTypes())
+        foreach (EnemyData enemyType in EntitiesLibrary.Instance.GetEnemyTypes())
         {
             totalBonuses.Add(enemyType, 0f);
         }

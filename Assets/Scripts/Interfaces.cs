@@ -12,8 +12,8 @@ public interface ISelectable //requisitos de toda entidad seleccionable
     void OnDeselect();
     string GetEntityName();
     List<EntitiyStat> GetEntityStatsToDisplay();
-    event Action OnStatsChanged;
-    event Action<ISelectable> OnEntityDestroyed;
+    event Action OnSelectedEntityStatsChanged;
+    event Action<ISelectable> OnSelectedEntityDestroyed;
 }
 
 public interface IStateInfoProvider //requisitos de toda entidad que debe mostrar información sobre distintas acciones que realice

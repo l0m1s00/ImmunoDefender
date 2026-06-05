@@ -10,8 +10,8 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
     protected BasicTowerStats basicStats;
 
     //EVENTOS
-    public event Action OnStatsChanged;
-    public event Action<ISelectable> OnEntityDestroyed;
+    public event Action OnSelectedEntityStatsChanged;
+    public event Action<ISelectable> OnSelectedEntityDestroyed;
 
     public virtual void Initialize(TowerData data)
     {
@@ -26,7 +26,7 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
             && this.gameObject.TryGetComponent<CellSpawnerModule>(out CellSpawnerModule spawnerModule))
         {
             //delegar control al modulo generador de celulas
-            spawnerModule.spawnerStats.ApplyUpgrade(upgradeData, upgradeLevel);
+            spawnerModule.ApplyUpgrade(upgradeData, upgradeLevel);
         }
         else
         {
@@ -48,7 +48,7 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 
     public void NotifyStatsChanged()
     {
-        OnStatsChanged?.Invoke();
+        OnSelectedEntityStatsChanged?.Invoke();
     }
 
     public virtual void OnSelect()
@@ -80,6 +80,6 @@ public abstract class Tower : MonoBehaviour, IResettable, ISelectable
 
     public virtual void Reset()
     {
-        OnEntityDestroyed?.Invoke(this);
+        OnSelectedEntityDestroyed?.Invoke(this);
     }
 }

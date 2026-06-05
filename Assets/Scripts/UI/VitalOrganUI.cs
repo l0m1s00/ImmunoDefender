@@ -42,6 +42,7 @@ public class VitalOrganUI : MonoBehaviour
     public void InitializeVisuals(VitalOrganStats stats)
     {
         nameText.text = stats.vitalOrganName;
+        healthBarText.text = $"{stats.currentHealth} / {stats.maxHealth}";
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth)

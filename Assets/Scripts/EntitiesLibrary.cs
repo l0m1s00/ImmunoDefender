@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DataLibrary : MonoBehaviour
+public class EntitiesLibrary : MonoBehaviour
 {
-    public static DataLibrary Instance;
+    public static EntitiesLibrary Instance;
 
     [Header("Difficulty Settings")]
     [SerializeField] private DifficultySettingsData difficultySettingsData;

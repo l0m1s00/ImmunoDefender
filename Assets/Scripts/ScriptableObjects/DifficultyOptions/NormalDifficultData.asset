@@ -20,4 +20,4 @@ MonoBehaviour:
   height: 17
   groundPercentage: 75
   minPathSize: 60
-  initialCurrency: 300
+  initialCurrency: 550

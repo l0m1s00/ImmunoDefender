@@ -8,7 +8,7 @@ public class TowerUpgradeManager : MonoBehaviour
     public static TowerUpgradeManager Instance;
 
     [SerializeField] private UpgradeMenuUI upgradeMenuUI_Ref;
-    [SerializeField] private Button demolishTowerButton;
+    [SerializeField] private HoldConfirmationButton demolishTowerButton;
     [SerializeField] AudioEventData demolishTowerSound;
     private Tower currentSelectedTower;
 
@@ -20,7 +20,7 @@ public class TowerUpgradeManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        demolishTowerButton.onClick.AddListener(DemolishTower);
+        demolishTowerButton.onHoldCompleted.AddListener(DemolishTower);
     }
 
     //al pulsar en el boton de demoler torre se le devuelve al jugador un porcentaje de la cantidad total de recursos invertida en la torre

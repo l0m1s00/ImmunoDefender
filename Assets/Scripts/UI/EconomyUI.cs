@@ -10,13 +10,13 @@ public class EconomyUI : MonoBehaviour
     private void OnEnable()
     {
         EconomyManager.OnCurrencyChanged += UpdateCurrency;
-        StartGameButtons.OnStartGame += DisplayCurrency;
+        LevelManager.OnStartGame += DisplayCurrency;
     }
 
     private void OnDisable()
     {
         EconomyManager.OnCurrencyChanged -= UpdateCurrency;
-        StartGameButtons.OnStartGame -= DisplayCurrency;
+        LevelManager.OnStartGame -= DisplayCurrency;
     }
 
     private void Start()

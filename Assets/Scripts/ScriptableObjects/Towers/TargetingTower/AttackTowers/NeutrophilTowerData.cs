@@ -5,7 +5,12 @@ public class NeutrophilTowerData : TargetingTowerData
 {
     [Header("Unit Generator Module Data")]
     public CellSpawnerData spawnerData;
+
     [Header("Refill Soldiers Settings")]
     public float refillCooldown;
     public AudioEventData reloadSoldierSounds;
+
+    [Header("Info Provider Texts")]
+    public string reloadSoldierText;
+    public string allSoldiersGeneratedText;
 }

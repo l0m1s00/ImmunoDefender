@@ -31,23 +31,22 @@ public class TowerCardsManager : MonoBehaviour
     {
         Inputs.OnRightClickPerformed += DeselectTower;
         TowerBuilder.OnTowerBuild += DeselectTowerWrapper;
-        StartGameButtons.OnStartGame += StartThis; //DEBUG
+        LevelManager.OnStartGame += InitializeCards;
     }
 
     private void OnDisable()
     {
         Inputs.OnRightClickPerformed -= DeselectTower;
         TowerBuilder.OnTowerBuild -= DeselectTowerWrapper;
-        StartGameButtons.OnStartGame -= StartThis; //DEBUG
+        LevelManager.OnStartGame -= InitializeCards;
     }
 
     private void Start()
     {
-        towerTypes = DataLibrary.Instance.GetTowerTypes();
+        towerTypes = EntitiesLibrary.Instance.GetTowerTypes();
     }
 
-    //DEBUG
-    private void StartThis()
+    private void InitializeCards()
     {
         CreateCards();
     }

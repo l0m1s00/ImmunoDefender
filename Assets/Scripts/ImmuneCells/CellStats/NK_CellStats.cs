@@ -3,24 +3,23 @@ using UnityEngine;
 
 public class NK_CellStats : AttackerCellStats
 {
-    private float baseAnalysisAmount;
-    public float analysisAmount;
-    private float baseAnalysisInterval;
-    public float analysisInterval;
-    public float maxAnalysisAmount;
+    public float baseAnalysisTime;
+    public float analysisTime;
 
     public NK_CellStats(NK_ImmuneCellData data) : base(data)
     {
-        baseAnalysisAmount = data.analysisAmount;
-        analysisAmount = baseAnalysisAmount;
-        baseAnalysisInterval = data.analysisInterval;
-        analysisInterval = baseAnalysisInterval;
-        maxAnalysisAmount = 100f;
+        baseAnalysisTime = data.analysisTime;
+        analysisTime = baseAnalysisTime;
     }
 
     public override void ApplyUpgrade(UpgradeType upgradeType, float amount)
     {
         base.ApplyUpgrade(upgradeType, amount);
+
+        if (upgradeType == UpgradeType.FarmAnalysis)
+        {
+            analysisTime -= amount;
+        }
     }
 
     public override List<EntitiyStat> GetStatsToDisplay(Dictionary<EnemyData, float> damageBonuses)
@@ -29,16 +28,9 @@ public class NK_CellStats : AttackerCellStats
 
         stats.Add(new EntitiyStat
         {
-            statName = "Analysis Amount",
-            initialStatValue = baseAnalysisAmount.ToString(),
-            currentStatValue = analysisAmount.ToString()
-        });
-
-        stats.Add(new EntitiyStat
-        {
             statName = "Analysis Interval",
-            initialStatValue = (baseAnalysisAmount / baseAnalysisInterval).ToString() + " / s",
-            currentStatValue = (analysisAmount / analysisInterval).ToString() + " / s",
+            initialStatValue = baseAnalysisTime + " / s",
+            currentStatValue = analysisTime + " / s",
             extraInformation = "Determines the time taken to complete the scan of a potentially infected farm"
         });
 

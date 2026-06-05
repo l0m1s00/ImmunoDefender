@@ -44,13 +44,13 @@ public class GridManager : MonoBehaviour
     private void OnEnable()
     {
         TowerBuilder.OnTowerBuild += BlockCellByTower;
-        StartGameButtons.OnResetGameMap += RestartMapGeneration;
+        LevelManager.OnResetGameMap += RestartMapGeneration;
     }
 
     private void OnDisable()
     {
         TowerBuilder.OnTowerBuild -= BlockCellByTower;
-        StartGameButtons.OnResetGameMap -= RestartMapGeneration;
+        LevelManager.OnResetGameMap -= RestartMapGeneration;
     }
 
     private void Start()
@@ -70,7 +70,7 @@ public class GridManager : MonoBehaviour
 
     private void InitializeGrid()
     {
-        DifficultySettingsData difficultyData = DataLibrary.Instance.GetSelectedDifficultyData();
+        DifficultySettingsData difficultyData = EntitiesLibrary.Instance.GetSelectedDifficultyData();
         width = difficultyData.width;
         height = difficultyData.height;
         groundPercentage = difficultyData.groundPercentage;

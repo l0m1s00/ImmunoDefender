@@ -16,5 +16,5 @@ MonoBehaviour:
   damage: 4
   speed: 0.4
   health: 5
-  rewardDrop: 4
+  rewardDrop: 8
   enemyPrefab: {fileID: 6083366395207993397, guid: 7f6f0dcf42e5fb14092d31676b38614d, type: 3}

@@ -22,7 +22,7 @@ public class NK_ImmuneCell : AttackerCell, IStateInfoProvider
     private bool isInvestigating = false;
     private bool isAnalyzingFarm = false;
     private CellularFarmTower currentFarmToInvestigate = null;
-    private float currentAnalysisAmount = 0f;
+    private float analysisTimer;
 
     public event Action<string> OnStateInfoChanged;
 
@@ -34,6 +34,7 @@ public class NK_ImmuneCell : AttackerCell, IStateInfoProvider
         {
             basicStats = new NK_CellStats(NK_Data);
             nkData = NK_Data;
+            analysisTimer = nkData.analysisTime;
         }
 
         currentStateText = nkData.noCommandText;
@@ -106,10 +107,11 @@ public class NK_ImmuneCell : AttackerCell, IStateInfoProvider
 
     private void AnalyzeFarm()
     {
-        float amountPerSecond = NK_CellStats.analysisAmount / NK_CellStats.analysisInterval;
-        currentAnalysisAmount += amountPerSecond * Time.deltaTime;
+        //float amountPerSecond = NK_CellStats.analysisAmount / NK_CellStats.analysisInterval;
+        //analysisTimer += amountPerSecond * Time.deltaTime;
+        analysisTimer -= Time.deltaTime;
 
-        if (currentAnalysisAmount >= NK_CellStats.maxAnalysisAmount) //analisis terminado
+        if (analysisTimer <= 0f) //analisis terminado
         {
             ConclusionAnalysis();
             EndInvestigation();
@@ -117,7 +119,8 @@ public class NK_ImmuneCell : AttackerCell, IStateInfoProvider
         }
         else
         {
-            if (immuneCellUIRef is NK_CellUI nkUI) nkUI.UpdateAnalysisBar(currentAnalysisAmount / NK_CellStats.maxAnalysisAmount);
+            //if (immuneCellUIRef is NK_CellUI nkUI) nkUI.UpdateAnalysisBar(analysisTimer / NK_CellStats.maxAnalysisAmount);
+            if (immuneCellUIRef is NK_CellUI nkUI) nkUI.UpdateAnalysisBar(1f - (analysisTimer / nkData.analysisTime));
         }
     }
 
@@ -161,7 +164,7 @@ public class NK_ImmuneCell : AttackerCell, IStateInfoProvider
 
     private void ResetAnalysis()
     {
-        currentAnalysisAmount = 0f;
+        analysisTimer = nkData.analysisTime;
         if (immuneCellUIRef is NK_CellUI nkUI) nkUI.HideAnalysisBar();
     }
 
