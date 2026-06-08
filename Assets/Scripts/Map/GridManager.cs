@@ -24,6 +24,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GridCellDataSO[] pathCellObjectsData;
     [SerializeField] private GridCellDataSO[] levelCellObjectsData;
     [SerializeField] private GridCellDataSO[] towerHolderCellObjectsData;
+    [SerializeField] private GameObject enemiesSpawnWoundPrefab;
     //Map Settings
     private int height;
     private int width;
@@ -198,32 +199,35 @@ public class GridManager : MonoBehaviour
             {
                 currentCell = gridGraph.GetCell(x, y);
 
-                if (pathGenerator.IsCellFree(gridGraph.GetCell(x, y)))
+                if (pathGenerator.IsCellFree(gridGraph.GetCell(x, y)) && !towerCells.Contains(currentCell))
                 {
+                    tile = groundTile;
+                    pos = new Vector3(x, y, 0f);
+                    tile = Instantiate(tile, pos, Quaternion.identity);
+                    tile.transform.SetParent(groundTileContainerTransform);
+
                     if (currentCell.isObstacle)
                     {
                         randomIndex = Random.Range(1, levelCellObjectsData.Length);
                         tile = levelCellObjectsData[randomIndex].cellPrefab;
-                    }
-                    else if (towerCells.Contains(currentCell))
-                    {
-                        continue;
-                    }
-                    else
-                        tile = groundTile;
+                        tile = Instantiate(tile, pos, Quaternion.identity);
+                        tile.transform.SetParent(groundTileContainerTransform);
 
-                    pos = new Vector3(x, y, 0);
-                    tile = Instantiate(tile, pos, Quaternion.identity);
+                        if (Random.Range(0, 2) == 0) tile.GetComponent<SpriteRenderer>().flipX = true;
+                    }
 
                     //if (towerCells.Contains(currentCell)) tile.transform.SetParent(towerHolderTileContainerTransform);
                     //else tile.transform.SetParent(groundTileContainerTransform);
 
-                    tile.transform.SetParent(groundTileContainerTransform);
 
                     //yield return new WaitForSeconds(0.005f); //espera
                 }
             }
         }
+
+        //colocacion del spawn de enemigos
+        pos = new Vector3(gridGraph.entryPoint.x, gridGraph.entryPoint.y, 0f);
+        tile = Instantiate(enemiesSpawnWoundPrefab, pos, Quaternion.identity, groundTileContainerTransform);
 
         yield return null;
     }

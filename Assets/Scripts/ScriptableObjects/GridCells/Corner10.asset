@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridCellObject
   cellType: 0
   cellPrefab: {fileID: 7475347200455764645, guid: ff577eaf5a0deab489453ee12599d6ff, type: 3}
-  yRotation: 0
+  zRotation: -90

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GroundElement3
   m_EditorClassIdentifier: Assembly-CSharp::GridCellObject
   cellType: 1
-  cellPrefab: {fileID: 4381764189813379422, guid: c3b7c56d76942634eadd11a27532ce00, type: 3}
+  cellPrefab: {fileID: 4801963766965109792, guid: 385a05ceadcdfc74aab25360463f90c8, type: 3}
   zRotation: 0

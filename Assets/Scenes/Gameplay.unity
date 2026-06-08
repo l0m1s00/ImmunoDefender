@@ -486,6 +486,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 397531430}
   - {fileID: 1580016215}
   - {fileID: 869823386}
   - {fileID: 1812457191}
@@ -496,6 +497,7 @@ Transform:
   - {fileID: 225971629}
   - {fileID: 183748845}
   - {fileID: 1316588626}
+  - {fileID: 757237650}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &50569706
@@ -1674,9 +1676,8 @@ MonoBehaviour:
   levelCellObjectsData:
   - {fileID: 11400000, guid: 3ddcef8c35f4331499947c497ba1cba1, type: 2}
   - {fileID: 11400000, guid: e0ccafd015239ad4fa269c6de72dd0e3, type: 2}
-  - {fileID: 11400000, guid: 63b707d213fbd5549890a47a37828047, type: 2}
   - {fileID: 11400000, guid: 1f82d9035c6578e4f9746a2faa15699c, type: 2}
-  - {fileID: 11400000, guid: 5e4b8c70a43cc1b4d813749ba67d985e, type: 2}
+  - {fileID: 11400000, guid: 9047abc5b981d9141a72360fbd41d589, type: 2}
   towerHolderCellObjectsData:
   - {fileID: 11400000, guid: bb8c6a9cc67c63043a9ae35f470b4bf5, type: 2}
   - {fileID: 11400000, guid: bb8c6a9cc67c63043a9ae35f470b4bf5, type: 2}
@@ -1694,6 +1695,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb8c6a9cc67c63043a9ae35f470b4bf5, type: 2}
   - {fileID: 11400000, guid: bb8c6a9cc67c63043a9ae35f470b4bf5, type: 2}
   - {fileID: 11400000, guid: bb8c6a9cc67c63043a9ae35f470b4bf5, type: 2}
+  enemiesSpawnWoundPrefab: {fileID: 8068467999236893545, guid: fd9fb6607629af642a000651c6a5a305, type: 3}
 --- !u!4 &273255286
 Transform:
   m_ObjectHideFlags: 0
@@ -2179,6 +2181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2532aed78920604197cb6f2ac09442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
+  mapItemsPoolContainer: {fileID: 757237650}
+  initialGlowBallPoolSize: 60
+  glowBallPrefab: {fileID: 5661804446711406205, guid: 33ffded2db58cb84bad872778b0225bf, type: 3}
   enemiesPoolContainer: {fileID: 2057093632}
   initialEnemyPoolSize: 80
   towersPoolContainer: {fileID: 1374615821}
@@ -2191,6 +2196,37 @@ MonoBehaviour:
   initialWastePoolSize: 120
   vitalOrgansPoolContainer: {fileID: 1316588626}
   initialVitalOrganPoolSize: 1
+--- !u!1 &397531429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397531430}
+  m_Layer: 0
+  m_Name: InGameGlowBallsIndicators
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397531430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397531429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39309212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &405651497
 GameObject:
   m_ObjectHideFlags: 0
@@ -4236,6 +4272,37 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &757237649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757237650}
+  m_Layer: 0
+  m_Name: GlowBallsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &757237650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757237649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 39309212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &758864311
 GameObject:
   m_ObjectHideFlags: 0
@@ -4789,8 +4856,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56733fe4b01e89a48a0c10cd2a9e9f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  glowBallIndicatorsContainer: {fileID: 397531430}
   enemiesContainer: {fileID: 1580016215}
   delayBeforeWaveStarts: 4
+  generateGlowBallIndicatorTime: 4
 --- !u!4 &886023868
 Transform:
   m_ObjectHideFlags: 0
@@ -6450,6 +6519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeManager
   upgradeMenuUI_Ref: {fileID: 1196751443}
   demolishTowerButton: {fileID: 2141649107}
+  buyUpgradeSound: {fileID: 11400000, guid: 83e7b3cfb0294974e8ad27b33c3c5c14, type: 2}
   demolishTowerSound: {fileID: 11400000, guid: 60057a6bce305354b9f7e568c8532585, type: 2}
 --- !u!1 &1316588625
 GameObject:

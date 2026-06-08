@@ -7,8 +7,10 @@ public class TowerUpgradeManager : MonoBehaviour
 {
     public static TowerUpgradeManager Instance;
 
+    [Header("Components")]
     [SerializeField] private UpgradeMenuUI upgradeMenuUI_Ref;
     [SerializeField] private HoldConfirmationButton demolishTowerButton;
+    [SerializeField] AudioEventData buyUpgradeSound;
     [SerializeField] AudioEventData demolishTowerSound;
     private Tower currentSelectedTower;
 
@@ -52,21 +54,20 @@ public class TowerUpgradeManager : MonoBehaviour
 
         if (EconomyManager.Instance.CanAfford(cost))
         {
-            //gastar dinero
             EconomyManager.Instance.SpendCurrency(cost);
 
             //añadir coste de la mejora a la inversion total de la torre
             EconomyManager.Instance.IncreaseInvestmentOfTower(currentSelectedTower, cost);
 
-            //aplicar la mejora a las estadisticas
+            //determinar tipo de mejora y aplicar
             currentSelectedTower.ApplyUpgrade(upgradeData, currentLevel);
 
             //cambiar nivel de la mejora
             towerUpgrades[upgradeData]++;
             int newLevel = towerUpgrades[upgradeData];
-
-            //modificar upgrade slot UI
             upgradeSlotUI.InitializeUpgradeSlot(upgradeData, newLevel);
+
+            AudioManager.Instance.PlaySFX(buyUpgradeSound, transform.position, 0f);
         }
         else
         {

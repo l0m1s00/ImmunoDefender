@@ -9,6 +9,10 @@ public class PoolEntitiesManager : MonoBehaviour
 
     public static PoolEntitiesManager Instance;
 
+    [Header("Map Items Pool Settings")]
+    [SerializeField] private Transform mapItemsPoolContainer;
+    [SerializeField] private int initialGlowBallPoolSize;
+    [SerializeField] private GameObject glowBallPrefab;
     [Header("Enemy Pool Settings")]
     [SerializeField] private Transform enemiesPoolContainer;
     [SerializeField] private int initialEnemyPoolSize;
@@ -43,6 +47,8 @@ public class PoolEntitiesManager : MonoBehaviour
     private Dictionary<VitalOrganData, ObjectPool> vitalOrgansPool = new Dictionary<VitalOrganData, ObjectPool>();
     //pool de residuos
     private ObjectPool wastesPool;
+    //pool de residuos
+    private ObjectPool glowBallPool;
 
     private void Awake()
     {
@@ -118,6 +124,9 @@ public class PoolEntitiesManager : MonoBehaviour
         //residuos
         ObjectPool newPool = new ObjectPool(wastePrefab, initialWastePoolSize, wastesPoolContainer);
         wastesPool = newPool;
+        //glow balls
+        newPool = new ObjectPool(glowBallPrefab, initialGlowBallPoolSize, mapItemsPoolContainer);
+        glowBallPool = newPool;
     }
 
     //coger una entidad, "Instantiate"
@@ -144,6 +153,11 @@ public class PoolEntitiesManager : MonoBehaviour
     public GameObject SpawnWaste()
     {
         return wastesPool.Get();
+    }
+
+    public GameObject SpawnGlowBall()
+    {
+        return glowBallPool.Get();
     }
 
     public GameObject SpawnVitalOrgan(VitalOrganData vitalOrganData)
@@ -181,5 +195,10 @@ public class PoolEntitiesManager : MonoBehaviour
     public void DespawnWaste(GameObject wasteObj)
     {
         wastesPool.Restore(wasteObj);
+    }
+
+    public void DespawnGlowBall(GameObject glowBallObj)
+    {
+        glowBallPool.Restore(glowBallObj);
     }
 }

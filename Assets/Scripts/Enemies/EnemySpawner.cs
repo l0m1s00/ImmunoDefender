@@ -9,8 +9,12 @@ public class EnemySpawner : MonoBehaviour
     public static EnemySpawner Instance;
 
     [Header("Spawner Settings")]
+    [SerializeField] private Transform glowBallIndicatorsContainer;
     [SerializeField] private Transform enemiesContainer;
     [SerializeField] private float delayBeforeWaveStarts;
+    [SerializeField] private float generateGlowBallIndicatorTime;
+    private float generateGlowBallIndicatorTimer;
+    private bool canGenerateIndicators = false;
 
     private List<Cell> enemyPath;
     private Vector2 spawnPoint;
@@ -31,24 +35,39 @@ public class EnemySpawner : MonoBehaviour
     {
         GridManager.OnMapGenerationCompleted += InitializeSpawner;
         LevelManager.OnStartWaveCurrentWaveData += StartWave;
+        LevelManager.OnResetGameMap += DespawnGlowBallIndicators;
     }
 
     private void OnDisable()
     {
         GridManager.OnMapGenerationCompleted -= InitializeSpawner;
         LevelManager.OnStartWaveCurrentWaveData -= StartWave;
+        LevelManager.OnResetGameMap -= DespawnGlowBallIndicators;
     }
 
     private void Update()
     {
-
+        if (canGenerateIndicators) GenerateGlowBallsIndicators();
     }
 
     private void InitializeSpawner()
     {
+        generateGlowBallIndicatorTimer = 0f;
         entryPoint = GridManager.Instance.GetGraphEntryPoint();
         spawnPoint = new Vector2(entryPoint.x, entryPoint.y);
         CalculateEnemyPath(); //determinar camino por el grafo que los enemigos deben seguir
+        canGenerateIndicators = true;
+    }
+
+    private void GenerateGlowBallsIndicators()
+    {
+        generateGlowBallIndicatorTimer -= Time.deltaTime;
+
+        if (generateGlowBallIndicatorTimer <= 0f)
+        {
+            generateGlowBallIndicatorTimer = generateGlowBallIndicatorTime;
+            InstantiateGlowBallIndicator();
+        }
     }
 
     private void CalculatePathDFS(Cell currentCell, HashSet<Cell> visitedCells)
@@ -101,6 +120,28 @@ public class EnemySpawner : MonoBehaviour
         while (EnemyManager.Instance.GetEnemiesInBattlefield().Count > 0) { yield return new WaitForSeconds(0.5f); } //2 comprobaciones por segundo 
 
         OnWaveEnded?.Invoke();
+    }
+
+    private void DespawnGlowBallIndicators()
+    {
+        for (int i = glowBallIndicatorsContainer.childCount - 1; i >= 0; i--)
+        {
+            Transform child = glowBallIndicatorsContainer.GetChild(i);
+            GlowBallPathIndicator indicator = child.GetComponent<GlowBallPathIndicator>();
+
+            if (indicator != null)
+            {
+                indicator.RemoveGlowBall();
+            }
+        }
+    }
+
+    private void InstantiateGlowBallIndicator()
+    {
+        GameObject glowBallObj = PoolEntitiesManager.Instance.SpawnGlowBall();
+        glowBallObj.transform.position = spawnPoint;
+        glowBallObj.transform.SetParent(glowBallIndicatorsContainer);
+        glowBallObj.GetComponent<GlowBallPathIndicator>().Initialize(enemyPath);
     }
 
     private void InstantiateEnemy(EnemyData enemyData)
