@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class EndGameManagerUI : MonoBehaviour
+public class EndGameManagerUI : BaseMenuUI
 {
-
+    public void DisplayEndGameScreen()
+    {
+        Open();
+    }
 }

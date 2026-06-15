@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
     public static event Action<WaveConfig> OnStartWaveCurrentWaveData;
     public static event Action OnStartGame;
     public static event Action OnResetGameMap;
+    public static event Action OnEndGame;
 
     private void Awake()
     {
@@ -50,14 +51,14 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         Enemy.OnAttackVitalOrgan += AttackVitalOrgan;
-        NegativeStates.OnAttackVitalOrgan += AttackVitalOrgan;
+        BodyStates.OnAttackVitalOrgan += AttackVitalOrgan;
         EnemySpawner.OnWaveEnded += EndWave;
     }
 
     private void OnDisable()
     {
         Enemy.OnAttackVitalOrgan -= AttackVitalOrgan;
-        NegativeStates.OnAttackVitalOrgan -= AttackVitalOrgan;
+        BodyStates.OnAttackVitalOrgan -= AttackVitalOrgan;
         EnemySpawner.OnWaveEnded -= EndWave;
     }
 
@@ -83,12 +84,16 @@ public class LevelManager : MonoBehaviour
     {
         bool endGame = vitalOrganOnScene.TakeDamage(damage);
 
-        //if (endGame) 
+        if (endGame)
+        {
+            EndGame();
+        } 
     }
 
     private void EndGame()
     {
-        StopCoroutine(waveRestTimeCoroutine);
+        //StopCoroutine(waveRestTimeCoroutine);
+        OnEndGame?.Invoke();
     }
 
     private void EndWave()

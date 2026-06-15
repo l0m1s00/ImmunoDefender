@@ -10,6 +10,8 @@ public class BLymphocyteTowerStats : TargetingTowerStats
     public float maxInvestigationAmount;
     private float baseDamageBonus;
     public float damageBonus;
+    private int baseAnalysisN;
+    public int analysisN;
     public Dictionary<EnemyData, float> currentInvestigation;
     public Dictionary<EnemyData, float> damageBonuses;
 
@@ -22,6 +24,8 @@ public class BLymphocyteTowerStats : TargetingTowerStats
         maxInvestigationAmount = 100f;
         baseDamageBonus = data.damageBonus;
         damageBonus = baseDamageBonus;
+        baseAnalysisN = data.analysisN;
+        analysisN = baseAnalysisN;
         currentInvestigation = new Dictionary<EnemyData, float>();
         damageBonuses = new Dictionary<EnemyData, float>();
 
@@ -35,6 +39,16 @@ public class BLymphocyteTowerStats : TargetingTowerStats
     public override void ApplyUpgrade(TowerUpgradeData upgradeData, int upgradeLevel)
     {
         base.ApplyUpgrade(upgradeData, upgradeLevel);
+
+        switch (upgradeData.upgradeType)
+        {
+            case UpgradeType.AnalysisSpeed:
+                investigationInterval -= upgradeData.statIncrements[upgradeLevel];
+                break;
+            case UpgradeType.AnalysisNumber:
+                analysisN += (int)upgradeData.statIncrements[upgradeLevel];
+                break;
+        }
     }
 
     public override List<EntitiyStat> GetStatsToDisplay()
@@ -49,9 +63,16 @@ public class BLymphocyteTowerStats : TargetingTowerStats
 
         stats.Add(new EntitiyStat { 
             statName = "Investigation Interval", 
-            initialStatValue = (baseInvestigationAmount / baseInvestigationInterval).ToString() + " / s", 
-            currentStatValue = (investigationAmount / investigationInterval).ToString() + " / s",
+            initialStatValue = (baseInvestigationAmount / baseInvestigationInterval).ToString("F2") + " / s", 
+            currentStatValue = (investigationAmount / investigationInterval).ToString("F2") + " / s",
             extraInformation = "Amount of research per second"
+        });
+
+        stats.Add(new EntitiyStat
+        {
+            statName = "Simultaneous Analyses",
+            initialStatValue = baseAnalysisN.ToString(),
+            currentStatValue = analysisN.ToString(),
         });
 
         stats.Add(new EntitiyStat

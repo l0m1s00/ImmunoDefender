@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: MaxCellsTowerUpgrade
+  m_Name: RefillSpeedUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Cellular Gigantism
-  upgradeTarget: 2
-  upgradeType: 1
-  description: Increase the available soldiers
-  costPerLevel: b40000002c010000e0010000
+  upgradeName: Accelerated Mitosis
+  upgradeTarget: 0
+  upgradeType: 2
+  description: New cells are created faster
+  costPerLevel: 1e00000064000000e6000000
   statIncrements:
-  - 1
-  - 1
+  - 0.5
+  - 0.6
   - 1

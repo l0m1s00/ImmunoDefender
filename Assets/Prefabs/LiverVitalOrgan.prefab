@@ -65,8 +65,8 @@ MonoBehaviour:
   healthBarShadowFill: {fileID: 4003539904137849371}
   healthBarText: {fileID: 7197742353808725542}
   nameText: {fileID: 5889980228608170144}
-  shadowDelayCooldown: 1
-  shadowShrinkSpeed: 0.1
+  shadowDelayCooldown: 0.75
+  shadowShrinkSpeed: 0.8
 --- !u!1 &591913547998754265
 GameObject:
   m_ObjectHideFlags: 0

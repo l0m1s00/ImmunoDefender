@@ -29,16 +29,22 @@ public class GameManager : MonoBehaviour
     {
         PauseMenu.OnPauseGame += PauseGame;
         PauseMenu.OnReturnToMainMenu += LoadMainMenu;
+        EndGameManager.OnReturnToMainMenu += LoadMainMenu;
+        EndGameManager.OnRestartGame += LoadGameplay;
         DifficultiesMenu.OnLoadGameplay += DoSceneTransition;
         SceneTransition.OnTransitionCompleted += LoadGameplay;
+        LevelManager.OnEndGame += EndGame;
     }
 
     private void OnDisable()
     {
         PauseMenu.OnPauseGame -= PauseGame;
         PauseMenu.OnReturnToMainMenu -= LoadMainMenu;
+        EndGameManager.OnReturnToMainMenu -= LoadMainMenu;
+        EndGameManager.OnRestartGame -= LoadGameplay;
         DifficultiesMenu.OnLoadGameplay -= DoSceneTransition;
         SceneTransition.OnTransitionCompleted -= LoadGameplay;
+        LevelManager.OnEndGame -= EndGame;
     }
 
     private void ChangeGameState(GameState newState)
@@ -48,9 +54,9 @@ public class GameManager : MonoBehaviour
         currentState = newState;
     }
 
-    private void PauseGame()
+    private void PauseGame(bool isPaused)
     {
-        if (currentState != GameState.Paused)
+        if (isPaused)
         {
             ChangeGameState(GameState.Paused);
             Time.timeScale = 0f;
@@ -84,6 +90,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         currentState = GameState.GameOver;
+        Time.timeScale = 0f;
         OnEndGame?.Invoke();
     }
 

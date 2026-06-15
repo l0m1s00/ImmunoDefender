@@ -41,6 +41,15 @@ public class FungiEnemyStats : EnemyStats
             extraInformation = "Toxic wastes generated on death"
         });
 
+        stats.Add(new EntitiyStat
+        {
+            statName = "Biological Description",
+            initialStatValue = "",
+            currentStatValue = "",
+            extraInformation =
+            "They can be either single-celled or multicellular.\nThey feed by secreting enzymes to decompose and absorb organic materials from their surrounding environment"
+        });
+
         return stats;
     }
 }

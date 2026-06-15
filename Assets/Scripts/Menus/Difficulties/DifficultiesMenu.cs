@@ -34,12 +34,12 @@ public class DifficultiesMenu : BaseMenu
 
     private void OnEnable()
     {
-        FormsMenu.OnSelectDifficulty += Open;
+        FormsMenu.OnDisplayDifficulties += Open;
     }
 
     private void OnDisable()
     {
-        FormsMenu.OnSelectDifficulty -= Open;
+        FormsMenu.OnDisplayDifficulties -= Open;
     }
 
     protected override void Start()

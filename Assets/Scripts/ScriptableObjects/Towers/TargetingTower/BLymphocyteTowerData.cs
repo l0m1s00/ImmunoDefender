@@ -7,4 +7,5 @@ public class BLymphocyteTowerData : TargetingTowerData
     public float investigationAmount;
     public float investigationInterval;
     public float damageBonus;
+    public int analysisN;
 }

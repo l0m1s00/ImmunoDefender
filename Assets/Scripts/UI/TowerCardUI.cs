@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class TowerCardUI : AnimationsUI
 {
     [Header("UI References")]
-    [SerializeField] private Image iconImage;
-    [SerializeField] private Image cellImage;
+    [SerializeField] private Image towerIconImage;
+    [SerializeField] private Image towerTypeIconImage;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI cardNameText;
     [SerializeField] private TextMeshProUGUI cardDescriptionText;
-    [SerializeField] private GameObject informationPanel;
+    [SerializeField] private CanvasGroup informationPanelCanvasGroup;
     [SerializeField] private Canvas cardLocalCanvas;
     [SerializeField] private Image selectedOutline;
 
@@ -22,21 +22,32 @@ public class TowerCardUI : AnimationsUI
 
     public void SetupVisuals(TowerData data)
     {
-        iconImage.sprite = data.towerIcon;
-        cellImage.sprite = data.towerCellIcon;
+        towerIconImage.sprite = data.towerIcon;
+        towerTypeIconImage.sprite = data.towerTypeIcon;
         costText.text = data.cost.ToString();
         cardNameText.text = data.towerName;
         cardDescriptionText.text = data.description;
         originalPos = transform.localPosition;
         originalScale = transform.localScale;
         originalRot = transform.localRotation;
-        informationPanel.SetActive(false);
+        informationPanelCanvasGroup.alpha = 0f;
+        informationPanelCanvasGroup.blocksRaycasts = false;
         selectedOutline.enabled = false;
     }
 
     public void DoAnimateHover(bool isHovering)
     {
-        informationPanel.SetActive(isHovering);
+        if (isHovering)
+        {
+            informationPanelCanvasGroup.alpha = 1f;
+            informationPanelCanvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            informationPanelCanvasGroup.alpha = 0f;
+            informationPanelCanvasGroup.blocksRaycasts = false;
+        }
+
         AnimateHover(isHovering);
     }
 
@@ -44,7 +55,8 @@ public class TowerCardUI : AnimationsUI
     {
         selectedOutline.enabled = true;
         cardLocalCanvas.sortingOrder = selectedOrderInLayer;
-        informationPanel.SetActive(false);
+        informationPanelCanvasGroup.alpha = 0f;
+        informationPanelCanvasGroup.blocksRaycasts = false;
         AnimateSelected(false);
     }
 

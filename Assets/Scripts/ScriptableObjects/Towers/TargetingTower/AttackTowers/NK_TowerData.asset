@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315cdd61c2eabbe498e15b8b52faba0b, type: 3}
   m_Name: NK_TowerData
   m_EditorClassIdentifier: Assembly-CSharp::NK_TowerData
-  towerIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  towerIcon: {fileID: 21300000, guid: fbb6d0243ed63494f9a696ffe7aede20, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerTypeIcon: {fileID: 21300000, guid: 9b8c7599ae037614ca58100087072121, type: 3}
   towerPrefab: {fileID: 8162097123772593379, guid: e9e238769c06d374d9fc81e5d83e1c07, type: 3}
   towerGhostPrefab: {fileID: 910845906535534910, guid: 60b7346cbac55ce44be4bbb9c89a85d2, type: 3}
   towerName: Natural Killer
-  description: Ataca a las celulas aliadas infectadas para evitar una infeccion masiva
+  description: Powerful attack cells that prioritise the analysis of infected cellular
+    farms over combat
   cost: 300
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:

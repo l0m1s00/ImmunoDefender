@@ -1,14 +1,26 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ToxicityLevel { Low, Medium, Max };
 
-public class NegativeStates : MonoBehaviour
+public class BodyStates : MonoBehaviour
 {
-    [SerializeField] private NegativeStatesUI negativeStatesUIRef;
+    [Header("Components")]
+    [SerializeField] private BodyStatesUI negativeStatesUIRef;
+    [SerializeField] private HoldConfirmationButton emergencyCatabolismButton;
+
+    [Header("Catabolism Settings")]
+    [SerializeField] private string catabolismDescription;
+    [SerializeField] private int catabolismDamage;
+    [SerializeField] private int catabolismGenetics;
+
+    [Header("Toxicity Settings")]
     [SerializeField] private float maxToxicity;
     [SerializeField] private float attackToxicityDamage;
     [SerializeField] private float attackToxicityCooldown;
+
+    [Header("Audios")]
     [SerializeField] private AudioEventData bipAudioEvent;
     [SerializeField] private AudioEventData failureAudioEvent;
     [SerializeField] private AudioEventData shockAudioEvent;
@@ -19,6 +31,18 @@ public class NegativeStates : MonoBehaviour
 
     //EVENTOS
     public static event Action<float> OnAttackVitalOrgan;
+
+    private void Awake()
+    {
+        TooltipTrigger tooltip = emergencyCatabolismButton.GetComponent<TooltipTrigger>();
+        if (tooltip == null)
+        {
+            tooltip = emergencyCatabolismButton.gameObject.AddComponent<TooltipTrigger>();
+        }
+        tooltip.content = catabolismDescription;
+
+        emergencyCatabolismButton.onHoldCompleted.AddListener(Catabolism);
+    }
 
     private void OnEnable()
     {
@@ -38,6 +62,12 @@ public class NegativeStates : MonoBehaviour
         {
             ToxicityAttack();
         }
+    }
+
+    private void Catabolism()
+    {
+        OnAttackVitalOrgan?.Invoke(catabolismDamage);
+        EconomyManager.Instance.AddImmediateCurrency(catabolismGenetics);
     }
 
     private void CheckToxicitylevel()

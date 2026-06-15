@@ -15,6 +15,6 @@ MonoBehaviour:
   enemyName: Bacteria B
   damage: 6
   speed: 0.5
-  health: 7
-  rewardDrop: 12
+  health: 6
+  rewardDrop: 15
   enemyPrefab: {fileID: 6288752730581173444, guid: ab30f32a88a58bf499d9063e21d45363, type: 3}

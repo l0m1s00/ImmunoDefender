@@ -12,9 +12,9 @@ public class PauseMenuUI : BaseMenuUI
         PauseMenu.OnPauseGame -= HandlePause;
     }
 
-    private void HandlePause()
+    private void HandlePause(bool isPaused)
     {
-        if (GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Paused) Open();
+        if (isPaused) Open();
         else Close();
     }
 }

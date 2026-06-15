@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: AnalysisSpeedTowerUpgrade
+  m_Name: AnalysisSpeedUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
   upgradeName: Immunological Memory
   upgradeTarget: 0
   upgradeType: 4
   description: Increase the speed of pathogen analysis
-  costPerLevel: 1e000000460000008c000000dc000000
+  costPerLevel: 3200000082000000d2000000
   statIncrements:
+  - 0.1
   - 0.2
   - 0.3
-  - 0.4
-  - 0.6

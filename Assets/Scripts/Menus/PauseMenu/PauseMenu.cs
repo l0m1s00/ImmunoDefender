@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private Button exitButton;
 
     //EVENTOS
-    public static event Action OnPauseGame;
+    public static event Action<bool> OnPauseGame;
     public static event Action OnReturnToMainMenu;
 
     private void Awake()
@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour
 
     private void OnPauseButtonClicked()
     {
-        OnPauseGame?.Invoke();
+        if (GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Paused) OnPauseGame?.Invoke(false);
+        else if (GameManager.Instance.GetCurrentGameState() == GameManager.GameState.Playing) OnPauseGame?.Invoke(true);
     }
 }

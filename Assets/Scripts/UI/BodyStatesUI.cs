@@ -2,10 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NegativeStatesUI : MonoBehaviour
+public class BodyStatesUI : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private CanvasGroup toxicityBarCanvasGroup;
+    [SerializeField] private CanvasGroup catabolismButtonCanvasGroup;
     [Header("UI References")]
     [SerializeField] private Image toxicBarValueFill;
     [SerializeField] private Color septicShockLowAmountColor;
@@ -29,17 +30,18 @@ public class NegativeStatesUI : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.OnStartGame += DisplayToxicityBar;
+        LevelManager.OnStartGame += DisplayElements;
     }
 
     private void OnDisable()
     {
-        LevelManager.OnStartGame -= DisplayToxicityBar;
+        LevelManager.OnStartGame -= DisplayElements;
     }
 
     private void Start()
     {
         HideToxicityBar();
+        HideCatabolismButton();
     }
 
     private void InitializeNegativeStatesUI()
@@ -56,10 +58,20 @@ public class NegativeStatesUI : MonoBehaviour
         toxicityBarCanvasGroup.blocksRaycasts = false;
     }
 
-    private void DisplayToxicityBar()
+    private void HideCatabolismButton()
+    {
+        catabolismButtonCanvasGroup.alpha = 0f;
+        catabolismButtonCanvasGroup.blocksRaycasts = false;
+        catabolismButtonCanvasGroup.interactable = false;
+    }
+
+    private void DisplayElements()
     {
         toxicityBarCanvasGroup.alpha = 1f;
         toxicityBarCanvasGroup.blocksRaycasts = true;
+        catabolismButtonCanvasGroup.alpha = 1f;
+        catabolismButtonCanvasGroup.blocksRaycasts = true;
+        catabolismButtonCanvasGroup.interactable = true;
     } 
 
     public void UpdateToxicBar(float normalizedToxicAmount, ToxicityLevel toxicityLevel)

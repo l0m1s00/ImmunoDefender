@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: FarmResistanceTowerUpgrade
+  m_Name: RangeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Reinforced Membrane
+  upgradeName: Advanced Chemotaxis
   upgradeTarget: 0
-  upgradeType: 5
-  description: Increases resistance to infection
-  costPerLevel: 1e0000006e000000c80000002c010000
+  upgradeType: 0
+  description: Increase the tower's range
+  costPerLevel: 64000000c8000000
   statIncrements:
-  - 5
-  - 8
-  - 10
-  - 12
+  - 0.5
+  - 0.5

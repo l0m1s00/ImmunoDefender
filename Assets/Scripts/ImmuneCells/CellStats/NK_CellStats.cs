@@ -29,8 +29,8 @@ public class NK_CellStats : AttackerCellStats
         stats.Add(new EntitiyStat
         {
             statName = "Analysis Interval",
-            initialStatValue = baseAnalysisTime + " / s",
-            currentStatValue = analysisTime + " / s",
+            initialStatValue = baseAnalysisTime.ToString("F2") + " / s",
+            currentStatValue = analysisTime.ToString("F2") + " / s",
             extraInformation = "Determines the time taken to complete the scan of a potentially infected farm"
         });
 

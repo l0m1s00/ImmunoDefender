@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NeutrophilTowerDataSO
   towerIcon: {fileID: 21300000, guid: 2c8e654802dcbaa4899d6982fcbd5a72, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerTypeIcon: {fileID: 21300000, guid: 9b8c7599ae037614ca58100087072121, type: 3}
   towerPrefab: {fileID: 824966694110340585, guid: cf42d40e4efbf424bbb42409970108db, type: 3}
   towerGhostPrefab: {fileID: 9214848417618869633, guid: bb48ca598d9325c43add5ca623c9964f, type: 3}
   towerName: Neutrophil
-  description: Celula de rapida respuesta y corta esperanza de vida
+  description: Rapid-response units with a short lifespan.They need to recruit new
+    soldiers when they die, usually after their first battle
   cost: 30
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:

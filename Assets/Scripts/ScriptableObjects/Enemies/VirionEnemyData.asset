@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VirionEnemyData
   enemyName: Virion
   damage: 1
-  speed: 1.2
+  speed: 1.5
   health: 1
   rewardDrop: 1
   enemyPrefab: {fileID: 424000651958404828, guid: 33b94d14b231d4e42b40c229a19807a0, type: 3}
-  movementSounds: {fileID: 11400000, guid: ad7faf9954fec134591257de1926394c, type: 2}

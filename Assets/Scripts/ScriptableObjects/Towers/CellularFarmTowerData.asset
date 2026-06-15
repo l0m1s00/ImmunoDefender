@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CellularFarmTowerData
   towerIcon: {fileID: 21300000, guid: 4554c67f70d91974d9d6b1946edcc892, type: 3}
   towerCellIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerTypeIcon: {fileID: 21300000, guid: 4fccdf171d6de194b88c336549195d9e, type: 3}
   towerPrefab: {fileID: 84432226418481924, guid: 3ff672fc204ee6a40958df3a9bf7144b, type: 3}
   towerGhostPrefab: {fileID: 9025853786560865416, guid: 03c4dd0d7e09a524d89b1d39225c3d9a, type: 3}
   towerName: Cellular Farm
-  description: Generates Genetics over time
+  description: A resource-generating structure which provides Genetics over time.
+    \nIt can be destroyed by viral infections.
   cost: 150
   buildTowerSounds: {fileID: 11400000, guid: 003feff8b9bf1b6428b9f68d15011cf8, type: 2}
   towerUpgrades:

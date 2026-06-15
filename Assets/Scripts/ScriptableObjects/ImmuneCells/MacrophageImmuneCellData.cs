@@ -5,5 +5,6 @@ public class MacrophageImmuneCellData : AttackerImmuneCellData
 {
     [Header("Delete Toxic Waste")]
     public float deleteToxicWasteCooldown;
+    public int extraGeneticsPerClean;
 }
 

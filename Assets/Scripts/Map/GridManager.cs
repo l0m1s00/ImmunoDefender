@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject groundTileContainer;
     [Header("Cell Objects")]
     [SerializeField] private GridCellDataSO[] pathCellObjectsData;
+    [SerializeField] private GridCellDataSO[] groundCellObjectsData;
     [SerializeField] private GridCellDataSO[] levelCellObjectsData;
     [SerializeField] private GridCellDataSO[] towerHolderCellObjectsData;
     [SerializeField] private GameObject enemiesSpawnWoundPrefab;
@@ -187,7 +188,7 @@ public class GridManager : MonoBehaviour
     {
         Transform groundTileContainerTransform = groundTileContainer.transform;
         Transform towerHolderTileContainerTransform = towerHolderTileContainer.transform;
-        GameObject groundTile = levelCellObjectsData[0].cellPrefab;
+        GameObject groundTile;
         GameObject tile;
         Cell currentCell;
         Vector3 pos;
@@ -201,14 +202,16 @@ public class GridManager : MonoBehaviour
 
                 if (pathGenerator.IsCellFree(gridGraph.GetCell(x, y)) && !towerCells.Contains(currentCell))
                 {
+                    groundTile = groundCellObjectsData[Random.Range(0, groundCellObjectsData.Length)].cellPrefab;
                     tile = groundTile;
                     pos = new Vector3(x, y, 0f);
                     tile = Instantiate(tile, pos, Quaternion.identity);
                     tile.transform.SetParent(groundTileContainerTransform);
+                    if (Random.Range(0, 2) == 0) tile.GetComponent<SpriteRenderer>().flipX = true;
 
                     if (currentCell.isObstacle)
                     {
-                        randomIndex = Random.Range(1, levelCellObjectsData.Length);
+                        randomIndex = Random.Range(0, levelCellObjectsData.Length);
                         tile = levelCellObjectsData[randomIndex].cellPrefab;
                         tile = Instantiate(tile, pos, Quaternion.identity);
                         tile.transform.SetParent(groundTileContainerTransform);
@@ -309,8 +312,8 @@ public class GridManager : MonoBehaviour
 
     public void BlockCellByTower(Tower tower)
     {
-        int x = (int)tower.gameObject.transform.position.x;
-        int y = (int)tower.gameObject.transform.position.y;
+        int x = Mathf.RoundToInt(tower.gameObject.transform.position.x);
+        int y = Mathf.RoundToInt(tower.gameObject.transform.position.y);
         Cell cell = gridGraph.GetCell(x, y);
         cell.isTowerInCell = true;
         //Debug.Log("Celda bloqueada por torre: " + (x, y));

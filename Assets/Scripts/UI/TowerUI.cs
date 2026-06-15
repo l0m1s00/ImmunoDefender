@@ -3,7 +3,7 @@ using UnityEngine;
 public class TowerUI : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private SpriteRenderer outline;
+    [SerializeField] private GameObject selector;
     [SerializeField] private SpriteRenderer visualRangeRenderer;
 
     private void Awake()
@@ -13,7 +13,7 @@ public class TowerUI : MonoBehaviour
 
     private void Start()
     {
-        outline.enabled = false;
+        selector.SetActive(false);
     }
 
     public void InitializeVisualRange(float towerRange)
@@ -41,12 +41,12 @@ public class TowerUI : MonoBehaviour
 
     public void SelectTower()
     {
-        outline.enabled = true;
+        selector.SetActive(true);
     }
 
     public void DeselectTower()
     {
-        outline.enabled = false;
+        selector.SetActive(false);
     }
 
     public void Reset()

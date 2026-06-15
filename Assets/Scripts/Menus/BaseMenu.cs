@@ -10,7 +10,7 @@ public abstract class BaseMenu : MonoBehaviour
 
     protected virtual void Start()
     {
-        closeButton.onClick.AddListener(Close);
+        if (closeButton != null) closeButton.onClick.AddListener(Close);
     }
 
     protected virtual void Close()

@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     [Header("Mixers")]
+    [SerializeField] private AudioMixer mainMixer;
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
     [SerializeField] private AudioMixerGroup musicMixerGroup;
 
@@ -62,6 +63,22 @@ public class AudioManager : MonoBehaviour
         {
             CreateNewAudioSource();
         }
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        //conversion de valor normalizado a decibelios para los mixer
+        mainMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20);
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        mainMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        mainMixer.SetFloat("SFX_Volume", Mathf.Log10(value) * 20);
     }
 
     private void PlayBuildTowerSound(Tower tower)

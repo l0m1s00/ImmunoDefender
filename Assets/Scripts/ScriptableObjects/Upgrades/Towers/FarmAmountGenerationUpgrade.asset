@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: RangeTowerUpgrade
+  m_Name: FarmAmountGenerationUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Advanced Chemotaxis
+  upgradeName: Granulation
   upgradeTarget: 0
-  upgradeType: 0
-  description: Increase the tower's range
-  costPerLevel: 64000000c8000000
+  upgradeType: 6
+  description: Increases the number of generated Genetics
+  costPerLevel: 50000000a0000000dc0000005e010000
   statIncrements:
-  - 0.5
-  - 0.5
+  - 1
+  - 1
+  - 2
+  - 3

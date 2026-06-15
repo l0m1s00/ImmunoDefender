@@ -17,6 +17,8 @@ public enum UpgradeType
     AnalysisSpeed,
     FarmResistance,
     FarmAmountGeneration,
+    MoreGeneticsPerWaste,
+    CleanSpeed,
 
     //DE LOS SOLDADOS
     Damage,

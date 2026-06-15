@@ -46,7 +46,7 @@ public class UpgradeSlotUI : MonoBehaviour
 
         //configuracion del tooltip para mostrar las descripciones
         //si el boton no tiene la caracteristica para mostrar el tooltip se pone
-        TooltipTrigger tooltip = buyButton.GetComponent<TooltipTrigger>();
+        TooltipTrigger tooltip = infoImage.GetComponent<TooltipTrigger>();
         if (tooltip == null)
         {
             tooltip = infoImage.gameObject.AddComponent<TooltipTrigger>();

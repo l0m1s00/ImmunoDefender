@@ -6,6 +6,8 @@ public class MacrophageTower : TargetingTower
     private CellSpawnerModule spawnerModule;
     protected MacrophageTowerStats macrophageStats => (MacrophageTowerStats)basicStats;
 
+    //HACER QUE ALMACENE LOS RESIDUOS TÓXICOS AL ALCANCE
+
     public override void Initialize(TowerData data)
     {
         base.Initialize(data);

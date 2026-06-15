@@ -27,7 +27,7 @@ public class NK_TowerStats : TargetingTowerStats
             initialStatValue = "",
             currentStatValue = "",
             extraInformation =
-            "PLACE HOLDER de la descripcion biologica de la celula NK alargada pues necesito comprobar que el tooltip funcione bien"
+            "Lymphocytes belonging to the innate immune system.\nTheir main role is to identify and destroy infected or cancerous cells."
         });
 
         return stats;

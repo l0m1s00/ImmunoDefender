@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: AnalysisNumberTowerUpgrade
+  m_Name: CleanSpeedUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Parallel Processing
-  upgradeTarget: 0
-  upgradeType: 3
-  description: Allows simultaneous analysis of pathogens
-  costPerLevel: 96000000fa000000f4010000
+  upgradeName: Efficient Phagocytosis
+  upgradeTarget: 1
+  upgradeType: 8
+  description: Reduces the time needed to remove toxic waste
+  costPerLevel: 1e0000005000000096000000
   statIncrements:
-  - 1
-  - 1
-  - 1
+  - 0.2
+  - 0.2
+  - 0.2

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60f5221800f77b34883c6a6f7f95f7d1, type: 3}
-  m_Name: RefillTowerUpgrade
+  m_Name: FarmResistanceUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradeData
-  upgradeName: Accelerated Mitosis
+  upgradeName: Reinforced Membrane
   upgradeTarget: 0
-  upgradeType: 2
-  description: New cells are created faster
-  costPerLevel: 1e00000064000000e6000000
+  upgradeType: 5
+  description: Increases resistance to infection
+  costPerLevel: 1e0000006e000000c80000002c010000
   statIncrements:
-  - 0.5
-  - 0.6
-  - 1
+  - 5
+  - 8
+  - 10
+  - 12

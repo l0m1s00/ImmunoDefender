@@ -18,4 +18,5 @@ MonoBehaviour:
   damage: 1
   attackRange: 0.1
   attackCooldown: 1.5
-  deleteToxicWasteCooldown: 0.8
+  deleteToxicWasteCooldown: 1
+  extraGeneticsPerClean: 0

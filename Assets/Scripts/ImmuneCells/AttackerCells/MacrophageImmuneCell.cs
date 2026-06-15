@@ -77,6 +77,13 @@ public class MacrophageImmuneCell : AttackerCell
         {
             OnToxicWasteCleaned?.Invoke(currentWasteTarget);
             currentWasteTarget.EliminateWaste();
+
+            //aplicacion de la mejora de recursos extra por residuo eliminado
+            if (macrophageCellStats.extraGeneticsPerClean > 0)
+            {
+                EconomyManager.Instance.AddImmediateCurrency(macrophageCellStats.extraGeneticsPerClean);
+            }
+
             currentWasteTarget = null;
             canEatWaste = false;
             currentState = State.Return;

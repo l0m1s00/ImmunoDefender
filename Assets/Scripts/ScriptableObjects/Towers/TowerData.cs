@@ -6,6 +6,7 @@ public abstract class TowerData : ScriptableObject
     [Header("General")]
     public Sprite towerIcon;
     public Sprite towerCellIcon;
+    public Sprite towerTypeIcon;
     public GameObject towerPrefab;
     public GameObject towerGhostPrefab;
     public string towerName;
