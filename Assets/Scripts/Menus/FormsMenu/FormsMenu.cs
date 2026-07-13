@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class FormsMenu : BaseMenu
 {
     [Header("Forms Settings")]
-    [SerializeField] private string initialGoogleFormsURL = "https://forms.gle/8Ys9SyiQJhcmrgNj6";
+    [SerializeField] private string initialGoogleFormsURL = "https://forms.gle/bLRrbvDCYKe8yT2S9";
     [SerializeField] private string finalGoogleFormsURL = "https://forms.gle/8Ys9SyiQJhcmrgNj6";
     [Header("Buttons")]
     [SerializeField] private Button ignoreFormsButton;
@@ -45,7 +45,7 @@ public class FormsMenu : BaseMenu
             Application.OpenURL(initialGoogleFormsURL);
             OnDisplayDifficulties?.Invoke();
         }
-        else if (!string.IsNullOrEmpty(initialGoogleFormsURL) && GameManager.Instance.GetCurrentGameState() == GameManager.GameState.GameOver)
+        else if (!string.IsNullOrEmpty(finalGoogleFormsURL) && GameManager.Instance.GetCurrentGameState() == GameManager.GameState.GameOver)
         {
             Application.OpenURL(finalGoogleFormsURL);
             Close();

@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FormsManager
   closeButton: {fileID: 1553792186}
   baseMenuUI_Ref: {fileID: 148301238}
-  initialGoogleFormsURL: https://forms.gle/8Ys9SyiQJhcmrgNj6
+  initialGoogleFormsURL: https://forms.gle/bLRrbvDCYKe8yT2S9
   finalGoogleFormsURL: https://forms.gle/8Ys9SyiQJhcmrgNj6
   ignoreFormsButton: {fileID: 315563545}
   openFormsButton: {fileID: 931114190}

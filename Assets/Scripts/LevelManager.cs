@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     [Header("Waves Library")]
     [SerializeField] private WavesLibrary wavesLibrary;
     private float waveRestTimer;
+    private float currentWaveRestTime;
 
     [Header("Vital Organ")]
     [SerializeField] private VitalOrganData liverVitalOrganData;
@@ -106,7 +107,8 @@ public class LevelManager : MonoBehaviour
 
     private void WaveRest()
     {
-        waveRestTimer = Mathf.RoundToInt(wavesLibrary.GetCurrentWaveRestTime());
+        currentWaveRestTime = Mathf.RoundToInt(wavesLibrary.GetCurrentWaveRestTime());
+        waveRestTimer = currentWaveRestTime;
         wavesLibrary.IncreaseWaveIndex();
         levelManagerUIref.DisplayRestWaveTimer(Mathf.RoundToInt(waveRestTimer));
         waveRestTimeCoroutine = StartCoroutine(StartRest());
@@ -114,7 +116,8 @@ public class LevelManager : MonoBehaviour
 
     private void StartInitialRest()
     {
-        waveRestTimer = Mathf.RoundToInt(wavesLibrary.GetInitialRest());
+        currentWaveRestTime = Mathf.RoundToInt(wavesLibrary.GetInitialRest());
+        waveRestTimer = currentWaveRestTime;
         levelManagerUIref.DisplayRestWaveTimer(Mathf.RoundToInt(waveRestTimer));
         waveRestTimeCoroutine = StartCoroutine(StartRest());
     }
@@ -139,7 +142,8 @@ public class LevelManager : MonoBehaviour
         while (waveRestTimer > 0f)
         {
             waveRestTimer -= Time.deltaTime;
-            levelManagerUIref.UpdateRestWaveTimerText(Mathf.RoundToInt(waveRestTimer));
+            float normalizedTime = waveRestTimer / currentWaveRestTime;
+            levelManagerUIref.UpdateRestWaveTimerText(Mathf.CeilToInt(waveRestTimer), normalizedTime);
             yield return null;
         }
 
